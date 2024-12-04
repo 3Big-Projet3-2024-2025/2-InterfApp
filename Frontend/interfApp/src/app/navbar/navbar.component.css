@@ -1,0 +1,19 @@
+.custom-navbar {
+    background-color: #16697A !important;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #EDE7E3;
+    border-radius: 5px; /* Facultatif */
+    color: #16697A !important;
+}
+
+.btn:hover {
+    background-color: #EDE7E3;
+    border-color: #EDE7E3;
+    color: #16697A;
+}
