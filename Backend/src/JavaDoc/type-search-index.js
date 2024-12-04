@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"be.helha.interf_app","l":"InterfAppApplication"},{"p":"be.helha.interf_app.config","l":"MongoConfig"},{"p":"be.helha.interf_app","l":"MongoConfigTest"}];updateSearchResults();
