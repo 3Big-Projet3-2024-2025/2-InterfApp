@@ -1,0 +1,18 @@
+<div class="form-group">
+    <div class="position-relative">
+      <input
+        [type]="to.type"
+        [id]="id"
+        [formControl]="control"
+        [formlyAttributes]="field"
+        [ngClass]="{'is-invalid': showError}"
+        class="form-control"
+      />
+      <div *ngIf="showError" class="invalid-icon position-absolute">
+        <i class="bi bi-exclamation-circle-fill text-danger"></i>
+      </div>
+    </div>
+    <div *ngIf="showError" class="invalid-feedback">
+      <formly-validation-message [field]="field"></formly-validation-message>
+    </div>
+  </div>

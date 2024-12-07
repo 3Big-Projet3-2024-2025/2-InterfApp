@@ -1,0 +1,22 @@
+<div class="container mt-5">
+    <h1 class="mb-4">{{ title }}</h1>
+  
+    <form [formGroup]="formReply" (ngSubmit)="submit()">
+      <formly-form 
+        [model]="model" 
+        [fields]="fields" 
+        [options]="options" 
+        [form]="formReply">
+        
+        <!-- Ajout des messages d'erreur -->
+        <div *ngIf="formReply.invalid && formReply.touched" class="alert alert-danger">
+          Please fill out all required fields.
+        </div>
+        
+      </formly-form>
+  
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-primary" [disabled]="!formReply.valid">Submit</button>
+      </div>
+    </form>
+  </div>
