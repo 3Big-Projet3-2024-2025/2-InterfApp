@@ -15,7 +15,10 @@ export class UserService {
   constructor(private http: HttpClient, @Inject(CookieService) private cookieService : CookieService) { }
 
   get tokenJWT() : any{
-    return jwtDecode(this.cookieService.get('jwt',));
+    if(this.cookieService.get('jwt') == ""){
+    return "";
+    }
+    return jwtDecode(this.cookieService.get('jwt'));
   }
 
   isAuthenticated() :boolean{
