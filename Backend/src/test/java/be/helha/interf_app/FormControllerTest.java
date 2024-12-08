@@ -236,7 +236,12 @@ public class FormControllerTest {
         // Verify that the service method was called once
         verify(formService, times(1)).getFormById("1");
     }
-
+    /**
+     * Tests the {@link FormController#getFormById} method.
+     * This test validates the GET request to retrieve a form by its ID.
+     *
+     * @throws Exception if the test fails
+     */
     @Test
     void getFormById_2() throws Exception {
         // Mock the service call to return the form with all questions (id "2")
