@@ -91,22 +91,22 @@ public class JwtUtil {
 
         // Parse the JWT and extract claims
         this.parsedJWT = jwtParser.parseSignedClaims(JWT).getPayload();
-        String email = (String)parsedJWT.get("email");
+        String id = (String)parsedJWT.get("id");
         String roles = (String)parsedJWT.get("roles");
 
         // If the email is not null, retrieve the user and create authentication
-        if (Objects.nonNull(email)) {
+        if (Objects.nonNull(id)) {
             List<SimpleGrantedAuthority> authorities = List.of(roles.split(","))
                     .stream()
-                    .map(SimpleGrantedAuthority::new)
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                     .collect(Collectors.toList());
 
             // Retrieve the user by email from the database
-            User user = userController.getUserByEmail(email)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+            User user = userController.getUserById(id)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
             // Return an Authentication token with the user's email, password, and roles
-            return new UsernamePasswordAuthenticationToken(email, user.getPassword(), authorities);
+            return new UsernamePasswordAuthenticationToken(id, user.getPassword(), authorities);
         }
         // Return null if email is not found in the claims
         return null;

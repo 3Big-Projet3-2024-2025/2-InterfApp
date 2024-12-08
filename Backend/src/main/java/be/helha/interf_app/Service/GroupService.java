@@ -21,6 +21,8 @@ public class GroupService {
 
     public Group saveGroup(Group group) {
         group.setListOwners(new ArrayList<>(Arrays.asList((String) jwtUtil.parsedJWT.get("id"))));
+        group.setListMembers(new ArrayList<>());
+        group.setListForms(new ArrayList<>());
         return groupRepository.save(group);
     }
 

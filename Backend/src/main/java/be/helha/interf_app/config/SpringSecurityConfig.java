@@ -55,10 +55,22 @@ public class SpringSecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests -> {
+
                     authorizeRequests.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+
+                    authorizeRequests.requestMatchers(HttpMethod.GET,"/api/groups/**").hasRole("User");
+                    authorizeRequests.requestMatchers(HttpMethod.POST,"/api/groups/**").permitAll();
+                    authorizeRequests.requestMatchers(HttpMethod.PUT,"/api/groups/**")
+                            .access("@securityService.checkOwnerGroupAccess(httpServletRequest, authentication)");
+                    authorizeRequests.requestMatchers(HttpMethod.DELETE,"/api/groups/**")
+                            .access("@securityService.checkOwnerGroupAccess(httpServletRequest, authentication)");
+
                     authorizeRequests.requestMatchers("/api/forms/**").hasRole("User");
+
                     authorizeRequests.requestMatchers("/api/adminPart").hasRole("ADMIN");
+
                     authorizeRequests.requestMatchers("/swagger-ui/**","/v3/api-docs","/api/users/**").permitAll();
+
                     authorizeRequests.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();

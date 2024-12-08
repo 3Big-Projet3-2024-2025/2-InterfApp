@@ -39,7 +39,7 @@ public class UserService {
      * @return The saved user.
      */
     public User saveUser(User user) {
-        user.setRoles("ROLE_User");
+        user.setRoles("User");
         return userRepository.save(user);
     }
 
