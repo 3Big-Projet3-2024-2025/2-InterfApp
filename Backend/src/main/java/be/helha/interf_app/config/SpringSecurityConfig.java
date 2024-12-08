@@ -24,14 +24,31 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import be.helha.interf_app.security.JWTFilter;
-
+/**
+ * Spring Security configuration class.
+ *
+ * This class defines:
+ * - Access rules for various resources (URLs)
+ * - CSRF disabling for the application
+ * - Integration of the JWT filter for authentication
+ * - CORS permissions configuration for requests from specific sources
+ */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-
+    /**
+     * JWT filter used to validate authentication tokens.
+     */
     @Autowired
     JWTFilter jwtFilter;
 
+    /**
+     * Configures the Spring security filter chain.
+     *
+     * @param http the HttpSecurity object used to define security rules
+     * @return the configured SecurityFilterChain object
+     * @throws Exception in case of configuration errors
+     */
     @SuppressWarnings("deprecation")
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
@@ -47,8 +64,12 @@ public class SpringSecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
-    
 
+    /**
+     * Configures Cross-Origin Resource Sharing (CORS) settings.
+     *
+     * @return the configured CorsConfigurationSource object
+     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
