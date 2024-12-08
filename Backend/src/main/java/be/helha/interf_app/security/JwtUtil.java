@@ -68,7 +68,7 @@ public class JwtUtil {
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime()+3600000))
                 .claims(Map.of(
-                        "email", user.getEmail(),
+                        "id", user.getId(),
                         "roles", user.getRoles()
                 ))
                 .signWith(secretKey)
