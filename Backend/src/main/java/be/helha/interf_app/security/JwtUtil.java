@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+import lombok.Getter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,6 +42,9 @@ public class JwtUtil {
 
     // Controller for accessing user data
     private UserController userController;
+
+    @Getter
+    public Claims parsedJWT;
 
     /**
      * Constructs a JwtUtil object with the provided UserController instance.
@@ -86,20 +90,20 @@ public class JwtUtil {
         JwtParser jwtParser = Jwts.parser().verifyWith(secretKey).build();
 
         // Parse the JWT and extract claims
-        Claims claims = jwtParser.parseSignedClaims(JWT).getPayload();
-        String email = (String)claims.get("email");
-        String roles = (String)claims.get("roles");
+        this.parsedJWT = jwtParser.parseSignedClaims(JWT).getPayload();
+        String email = (String)parsedJWT.get("email");
+        String roles = (String)parsedJWT.get("roles");
 
         // If the email is not null, retrieve the user and create authentication
-        if (Objects.nonNull(email)){
+        if (Objects.nonNull(email)) {
             List<SimpleGrantedAuthority> authorities = List.of(roles.split(","))
-                        .stream()
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+                    .stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
 
             // Retrieve the user by email from the database
             User user = userController.getUserByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
             // Return an Authentication token with the user's email, password, and roles
             return new UsernamePasswordAuthenticationToken(email, user.getPassword(), authorities);

@@ -1,11 +1,13 @@
 package be.helha.interf_app.Service;
 
-import be.helha.interf_app.Model.Form;
 import be.helha.interf_app.Model.Group;
 import be.helha.interf_app.Repository.GroupRepository;
+import be.helha.interf_app.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,8 +16,11 @@ public class GroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public Group saveGroup(Group group) {
+        group.setListOwners(new ArrayList<>(Arrays.asList((String) jwtUtil.parsedJWT.get("id"))));
         return groupRepository.save(group);
     }
 
