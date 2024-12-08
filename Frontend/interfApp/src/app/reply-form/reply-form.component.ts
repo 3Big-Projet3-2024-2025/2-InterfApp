@@ -95,7 +95,7 @@ export class ReplyFormComponent implements OnInit {
       const Data = {
         id_Form: this.idForm, 
         id_User: "gestion user TO DO",
-        reponse: this.formReply.value
+        answer: this.formReply.value
       };
   
       // Logique pour sauvegarder le formulaire
