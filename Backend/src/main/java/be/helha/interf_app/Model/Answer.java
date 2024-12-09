@@ -26,7 +26,7 @@ public class Answer {
      * Unique identifier for the answer.
      */
     @Id
-    private String id_answer;
+    private String id;
     /**
      * Identifier of the associated form.
      */

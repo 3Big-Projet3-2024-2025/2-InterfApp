@@ -39,8 +39,11 @@ public class UserService {
      * @return The saved user.
      */
     public User saveUser(User user) {
-        user.setRoles("User");
-        return userRepository.save(user);
+        if(getUserById(user.getId()).isEmpty()) { // The methode post is accessible by any User and if he knows the id he can use it like an update methode
+            user.setRoles("User");
+            return userRepository.save(user);
+        }
+        return null;
     }
 
     /**

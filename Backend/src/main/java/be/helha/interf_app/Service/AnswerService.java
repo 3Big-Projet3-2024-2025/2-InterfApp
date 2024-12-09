@@ -29,7 +29,10 @@ public class AnswerService {
      * @return The saved answer.
      */
     public Answer saveAnswer(Answer answer) {
-        return answerRepository.save(answer);
+        if(getAnswerById(answer.getId()).isEmpty()) {  // The methode post is accessible by any User and if he knows the id he can use it like an update methode
+            return answerRepository.save(answer);
+        }
+        return null;
     }
     /**
      * Retrieves all the answers stored in the repository.
@@ -55,5 +58,12 @@ public class AnswerService {
      */
     public void deleteAnswer(String id) {
         answerRepository.deleteById(id);
+    }
+
+    public Answer updateAnswer(Answer answer) {
+        if(getAnswerById(answer.getId()).isPresent()) {
+            return answerRepository.save(answer);
+        }
+        return null;
     }
 }

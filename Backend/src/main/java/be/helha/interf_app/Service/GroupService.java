@@ -23,15 +23,17 @@ public class GroupService {
     private UserService userService;
 
     public Group saveGroup(Group group) {
-        String ownerId = (String) jwtUtil.parsedJWT.get("id");
-        if(userService.getUserById(ownerId).isPresent()) {
-            User owner = userService.getUserById(ownerId).get();
-            owner.setRoles(owner.getRoles() + ",Group_" + ownerId);
-            userService.updateUser(owner);
-            group.setListOwners(new ArrayList<>(Arrays.asList(ownerId)));
-            group.setListMembers(new ArrayList<>());
-            group.setListForms(new ArrayList<>());
-            return groupRepository.save(group);
+        if(getGroupById(group.getId()).isEmpty()) { // The methode post is accessible by any User and if he knows the id he can use it like an update methode
+            String ownerId = (String) jwtUtil.parsedJWT.get("id");
+            if (userService.getUserById(ownerId).isPresent()) {
+                User owner = userService.getUserById(ownerId).get();
+                owner.setRoles(owner.getRoles() + ",Group_" + ownerId);
+                userService.updateUser(owner);
+                group.setListOwners(new ArrayList<>(Arrays.asList(ownerId)));
+                group.setListMembers(new ArrayList<>());
+                group.setListForms(new ArrayList<>());
+                return groupRepository.save(group);
+            }
         }
         return null;
     }
@@ -46,5 +48,12 @@ public class GroupService {
 
     public void deleteGroup(String id) {
         groupRepository.deleteById(id);
+    }
+
+    public Group saveAnswer(Group group) {
+        if(getGroupById(group.getId()).isPresent()) {
+            return groupRepository.save(group);
+        }
+        return null;
     }
 }
