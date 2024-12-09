@@ -72,6 +72,7 @@ export class GroupPageComponent implements OnInit {
     if (this.expandedGroups.has(groupId)) {
       this.expandedGroups.delete(groupId);
     } else {
+      this.expandedGroups.clear(); // <- To collapse other expanded groups
       this.expandedGroups.add(groupId);
     }
   }

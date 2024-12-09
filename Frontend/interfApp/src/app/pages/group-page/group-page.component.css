@@ -1,3 +1,7 @@
+table {
+  /*width: 100%;*/
+  /*table-layout: fixed;*/
+}
 .group-row{
   background-color: #c50000;
 }
@@ -5,4 +9,12 @@
 .group-row:hover {
   background-color: #dedede;
   cursor: pointer;
+}
+.expanded-rows td {
+
+}
+
+button {
+  color: white;
+  background-color: #FFA62B;
 }

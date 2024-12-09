@@ -24,14 +24,10 @@
       </td>
     </tr>
       @if(isExpanded(groupe.id)) {
-        <tr>
+        <tr class="expanded-rows">
           <td></td>
           <td>
-            <!-- Expanded content goes here -->
-            <div>
-              <label for="groupName">Name of the group:</label>
-              <input id="groupName" [(ngModel)]="groupe.name" />
-            </div>
+            expanded row
           </td>
           <td>
             @for (membre of groupe.membres; track membre.id; let i=$index) {
@@ -40,12 +36,14 @@
               </div>
             }
           </td>
+          <td></td>
+          <td></td>
         </tr>
         }
   }
   </tbody>
 </table>
 
-<button type="button" class="btn btn-primary" (click)="createGroup()">Créer un groupe</button>
+<button type="button" class="btn" (click)="createGroup()">Créer un groupe</button>
 
 <router-outlet></router-outlet>
