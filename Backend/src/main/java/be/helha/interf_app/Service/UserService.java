@@ -104,4 +104,11 @@ public class UserService {
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    public User updateUser (User user) {
+        if(getUserById(user.getId()).isPresent()) {
+            return userRepository.save(user);
+        }
+        return null;
+    }
 }

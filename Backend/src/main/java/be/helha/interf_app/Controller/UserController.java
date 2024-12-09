@@ -96,4 +96,7 @@ public class UserController {
     public Optional<User> getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
+
+    @PutMapping
+    public User updateUser(@RequestBody User user) {return userService.updateUser(user);}
 }
