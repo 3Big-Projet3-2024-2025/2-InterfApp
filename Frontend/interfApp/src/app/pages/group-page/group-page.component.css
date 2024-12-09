@@ -1,0 +1,8 @@
+.group-row{
+  background-color: #c50000;
+}
+
+.group-row:hover {
+  background-color: #dedede;
+  cursor: pointer;
+}

@@ -1,0 +1,51 @@
+<div>
+  Mes groupes :
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">id</th>
+    <th scope="col">Name of the group</th>
+    <th scope="col">Members</th>
+    <th scope="col">Forms</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  @for (groupe of mesGroupes; track groupe.id; let i=$index) {
+    <tr (click)="toggleExpand(groupe.id)" class="group-row">
+      <th scope="row">{{groupe.id}}</th>
+      <td>{{ groupe.name }}</td>
+      <td>{{ groupe.membres.length }}</td>
+      <td></td>
+      <td>
+        {{ isExpanded(groupe.id) ? '-' : '+' }}
+      </td>
+    </tr>
+      @if(isExpanded(groupe.id)) {
+        <tr>
+          <td></td>
+          <td>
+            <!-- Expanded content goes here -->
+            <div>
+              <label for="groupName">Name of the group:</label>
+              <input id="groupName" [(ngModel)]="groupe.name" />
+            </div>
+          </td>
+          <td>
+            @for (membre of groupe.membres; track membre.id; let i=$index) {
+              <div>
+                {{membre.username}}
+              </div>
+            }
+          </td>
+        </tr>
+        }
+  }
+  </tbody>
+</table>
+
+<button type="button" class="btn btn-primary" (click)="createGroup()">Créer un groupe</button>
+
+<router-outlet></router-outlet>
