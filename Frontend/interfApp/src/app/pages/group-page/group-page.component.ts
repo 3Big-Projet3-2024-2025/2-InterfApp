@@ -46,13 +46,13 @@ export class GroupPageComponent implements OnInit {
     id: 1,
     name: 'Groupe 1',
     membres: [],
-    administrateur: this.userTest
+    administrator: this.userTest
   }
   groupeTest2: Group = {
     id: 2,
     name: 'Groupe 2',
     membres: [],
-    administrateur: this.userTest
+    administrator: this.userTest
   }
 
   expandedGroups: Set<number> = new Set<number>();
