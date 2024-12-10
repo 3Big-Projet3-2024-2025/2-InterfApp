@@ -16,7 +16,7 @@ public class Group {
     @Id
     private String id;
     private String name;
-    private List<String> listOwners;
+    private List<String> listManagers;
     private List<String> listMembers;
     private List<String> listForms;
 }

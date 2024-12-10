@@ -24,12 +24,12 @@ public class GroupService {
 
     public Group saveGroup(Group group) {
         if(getGroupById(group.getId()).isEmpty()) { // The methode post is accessible by any User and if he knows the id he can use it like an update methode
-            String ownerId = (String) jwtUtil.parsedJWT.get("id");
-            if (userService.getUserById(ownerId).isPresent()) {
-                User owner = userService.getUserById(ownerId).get();
-                owner.setRoles(owner.getRoles() + ",Group_" + ownerId);
-                userService.updateUser(owner);
-                group.setListOwners(new ArrayList<>(Arrays.asList(ownerId)));
+            String managerId = (String) jwtUtil.parsedJWT.get("id");
+            if (userService.getUserById(managerId).isPresent()) {
+                User manager = userService.getUserById(managerId).get();
+                manager.setRoles(manager.getRoles() + ",Manager_" + managerId);
+                userService.updateUser(manager);
+                group.setListManagers(new ArrayList<>(Arrays.asList(managerId)));
                 group.setListMembers(new ArrayList<>());
                 group.setListForms(new ArrayList<>());
                 return groupRepository.save(group);
@@ -50,8 +50,20 @@ public class GroupService {
         groupRepository.deleteById(id);
     }
 
-    public Group saveAnswer(Group group) {
+    public Group updateGroup(Group group) {
         if(getGroupById(group.getId()).isPresent()) {
+            return groupRepository.save(group);
+        }
+        return null;
+    }
+
+    public Group addManager(String managerId, String groupId) {
+        if (userService.getUserById(managerId).isPresent() && getGroupById(groupId).isPresent()) {
+            User manager = userService.getUserById(managerId).get();
+            manager.setRoles(manager.getRoles() + ",Manager_" + managerId);
+            userService.updateUser(manager);
+            Group group = getGroupById(groupId).get();
+            group.getListManagers().add(managerId);
             return groupRepository.save(group);
         }
         return null;

@@ -31,7 +31,6 @@ public class UserService {
     /**
      * The authentication manager for authenticating users.
      */
-    AuthenticationManager authenticationManager;
     /**
      * Saves a new user to the repository with a default role of "ROLE_User".
      *
@@ -109,7 +108,7 @@ public class UserService {
     }
 
     public User updateUser (User user) {
-        if(getUserById(user.getId()).isPresent()) {
+        if(getUserById(user.getId()).isPresent() && getUserById(user.getId()).get().getRoles().equals(user.getRoles())) { //prohibit any attempt to modify the user's role
             return userRepository.save(user);
         }
         return null;

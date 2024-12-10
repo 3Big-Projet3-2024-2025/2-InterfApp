@@ -13,6 +13,6 @@ public class SecurityService {
         String idGroup = requestUrl.substring(requestUrl.lastIndexOf("/") + 1);
 
         return authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_Group_" + idGroup));
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_Manager_" + idGroup));
     }
 }
