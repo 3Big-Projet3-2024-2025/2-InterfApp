@@ -21,12 +21,7 @@ export class UserService {
   }
 
   isAuthenticated() :boolean{
-    if(this.tokenJWT != ""){
-      console.log(this.tokenJWT);
-      return true;
-    }else{
-      return false;
-    }
+    return this.tokenJWT != "" ? true : false;
   }
 
   hasRole( role: string): boolean {
