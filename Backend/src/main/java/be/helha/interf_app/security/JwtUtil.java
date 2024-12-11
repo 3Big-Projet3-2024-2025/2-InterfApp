@@ -53,16 +53,20 @@ public class JwtUtil {
 
     /**
      * Generates a JWT token for a given user. The token contains the user's ID,
-     * email, roles, and an expiration time of one hour.
+     * email, roles, and an expiration time based on the "rememberMe" flag.
      *
-     * @param user The user for whom the token is being generated.
+     * @param user      The user for whom the token is being generated.
+     * @param rememberMe If true, the token will have a long expiration (e.g., 7 days), else a short expiration (e.g., 30 minutes).
      * @return A JWT token as a string.
      */
-    public static String generateToken(User user) {
+    public static String generateToken(User user, boolean rememberMe) {
+        // If rememberMe is true, set expiration to 7 days (604800000 ms), otherwise 30 minutes (1800000 ms)
+        long expirationTime = rememberMe ? 7 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000;
+
         return Jwts.builder()
                 .subject(user.getId())
                 .issuedAt(new Date())
-                .expiration(new Date(new Date().getTime()+3600000))
+                .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .claims(Map.of(
                         "email", user.getEmail(),
                         "roles", user.getRoles()

@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit{
   constructor( private formBuilder: FormBuilder,private loginService: UserService, private router : Router ) {
     this.formLogin = this.formBuilder.group({
       inputemail: ['', [Validators.required]],
-      inputPassword: ['', [Validators.required]]
+      inputPassword: ['', [Validators.required]],
+      rememberMe: [false]
     });
   }
 
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit{
       const userData = {
         email: this.formLogin.value.inputemail,
         password: this.formLogin.value.inputPassword,
+        rememberMe: this.formLogin.value.rememberMe
       };
 
       this.sha512Hash(this.formLogin.value.inputPassword).then((hdata) => {
@@ -56,7 +58,7 @@ export class LoginComponent implements OnInit{
         this.loginService.login(userData).subscribe(
           (response) => {
             console.log(response);
-            this.loginService.saveJwt(response.token);
+            this.loginService.saveJwt(response.token, userData.rememberMe);
             this.router.navigate(['forms']);
             // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
             console.log('Utilisateur est connecté avec succès!', response);

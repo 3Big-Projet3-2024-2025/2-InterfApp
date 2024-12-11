@@ -1,6 +1,7 @@
 package be.helha.interf_app.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +53,14 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<LoginRequest> loginUser(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(userService.login(loginRequest));
+        boolean rememberMe = loginRequest.isRememberMe();
+        LoginRequest responseLoginRequest = userService.login(loginRequest, rememberMe);
+
+        if (responseLoginRequest == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        return ResponseEntity.ok(responseLoginRequest);
     }
 
     /**

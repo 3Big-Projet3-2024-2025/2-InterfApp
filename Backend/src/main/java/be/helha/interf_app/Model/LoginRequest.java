@@ -28,4 +28,12 @@ public class LoginRequest {
      * The authentication token associated with the user.
      */
     private String token;
+    /**
+     * The
+     */
+    private Boolean rememberMe;
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
 }

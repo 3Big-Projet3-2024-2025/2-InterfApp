@@ -46,9 +46,10 @@ export class UserService {
     return this.http.post(this.apiUrl+"/login", userData);
   }
 
-  saveJwt(jwt: string){
-    this.cookieService.set('jwt', jwt, 1, '/');
-    console.log(this.tokenJWT);
+  saveJwt(jwt: string, rememberMe: boolean) {
+    const expirationTime = rememberMe ? 7 : 1;
+    this.cookieService.set('jwt', jwt, expirationTime, '/');
+    console.log("JWT saved with expiration in " + expirationTime + " days");
   }
 
 
@@ -64,5 +65,7 @@ export class UserService {
     this.cookieService.delete('jwt','/');
     console.log("User logout");
   }
+
+  
 }
 
