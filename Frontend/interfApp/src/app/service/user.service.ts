@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -10,8 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
 
   private apiUrl = 'http://localhost:8080/api/users'; 
-
-
+  
   constructor(private http: HttpClient, @Inject(CookieService) private cookieService : CookieService) { }
 
   get tokenJWT() : any{
@@ -22,12 +21,7 @@ export class UserService {
   }
 
   isAuthenticated() :boolean{
-    if(this.tokenJWT != ""){
-      console.log(this.tokenJWT);
-      return true;
-    }else{
-      return false;
-    }
+    return this.tokenJWT != "" ? true : false;
   }
 
   hasRole( role: string): boolean {
@@ -47,9 +41,9 @@ export class UserService {
     return this.http.post(this.apiUrl+"/login", userData);
   }
 
-  saveJwt(jwt: string){
-    this.cookieService.set('jwt', jwt, 1, '/');
-    console.log(this.tokenJWT);
+  saveJwt(jwt: string, rememberMe: boolean) {
+    const expirationTime = rememberMe ? 7 : 0.02083; // 30 minutes in days
+    this.cookieService.set('jwt', jwt, expirationTime, '/');
   }
 
 
@@ -60,5 +54,12 @@ export class UserService {
     const currentTime = Math.floor(Date.now() / 1000); // Temps actuel en secondes
     return this.tokenJWT.exp < currentTime;
   }
+
+  logout():void{
+    this.cookieService.delete('jwt','/');
+    console.log("User logout");
+  }
+
+  
 }
 
