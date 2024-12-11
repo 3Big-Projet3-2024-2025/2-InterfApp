@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -10,8 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
 
   private apiUrl = 'http://localhost:8080/api/users'; 
-
-
+  
   constructor(private http: HttpClient, @Inject(CookieService) private cookieService : CookieService) { }
 
   get tokenJWT() : any{
@@ -59,6 +58,11 @@ export class UserService {
     }
     const currentTime = Math.floor(Date.now() / 1000); // Temps actuel en secondes
     return this.tokenJWT.exp < currentTime;
+  }
+
+  logout():void{
+    this.cookieService.delete('jwt','/');
+    console.log("User logout");
   }
 }
 
