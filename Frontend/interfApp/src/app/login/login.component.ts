@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   formLogin: FormGroup;
 
   errorMessage: string | null = null;
@@ -21,6 +21,12 @@ export class LoginComponent {
       inputemail: ['', [Validators.required]],
       inputPassword: ['', [Validators.required]]
     });
+  }
+
+  ngOnInit(): void {
+     if(this.loginService.isAuthenticated()){
+      this.router.navigate(['forms']);
+     }
   }
 
   async sha512Hash(data: string): Promise<string> {
@@ -51,6 +57,7 @@ export class LoginComponent {
           (response) => {
             console.log(response);
             this.loginService.saveJwt(response.token);
+            this.router.navigate(['forms']);
             // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
             console.log('Utilisateur est connecté avec succès!', response);
           },
