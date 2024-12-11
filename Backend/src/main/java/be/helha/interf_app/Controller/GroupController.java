@@ -87,4 +87,49 @@ public class GroupController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    /**
+     * Updates the details of an existing group.
+     *
+     * This method updates the information of the provided group. If the update is
+     * successful, it returns the updated group. If the update fails, it returns
+     * a bad request response.
+     *
+     * @param group The group object containing the updated information.
+     * @return A ResponseEntity containing the updated group if successful, or a
+     *         bad request response if the update fails.
+     */
+    @PutMapping
+    public ResponseEntity<Group> updateGroup(@RequestBody Group group) {
+        Group updateGroup = groupService.updateGroup(group);
+        if (updateGroup != null) {
+            return ResponseEntity.ok(updateGroup);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Adds a manager to the specified group.
+     *
+     * This method assigns a manager to a specific group using the provided group
+     * and manager identifiers. If the assignment is successful, it returns the
+     * updated group with the new manager. If the assignment fails, it returns
+     * a bad request response.
+     *
+     * @param idGroup The ID of the group to which the manager will be added.
+     * @param idManager The ID of the manager to be added to the group.
+     * @return A ResponseEntity containing the updated group if successful, or a
+     *         bad request response if the manager could not be added.
+     */
+    @PutMapping("/{idGroup},{idManager}")
+    public ResponseEntity<Group> addManager(@PathVariable String idGroup, @PathVariable String idManager) {
+        Group updateGroup = groupService.addManager(idManager, idGroup);
+        if (updateGroup != null) {
+            return ResponseEntity.ok(updateGroup);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }
