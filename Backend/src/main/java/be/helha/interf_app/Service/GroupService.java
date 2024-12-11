@@ -64,9 +64,22 @@ public class GroupService {
         if (userService.getUserById(managerId).isPresent() && getGroupById(groupId).isPresent()) {
             User manager = userService.getUserById(managerId).get();
             manager.setRoles(manager.getRoles() + ",Manager_" + groupId);
+            manager.getListGroup().add(groupId);
             userService.updateUser(manager);
             Group group = getGroupById(groupId).get();
             group.getListManagers().add(managerId);
+            return groupRepository.save(group);
+        }
+        return null;
+    }
+
+    public Group addMember(String memberId, String groupId) {
+        if (userService.getUserById(memberId).isPresent() && getGroupById(groupId).isPresent()) {
+            User member = userService.getUserById(memberId).get();
+            member.getListGroup().add(groupId);
+            userService.updateUser(member);
+            Group group = getGroupById(groupId).get();
+            group.getListManagers().add(memberId);
             return groupRepository.save(group);
         }
         return null;

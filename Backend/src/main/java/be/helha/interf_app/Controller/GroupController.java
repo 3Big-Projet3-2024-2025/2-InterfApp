@@ -132,4 +132,27 @@ public class GroupController {
         }
     }
 
+    /**
+     * Adds a member to the specified group.
+     *
+     * This method assigns a member to a specific group using the provided group
+     * and member identifiers. If the assignment is successful, it returns the
+     * updated group with the new member. If the assignment fails, it returns
+     * a bad request response.
+     *
+     * @param idGroup The ID of the group to which the member will be added.
+     * @param idMember The ID of the member to be added to the group.
+     * @return A ResponseEntity containing the updated group if successful, or a
+     *         bad request response if the member could not be added.
+     */
+    @PutMapping("/{idGroup},{idMember}")
+    public ResponseEntity<Group> addMember(@PathVariable String idGroup, @PathVariable String idMember) {
+        Group updateGroup = groupService.addMember(idMember, idGroup);
+        if (updateGroup != null) {
+            return ResponseEntity.ok(updateGroup);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }
