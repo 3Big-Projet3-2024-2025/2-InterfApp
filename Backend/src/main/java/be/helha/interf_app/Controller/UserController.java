@@ -53,8 +53,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<LoginRequest> loginUser(@RequestBody LoginRequest loginRequest) {
-        boolean rememberMe = loginRequest.isRememberMe();
-        LoginRequest responseLoginRequest = userService.login(loginRequest, rememberMe);
+        LoginRequest responseLoginRequest = userService.login(loginRequest);
 
         if (responseLoginRequest == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

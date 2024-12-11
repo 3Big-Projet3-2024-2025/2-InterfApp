@@ -47,9 +47,8 @@ export class UserService {
   }
 
   saveJwt(jwt: string, rememberMe: boolean) {
-    const expirationTime = rememberMe ? 7 : 1;
+    const expirationTime = rememberMe ? 7 : 0.02083; // 30 minutes in days
     this.cookieService.set('jwt', jwt, expirationTime, '/');
-    console.log("JWT saved with expiration in " + expirationTime + " days");
   }
 
 

@@ -32,8 +32,4 @@ public class LoginRequest {
      * The
      */
     private Boolean rememberMe;
-
-    public boolean isRememberMe() {
-        return rememberMe;
-    }
 }

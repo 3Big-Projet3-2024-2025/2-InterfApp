@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent {
   formLogin: FormGroup;
 
   errorMessage: string | null = null;
@@ -22,12 +22,6 @@ export class LoginComponent implements OnInit{
       inputPassword: ['', [Validators.required]],
       rememberMe: [false]
     });
-  }
-
-  ngOnInit(): void {
-     if(this.loginService.isAuthenticated()){
-      this.router.navigate(['forms']);
-     }
   }
 
   async sha512Hash(data: string): Promise<string> {

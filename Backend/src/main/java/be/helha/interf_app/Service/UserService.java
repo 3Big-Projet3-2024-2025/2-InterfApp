@@ -51,7 +51,7 @@ public class UserService {
      * @return The updated login request with the JWT token if authentication is successful,
      *         or null if authentication fails.
      */
-    public LoginRequest login(LoginRequest loginRequest, boolean rememberMe) {
+    public LoginRequest login(LoginRequest loginRequest) {
         Optional<User> userOptional = userRepository.findByEmail(loginRequest.getEmail());
         if (!userOptional.isPresent()) {
             return null;
@@ -68,7 +68,7 @@ public class UserService {
         loginRequest.setPassword("");
 
         // Generate the token with expiration based on "rememberMe"
-        String token = JwtUtil.generateToken(userValues, rememberMe);
+        String token = JwtUtil.generateToken(userValues, loginRequest.getRememberMe());
 
         // Set the token in the loginRequest object
         loginRequest.setToken(token);

@@ -15,5 +15,5 @@ export const routes: Routes = [
     { path: 'form/:id', component:  ReplyFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'ROLE_User' }},
     { path: 'profil', component:  ProfilComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'ROLE_User' }},
     { path: 'register', component:  RegisterComponent},
-    { path: 'login', component:  LoginComponent},
+    { path: 'login', component:  LoginComponent, canDeactivate : [authGuardGuard]},
 ];
