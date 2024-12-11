@@ -43,6 +43,9 @@ public class GroupService {
     }
 
     public Optional<Group> getGroupById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return groupRepository.findById(id);
     }
 
@@ -60,7 +63,7 @@ public class GroupService {
     public Group addManager(String managerId, String groupId) {
         if (userService.getUserById(managerId).isPresent() && getGroupById(groupId).isPresent()) {
             User manager = userService.getUserById(managerId).get();
-            manager.setRoles(manager.getRoles() + ",Manager_" + managerId);
+            manager.setRoles(manager.getRoles() + ",Manager_" + groupId);
             userService.updateUser(manager);
             Group group = getGroupById(groupId).get();
             group.getListManagers().add(managerId);

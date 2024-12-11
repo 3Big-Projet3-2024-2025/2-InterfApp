@@ -28,7 +28,10 @@ public class FormService {
      * @return The saved form.
      */
     public Form saveForm(Form form) {
-        return formRepository.save(form);
+        if(getFormById(form.getId()).isEmpty()) {
+            return formRepository.save(form);
+        }
+        return null;
     }
     /**
      * Retrieves all the forms stored in the repository.
@@ -45,6 +48,9 @@ public class FormService {
      * @return An Optional containing the form if found, or an empty Optional if not.
      */
     public Optional<Form> getFormById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return formRepository.findById(id);
     }
     /**
@@ -54,5 +60,12 @@ public class FormService {
      */
     public void deleteForm(String id) {
         formRepository.deleteById(id);
+    }
+
+    public Form updateForm(Form form) {
+        if(getFormById(form.getId()).isPresent()) {
+            return formRepository.save(form);
+        }
+        return null;
     }
 }

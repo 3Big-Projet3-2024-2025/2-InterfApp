@@ -49,6 +49,9 @@ public class AnswerService {
      * @return An Optional containing the answer if found, or an empty Optional if not.
      */
     public Optional<Answer> getAnswerById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return answerRepository.findById(id);
     }
     /**

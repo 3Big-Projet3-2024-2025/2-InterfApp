@@ -87,6 +87,9 @@ public class UserService {
      * @return An Optional containing the user if found, or an empty Optional if not.
      */
     public Optional<User> getUserById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return userRepository.findById(id);
     }
     /**
