@@ -66,9 +66,14 @@ public class UserService {
             return null;
         }
 
-        // Remove the password from the login request and generate a JWT token
+        // Remove the password from the login request
         loginRequest.setPassword("");
-        loginRequest.setToken(JwtUtil.generateToken(userValues));
+
+        // Generate the token with expiration based on "rememberMe"
+        String token = JwtUtil.generateToken(userValues, loginRequest.getRememberMe());
+
+        // Set the token in the loginRequest object
+        loginRequest.setToken(token);
 
         return loginRequest;
     }

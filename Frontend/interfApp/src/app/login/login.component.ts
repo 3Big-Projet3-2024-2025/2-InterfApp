@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
@@ -19,7 +19,8 @@ export class LoginComponent {
   constructor( private formBuilder: FormBuilder,private loginService: UserService, private router : Router ) {
     this.formLogin = this.formBuilder.group({
       inputemail: ['', [Validators.required]],
-      inputPassword: ['', [Validators.required]]
+      inputPassword: ['', [Validators.required]],
+      rememberMe: [false]
     });
   }
 
@@ -43,6 +44,7 @@ export class LoginComponent {
       const userData = {
         email: this.formLogin.value.inputemail,
         password: this.formLogin.value.inputPassword,
+        rememberMe: this.formLogin.value.rememberMe
       };
 
       this.sha512Hash(this.formLogin.value.inputPassword).then((hdata) => {
@@ -50,7 +52,8 @@ export class LoginComponent {
         this.loginService.login(userData).subscribe(
           (response) => {
             console.log(response);
-            this.loginService.saveJwt(response.token);
+            this.loginService.saveJwt(response.token, userData.rememberMe);
+            this.router.navigate(['forms']);
             // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
             console.log('Utilisateur est connecté avec succès!', response);
           },

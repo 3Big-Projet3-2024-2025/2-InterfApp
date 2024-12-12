@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
 import { UserService } from '../service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,11 @@ export class RegisterComponent {
 
   errorMessage: string | null = null;
 
-  constructor(private formBuilder: FormBuilder,private registerService: UserService ) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private registerService: UserService,
+    private router: Router // Correction : Angular Router
+  ) {
     this.formRegister = this.formBuilder.group({
       inputUsername: ['', Validators.required],
       inputemail: ['', [Validators.required, Validators.email]],
@@ -55,6 +60,7 @@ export class RegisterComponent {
           (response) => {
             //rediriger l'utilisateur ou afficher un message de succès
             console.log('Utilisateur inscrit avec succès!', response);
+            this.router.navigate(['login']);
           },
           (error) => {
             this.errorMessage = 'Une erreur est survenue, veuillez réessayer.';
