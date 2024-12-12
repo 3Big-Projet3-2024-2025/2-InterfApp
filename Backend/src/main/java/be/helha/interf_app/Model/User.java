@@ -57,6 +57,9 @@ public class User {
      * This field defines the user's access level and permissions within the system.
      */
     private String roles;
+    /**
+     * List of group that the user is member
+     */
     private List<String> listGroup;
 }
 
