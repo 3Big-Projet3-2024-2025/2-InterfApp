@@ -54,6 +54,10 @@ public class AnswerService {
         }
         return answerRepository.findById(id);
     }
+
+    public List<Answer> getAnswerById_Form(String id_From){
+        return answerRepository.getAnswerByIdForm(id_From);
+    }
     /**
      * Deletes an answer by its ID from the repository.
      *
