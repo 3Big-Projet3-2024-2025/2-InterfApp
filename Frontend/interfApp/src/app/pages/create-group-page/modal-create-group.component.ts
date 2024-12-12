@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {Group} from "../../models/group";
+import {Group} from "../../models/Group";
 import {User} from "../../models/User";
 
 @Component({
@@ -11,7 +11,7 @@ import {User} from "../../models/User";
   styleUrl: './modal-create-group.component.css'
 })
 export class ModalCreateGroupComponent {
-  administrator: User = {
+  manager: User = {
     id: 0,
     email: '',
     username: '',
@@ -22,8 +22,9 @@ export class ModalCreateGroupComponent {
   groupToAdd: Group = {
     id: 0,
     name: '',
-    administrator: this.administrator,
-    membres: []
+    managers: [this.manager],
+    members: [],
+    subGroups: []
   }
   constructor(private router: Router) {
   }

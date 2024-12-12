@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Group} from "../../models/group";
+import {Group} from "../../models/Group";
 import {GroupeService} from "../../services/groupe.service";
 import {FormsModule} from "@angular/forms";
 import {Router, RouterOutlet} from "@angular/router";
@@ -44,15 +44,42 @@ export class GroupPageComponent implements OnInit {
 
   groupeTest: Group = {
     id: 1,
-    name: 'Groupe 1',
-    membres: [],
-    administrator: this.userTest
+    name: 'Equipe 1',
+    members: [],
+    managers: [this.userTest],
+    subGroups: []
   }
   groupeTest2: Group = {
     id: 2,
-    name: 'Groupe 2',
-    membres: [],
-    administrator: this.userTest
+    name: 'Equipe RH',
+    members: [],
+    managers: [this.userTest],
+    subGroups: []
+  }
+  groupeTest3: Group = {
+    id: 3,
+    name: 'Equipe manager',
+    members: [],
+    managers: [this.userTest],
+    subGroups: []
+  }
+
+  subGroupTest = {
+    id: 0,
+    name: 'Equipe 1',
+    members: [this.userTest, this.userTest2]
+  }
+
+  subGroupTest2 = {
+    id: 1,
+    name: 'Equipe 2',
+    members: [this.userTest2, this.userTest3]
+  }
+
+  subGroupTest3 = {
+    id: 1,
+    name: 'Equipe chef',
+    members: [this.userTest, this.userTest3]
   }
 
   expandedGroups: Set<number> = new Set<number>();
@@ -60,11 +87,27 @@ export class GroupPageComponent implements OnInit {
   constructor(private groupeService: GroupeService, private router: Router) {
   }
   ngOnInit(): void {
+    //hard code of groups and users - to remove later
     this.mesGroupes.push(this.groupeTest);
     this.mesGroupes.push(this.groupeTest2);
-    this.groupeTest.membres.push(this.userTest);
-    this.groupeTest.membres.push(this.userTest2);
-    this.groupeTest.membres.push(this.userTest3);
+    this.mesGroupes.push(this.groupeTest3);
+    this.groupeTest.members.push(this.userTest);
+    this.groupeTest.members.push(this.userTest2);
+    this.groupeTest.members.push(this.userTest3);
+    this.groupeTest2.members.push(this.userTest);
+    this.groupeTest2.members.push(this.userTest2);
+    this.groupeTest2.members.push(this.userTest3);
+    this.groupeTest3.members.push(this.userTest);
+    this.groupeTest3.members.push(this.userTest2);
+    this.groupeTest3.members.push(this.userTest3);
+    this.groupeTest.subGroups.push(this.subGroupTest);
+    this.groupeTest.subGroups.push(this.subGroupTest2);
+    this.groupeTest2.subGroups.push(this.subGroupTest);
+    this.groupeTest2.subGroups.push(this.subGroupTest3);
+    this.groupeTest3.subGroups.push(this.subGroupTest2);
+    this.groupeTest3.subGroups.push(this.subGroupTest3);
+    this.groupeTest3.subGroups.push(this.subGroupTest);
+    //end of hard coding
   }
 
   toggleExpand(groupId: number): void {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Group} from "../models/group";
+import {Group} from "../models/Group";
+import {SubGroup} from "../models/SubGroup";
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,14 @@ export class GroupeService {
   }
 
   addUsersToGroupCsv(groupId: number, file: File) {
-    
+
+  }
+
+  addManagerToGroup(groupId: number, managerId: number) {
+
+  }
+
+  addSubGroupToGroup(groupId: number, subGroup: SubGroup) {
+
   }
 }
