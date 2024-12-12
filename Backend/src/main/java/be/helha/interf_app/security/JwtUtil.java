@@ -1,11 +1,13 @@
 package be.helha.interf_app.security;
 
+import be.helha.interf_app.Service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,19 +43,12 @@ public class JwtUtil {
     private final static SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
 
     // Controller for accessing user data
-    private UserController userController;
+    @Autowired
+    private UserService userService;
 
     @Getter
     public Claims parsedJWT;
 
-    /**
-     * Constructs a JwtUtil object with the provided UserController instance.
-     *
-     * @param userController The UserController used to retrieve user information.
-     */
-    public JwtUtil(UserController userController) {
-        this.userController = userController;
-    }
 
     /**
      * Generates a JWT token for a given user. The token contains the user's ID,
@@ -101,8 +96,8 @@ public class JwtUtil {
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                     .collect(Collectors.toList());
 
-            // Retrieve the user by email from the database
-            User user = userController.getUserById(id)
+            // Retrieve the user by id from the database
+            User user = userService.getUserById(id)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
             // Return an Authentication token with the user's email, password, and roles
