@@ -31,7 +31,6 @@ public class UserService {
     /**
      * The authentication manager for authenticating users.
      */
-    AuthenticationManager authenticationManager;
     /**
      * Saves a new user to the repository with a default role of "ROLE_User".
      *
@@ -39,8 +38,11 @@ public class UserService {
      * @return The saved user.
      */
     public User saveUser(User user) {
-        user.setRoles("ROLE_User");
-        return userRepository.save(user);
+        if(getUserById(user.getId()).isEmpty()) { // The methode post is accessible by any User and if he knows the id he can use it like an update methode
+            user.setRoles("User");
+            return userRepository.save(user);
+        }
+        return null;
     }
 
     /**
@@ -90,6 +92,9 @@ public class UserService {
      * @return An Optional containing the user if found, or an empty Optional if not.
      */
     public Optional<User> getUserById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return userRepository.findById(id);
     }
     /**
@@ -108,5 +113,12 @@ public class UserService {
      */
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User updateUser (User user) {
+        if(getUserById(user.getId()).isPresent() && getUserById(user.getId()).get().getRoles().equals(user.getRoles())) { //prohibit any attempt to modify the user's role
+            return userRepository.save(user);
+        }
+        return null;
     }
 }

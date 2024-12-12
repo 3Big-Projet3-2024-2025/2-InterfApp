@@ -93,8 +93,8 @@ export class ReplyFormComponent implements OnInit {
   
     if (this.formReply.valid) {
       const Data = {
-        id_Form: this.idForm, 
-        id_User: "gestion user TO DO",
+        idForm: this.idForm, 
+        idUser: "gestion user TO DO",
         answer: this.formReply.value
       };
   

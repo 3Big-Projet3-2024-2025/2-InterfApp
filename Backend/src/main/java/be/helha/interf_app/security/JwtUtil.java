@@ -1,10 +1,13 @@
 package be.helha.interf_app.security;
 
+import be.helha.interf_app.Service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -40,16 +43,12 @@ public class JwtUtil {
     private final static SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
 
     // Controller for accessing user data
-    private UserController userController;
+    @Autowired
+    private UserService userService;
 
-    /**
-     * Constructs a JwtUtil object with the provided UserController instance.
-     *
-     * @param userController The UserController used to retrieve user information.
-     */
-    public JwtUtil(UserController userController) {
-        this.userController = userController;
-    }
+    @Getter
+    public Claims parsedJWT;
+
 
     /**
      * Generates a JWT token for a given user. The token contains the user's ID,
@@ -68,7 +67,7 @@ public class JwtUtil {
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .claims(Map.of(
-                        "email", user.getEmail(),
+                        "id", user.getId(),
                         "roles", user.getRoles()
                 ))
                 .signWith(secretKey)
@@ -90,23 +89,23 @@ public class JwtUtil {
         JwtParser jwtParser = Jwts.parser().verifyWith(secretKey).build();
 
         // Parse the JWT and extract claims
-        Claims claims = jwtParser.parseSignedClaims(JWT).getPayload();
-        String email = (String)claims.get("email");
-        String roles = (String)claims.get("roles");
+        this.parsedJWT = jwtParser.parseSignedClaims(JWT).getPayload();
+        String id = (String)parsedJWT.get("id");
+        String roles = (String)parsedJWT.get("roles");
 
         // If the email is not null, retrieve the user and create authentication
-        if (Objects.nonNull(email)){
+        if (Objects.nonNull(id)) {
             List<SimpleGrantedAuthority> authorities = List.of(roles.split(","))
-                        .stream()
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .collect(Collectors.toList());
 
-            // Retrieve the user by email from the database
-            User user = userController.getUserByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+            // Retrieve the user by id from the database
+            User user = userService.getUserById(id)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
             // Return an Authentication token with the user's email, password, and roles
-            return new UsernamePasswordAuthenticationToken(email, user.getPassword(), authorities);
+            return new UsernamePasswordAuthenticationToken(id, user.getPassword(), authorities);
         }
         // Return null if email is not found in the claims
         return null;

@@ -9,6 +9,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
 /**
  * Represents a user in the system with the following attributes:
  *
@@ -54,6 +57,7 @@ public class User {
      * This field defines the user's access level and permissions within the system.
      */
     private String roles;
+    private List<String> listGroup;
 }
 
 

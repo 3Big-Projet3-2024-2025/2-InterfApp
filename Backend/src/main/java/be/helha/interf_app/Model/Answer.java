@@ -26,15 +26,15 @@ public class Answer {
      * Unique identifier for the answer.
      */
     @Id
-    private String id_answer;
+    private String id;
     /**
      * Identifier of the associated form.
      */
-    private String id_Form;
+    private String idForm;
     /**
      * Identifier of the user who submitted the answer.
      */
-    private String id_User;
+    private String idUser;
     /**
      * Map containing the answers, where keys are question IDs and values are the corresponding answers.
      */

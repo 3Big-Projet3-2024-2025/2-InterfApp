@@ -21,6 +21,8 @@ public class FormService {
      */
     @Autowired
     private FormRepository formRepository;
+    @Autowired
+    private GroupService groupService;
     /**
      * Saves a new form or updates an existing form in the repository.
      *
@@ -28,7 +30,10 @@ public class FormService {
      * @return The saved form.
      */
     public Form saveForm(Form form) {
-        return formRepository.save(form);
+        if(getFormById(form.getId()).isEmpty()&& groupService.getGroupById(form.getId()).isPresent()) {
+            return formRepository.save(form);
+        }
+        return null;
     }
     /**
      * Retrieves all the forms stored in the repository.
@@ -45,7 +50,14 @@ public class FormService {
      * @return An Optional containing the form if found, or an empty Optional if not.
      */
     public Optional<Form> getFormById(String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return formRepository.findById(id);
+    }
+
+    public List<Form> getFormByIdGroup(String idGroup) {
+        return formRepository.findByIdGroup(idGroup);
     }
     /**
      * Deletes a form by its ID from the repository.
@@ -54,5 +66,12 @@ public class FormService {
      */
     public void deleteForm(String id) {
         formRepository.deleteById(id);
+    }
+
+    public Form updateForm(Form form) {
+        if(getFormById(form.getId()).isPresent() && getFormById(form.getId()).get().getIdGroup().equals(form.getIdGroup())) {
+            return formRepository.save(form);
+        }
+        return null;
     }
 }
