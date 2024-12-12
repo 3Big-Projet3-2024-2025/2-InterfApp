@@ -1,7 +1,9 @@
 package be.helha.interf_app.Controller;
 
 import be.helha.interf_app.Model.Group;
+import be.helha.interf_app.Model.User;
 import be.helha.interf_app.Service.GroupService;
+import be.helha.interf_app.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,8 @@ public class GroupController {
      */
     @Autowired
     private GroupService groupService;
+    @Autowired
+    private UserService userService;
 
     /**
      * Endpoint to create a new group.
@@ -122,7 +126,7 @@ public class GroupController {
      * @return A ResponseEntity containing the updated group if successful, or a
      *         bad request response if the manager could not be added.
      */
-    @PutMapping("/{idGroup},{idManager}")
+    @PostMapping("/{idGroup},{idManager}")
     public ResponseEntity<Group> addManager(@PathVariable String idGroup, @PathVariable String idManager) {
         Group updateGroup = groupService.addManager(idManager, idGroup);
         if (updateGroup != null) {
@@ -145,9 +149,29 @@ public class GroupController {
      * @return A ResponseEntity containing the updated group if successful, or a
      *         bad request response if the member could not be added.
      */
-    @PutMapping("/{idGroup},{idMember}")
+    @PostMapping ("/{idGroup},{idMember}")
     public ResponseEntity<Group> addMember(@PathVariable String idGroup, @PathVariable String idMember) {
         Group updateGroup = groupService.addMember(idMember, idGroup);
+        if (updateGroup != null) {
+            return ResponseEntity.ok(updateGroup);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping ("/{idGroup},{idMember}")
+    public ResponseEntity<Group> deleteMember(@PathVariable String idGroup, @PathVariable String idMember) {
+        Group updateGroup = groupService.deleteMember(idMember, idGroup);
+        if (updateGroup != null) {
+            return ResponseEntity.ok(updateGroup);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping ("/{idGroup},{idManager}")
+    public ResponseEntity<Group> deleteManager(@PathVariable String idGroup, @PathVariable String idManager) {
+        Group updateGroup = groupService.deleteManager(idManager, idGroup);
         if (updateGroup != null) {
             return ResponseEntity.ok(updateGroup);
         } else {

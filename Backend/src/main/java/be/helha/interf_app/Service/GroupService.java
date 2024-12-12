@@ -83,4 +83,28 @@ public class GroupService {
         }
         return null;
     }
+
+    public Group deleteMember(String memberId, String groupId) {
+        if (userService.getUserById(memberId).isPresent() && getGroupById(groupId).isPresent()) {
+            User member = userService.getUserById(memberId).get();
+            member.getListGroup().remove(groupId);
+            userService.updateUser(member);
+            Group group = getGroupById(groupId).get();
+            group.getListManagers().remove(memberId);
+            return groupRepository.save(group);
+        }
+        return null;
+    }
+
+    public Group deleteManager(String managerId, String groupId) {
+        if (userService.getUserById(managerId).isPresent() && getGroupById(groupId).isPresent()&& getGroupById(groupId).get().getListManagers().size() > 1) {
+            User manager = userService.getUserById(managerId).get();
+            manager.getListGroup().remove(groupId);
+            userService.updateUser(manager);
+            Group group = getGroupById(groupId).get();
+            group.getListManagers().remove(managerId);
+            return groupRepository.save(group);
+        }
+        return null;
+    }
 }
