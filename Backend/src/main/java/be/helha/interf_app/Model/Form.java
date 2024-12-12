@@ -25,6 +25,7 @@ public class Form {
      */
     @Id
     private String id;
+    private String idGroup;
     /**
      * Title of the form.
      */

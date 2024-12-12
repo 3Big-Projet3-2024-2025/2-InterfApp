@@ -31,7 +31,6 @@ public class GroupService {
                 userService.updateUser(manager);
                 group.setListManagers(new ArrayList<>(Arrays.asList(managerId)));
                 group.setListMembers(new ArrayList<>());
-                group.setListForms(new ArrayList<>());
                 return groupRepository.save(group);
             }
         }
