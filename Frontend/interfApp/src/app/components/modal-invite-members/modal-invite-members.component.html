@@ -1,0 +1,31 @@
+<div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Invite members</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" placeholder="search users">
+        <div class="users">
+          <div class="user">
+            <input type="checkbox">
+            <label>User 1</label>
+          </div>
+          <div class="user">
+            <input type="checkbox">
+            <label>User 2</label>
+          </div>
+          <div class="user">
+            <input type="checkbox">
+            <label>User 3</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn close" id="close" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn" data-bs-dismiss="modal" (click)="addUsersToGroup()">Invite</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 <div>
-  Mes groupes :
+  My groups :
 </div>
 
 <table class="table">
@@ -14,87 +14,41 @@
   </tr>
   </thead>
   <tbody>
-  @for (groupe of mesGroupes; track groupe.id; let i=$index) {
+  @for (group of myGroups; track group.id; let i=$index) {
 
 
 <!--    start of modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">New subGroup</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <input type="text" placeholder="SubGroup name">
-            <div class="users">
-
-              @for (member of groupe.members; track member.id; let i=$index) {
-                <div class="user">
-                  <input type="checkbox">
-                  <label>{{member.username}}</label>
-                </div>
-              }
-              <!--          <div class="user">-->
-              <!--            <input type="checkbox">-->
-              <!--            <label>User 1</label>-->
-              <!--          </div>-->
-              <!--          <div class="user">-->
-              <!--            <input type="checkbox">-->
-              <!--            <label>User 2</label>-->
-              <!--          </div>-->
-              <!--          <div class="user">-->
-              <!--            <input type="checkbox">-->
-              <!--            <label>User 3</label>-->
-              <!--          </div>-->
-              <!--        </div>-->
-              <div class="modal-footer">
-                <button type="button" class="btn close" id="close" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn" data-bs-dismiss="modal">Invite</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<app-modal-sub-group [group]="group"></app-modal-sub-group>
 <!--    end of modal-->
 
-    <tr (click)="toggleExpand(groupe.id)" class="group-row">
-      <th scope="row">{{groupe.id}}</th>
-      <td>{{ groupe.name }}</td>
-      <td>{{ groupe.members.length }}</td>
-      <td>{{ groupe.subGroups.length }}</td>
+    <tr (click)="toggleExpand(group.id)" class="group-row">
+      <th scope="row">{{group.id}}</th>
+      <td>{{ group.name }}</td>
+      <td>{{ group.members.length }}</td>
+      <td>{{ group.subGroups.length }}</td>
       <td></td>
       <td>
-        {{ isExpanded(groupe.id) ? '-' : '+' }}
+        {{ isExpanded(group.id) ? '-' : '+' }}
       </td>
     </tr>
-      @if(isExpanded(groupe.id)) {
+      @if(isExpanded(group.id)) {
         <tr class="expanded-rows">
           <td></td>
           <td>
             expanded row
           </td>
           <td>
-            @for (membre of groupe.members; track membre.id; let i=$index) {
+            @for (membre of group.members; track membre.id; let i=$index) {
               <div>
                 - {{membre.username}}
               </div>
             }
           </td>
           <td class="subGroup">
-            @for (subGroup of groupe.subGroups; track subGroup.id; let i=$index) {
-              <div>
-                {{subGroup.name}} :
-                @for (member of subGroup.members; track member.id; let i=$index) {
-                  <div>
-                    - {{member.username}}
-                  </div>
-                }
-<!--                <button class="subGroupAdd btn">+</button>-->
-              </div>
+            @for (subGroup of group.subGroups; track subGroup.id; let i=$index) {
+            <app-subgroup [subGroup]="subGroup"></app-subgroup>
             }
-            <button class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Add subGroup</button>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#subgroupModal">Add subGroup</button>
           </td>
           <td></td>
           <td></td>
@@ -104,7 +58,7 @@
   </tbody>
 </table>
 
-<button type="button" class="btn" (click)="createGroup()">Créer un groupe</button>
+<button type="button" class="btn" (click)="createGroup()">Créer un group</button>
 
 <router-outlet></router-outlet>
 

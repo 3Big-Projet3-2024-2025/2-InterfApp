@@ -1,0 +1,22 @@
+<div class="create-group">
+  <h2>Create a new group</h2>
+  <div class="group-form">
+    <div class="group-container">
+      <label for="name" class="">Group name : </label>
+      <br>
+      <input type="text" id="name" class="form-label mb-3 g-3">
+      <div>
+        Invite members :
+      </div>
+      <button class="btn mb-3" data-bs-toggle="modal" data-bs-target="#inviteModal">Invite members</button>
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Import a csv file :</label>
+        <input class="form-control form-control-sm" type="file" id="formFile">
+      </div>
+      <button class="btn mb-3" data-bs-toggle="modal" data-bs-target="#confirmModal">Create group</button>
+    </div>
+  </div>
+</div>
+
+<app-modal-invite-members></app-modal-invite-members>
+<app-modal-confirm></app-modal-confirm>

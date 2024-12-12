@@ -6,7 +6,7 @@ import {SubGroup} from "../models/SubGroup";
 @Injectable({
   providedIn: 'root'
 })
-export class GroupeService {
+export class GroupService {
 
   constructor(private http : HttpClient) { }
 

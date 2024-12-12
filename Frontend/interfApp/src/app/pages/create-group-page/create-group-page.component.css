@@ -16,6 +16,7 @@
   border: solid #FFA62B 2px;
   border-radius: 10px;
 }
+
 .group-form button {
   background-color: #FFA62B;
   color: white;
@@ -25,14 +26,4 @@
   width: 400px;
   border: 1px solid #ccc;
   border-radius: 4px;
-}
-
-.modal-footer button {
-  background-color: #FFA62B;
-  color: white;
-}
-
-button#close.close {
-  color: white;
-  background-color: #d3d3d3;
 }

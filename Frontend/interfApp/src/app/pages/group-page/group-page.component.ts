@@ -1,15 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {Group} from "../../models/Group";
-import {GroupeService} from "../../services/groupe.service";
+import {GroupService} from "../../services/group.service";
 import {FormsModule} from "@angular/forms";
 import {Router, RouterOutlet} from "@angular/router";
+import {ModalSubGroupComponent} from "../../components/modal-sub-group/modal-sub-group.component";
+import {SubgroupComponent} from "../../components/subgroup/subgroup.component";
 
 @Component({
   selector: 'app-group-page',
   standalone: true,
   imports: [
     FormsModule,
-    RouterOutlet
+    RouterOutlet,
+    ModalSubGroupComponent,
+    SubgroupComponent
   ],
   templateUrl: './group-page.component.html',
   styleUrl: './group-page.component.css'
@@ -38,9 +42,9 @@ export class GroupPageComponent implements OnInit {
     roles: ["string"]
   }
 
-  groupes: Group[] = [];
+  groups: Group[] = [];
 
-  mesGroupes: Group[] = [];
+  myGroups: Group[] = [];
 
   groupeTest: Group = {
     id: 1,
@@ -84,13 +88,13 @@ export class GroupPageComponent implements OnInit {
 
   expandedGroups: Set<number> = new Set<number>();
 
-  constructor(private groupeService: GroupeService, private router: Router) {
+  constructor(private groupService: GroupService, private router: Router) {
   }
   ngOnInit(): void {
     //hard code of groups and users - to remove later
-    this.mesGroupes.push(this.groupeTest);
-    this.mesGroupes.push(this.groupeTest2);
-    this.mesGroupes.push(this.groupeTest3);
+    this.myGroups.push(this.groupeTest);
+    this.myGroups.push(this.groupeTest2);
+    this.myGroups.push(this.groupeTest3);
     this.groupeTest.members.push(this.userTest);
     this.groupeTest.members.push(this.userTest2);
     this.groupeTest.members.push(this.userTest3);
