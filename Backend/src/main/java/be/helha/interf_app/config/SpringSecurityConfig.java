@@ -59,7 +59,7 @@ public class SpringSecurityConfig {
                     authorizeRequests.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
                     authorizeRequests.requestMatchers(HttpMethod.GET,"/api/groups/**").hasRole("User");
-                    authorizeRequests.requestMatchers(HttpMethod.POST,"/api/groups/**").permitAll();
+                    authorizeRequests.requestMatchers(HttpMethod.POST,"/api/groups/**").hasRole("User");
                     authorizeRequests.requestMatchers(HttpMethod.PUT,"/api/groups/**")
                             .access("@securityService.checkOwnerGroupAccess(httpServletRequest, authentication)");
                     authorizeRequests.requestMatchers(HttpMethod.DELETE,"/api/groups/**")
