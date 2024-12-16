@@ -2,14 +2,14 @@ import { Routes } from '@angular/router';
 import {GroupPageComponent} from "./pages/group-page/group-page.component";
 import {ModifyGroupComponent} from "./components/modify-group/modify-group.component";
 import {CreateGroupPageComponent} from "./pages/create-group-page/create-group-page.component";
-import { CreateFormComponent } from './create-form/create-form.component';
-import { OpenFormComponent } from './open-form/open-form.component';
-import { ReplyFormComponent } from './reply-form/reply-form.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { CreateFormComponent } from './pages/create-form/create-form.component';
+import { OpenFormComponent } from './pages/open-form/open-form.component';
+import { ReplyFormComponent } from './pages/reply-form/reply-form.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 import { authGuardGuard } from './guard/auth-guard.guard';
 import { roleGuardGuard } from './guard/role-guard.guard';
-import { ProfilComponent } from './profil/profil.component';
+import { ProfilComponent } from './pages/profil/profil.component';
 import { notAuthGuard } from './guard/not-auth.guard';
 
 export const routes: Routes = [
@@ -24,7 +24,7 @@ export const routes: Routes = [
       path: 'group', component: GroupPageComponent,
       children: [
         { path: 'modify/:id', component: ModifyGroupComponent }
-  
+
       ]
     },
     { path: 'create-group', component: CreateGroupPageComponent }

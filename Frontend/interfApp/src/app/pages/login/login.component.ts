@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../service/user.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -62,7 +62,7 @@ export class LoginComponent {
             console.error(error);
           }
         );
-      });  
+      });
     } else {
       this.errorMessage = 'Veuillez vérifier vos informations.';
     }

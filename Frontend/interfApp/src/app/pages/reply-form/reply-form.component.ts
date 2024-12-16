@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap'; 
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
-import { AnswerService } from '../service/answer.service';
-import { FormService } from '../service/form.service';
+import { AnswerService } from '../../services/answer.service';
+import { FormService } from '../../services/form.service';
 
 @Component({
     selector: 'app-reply-form',
@@ -64,7 +64,7 @@ export class ReplyFormComponent implements OnInit {
     const formlyFields: FormlyFieldConfig[] = [];
 
     console.log(this.questions);
-  
+
     this.questions.forEach((question: any , index : number) => {
       const field: FormlyFieldConfig = {
         key: question.inputTitleQuestion || `Question_${index}`,
@@ -82,22 +82,22 @@ export class ReplyFormComponent implements OnInit {
           },
         },
       };
-  
+
       formlyFields.push(field);
     });
-  
+
     return formlyFields;
   }
   submit(){
     console.log(this.formReply.value);
-  
+
     if (this.formReply.valid) {
       const Data = {
-        idForm: this.idForm, 
+        idForm: this.idForm,
         idUser: "gestion user TO DO",
         answer: this.formReply.value
       };
-  
+
       // Logique pour sauvegarder le formulaire
       this.answerService.saveAnswer(Data).subscribe({
         next: (response) => {
@@ -108,6 +108,6 @@ export class ReplyFormComponent implements OnInit {
           console.error('Error saving form:', err);
         },
       });
-    } 
+    }
   }
 }

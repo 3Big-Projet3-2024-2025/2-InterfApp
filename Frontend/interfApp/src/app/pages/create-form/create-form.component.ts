@@ -1,8 +1,8 @@
 import { Component, input, QueryList, ViewChildren } from '@angular/core';
-import { QuestionComponent } from '../question/question.component';
+import { QuestionComponent } from '../../question/question.component';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormService } from '../service/form.service';
+import { FormService } from '../../services/form.service';
 @Component({
   selector: 'app-create-form',
   standalone:true,
@@ -33,7 +33,7 @@ export class CreateFormComponent {
     this.questions.push(newId); // Ajoute une nouvelle question
   }
 
-  removeQuestion(index: number): void { 
+  removeQuestion(index: number): void {
     if (this.questions.length > 1) {
       this.questions.splice(index, 1); // Supprime la question à l'index donné
     }
@@ -64,14 +64,14 @@ export class CreateFormComponent {
   saveQuestions(): void {
     this.requestForms();
     console.log(this.formForm.value);
-  
+
     if (this.formForm.valid) {
       this.errorMessage = "";
       const formData = {
         title: this.formForm.get('inputTitreForm')?.value,
         questions: this.formForm.get('arrayFormQuestion')?.value
       };
-  
+
       // Logique pour sauvegarder le formulaire
       this.formService.saveForm(formData).subscribe({
         next: (response) => {

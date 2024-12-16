@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormService } from '../service/form.service';
+import { FormService } from '../../services/form.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 export class OpenFormComponent implements OnInit {
   forms: any[] = [];
   selectedForm: any;
-  
+
   constructor(private formService: FormService, private router: Router) {}
 
   ngOnInit(): void {
