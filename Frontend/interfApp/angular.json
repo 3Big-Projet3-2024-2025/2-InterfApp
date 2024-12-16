@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "interfApp": {
+    "ProtoFormly": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/interf-app",
+            "outputPath": "dist/proto-formly",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -25,6 +25,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
@@ -65,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "interfApp:build:production"
+              "buildTarget": "ProtoFormly:build:production"
             },
             "development": {
-              "buildTarget": "interfApp:build:development"
+              "buildTarget": "ProtoFormly:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "interfApp:build"
+            "buildTarget": "ProtoFormly:build"
           }
         },
         "test": {
@@ -92,6 +93,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -101,6 +103,6 @@
     }
   },
   "cli": {
-    "analytics": "a5f46dfb-0249-462d-85cf-860d29e34168"
+    "analytics": "af0fb5a5-7e37-4ba5-9ab1-4469acfb61aa"
   }
 }

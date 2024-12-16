@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {RouterLink} from "@angular/router";
+import { Router } from '@angular/router';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,4 +12,20 @@ import {RouterLink} from "@angular/router";
 })
 export class NavbarComponent {
 
+  constructor( private router: Router,private userService : UserService) {}
+
+  get isAuthenticated() : boolean {
+    return this.userService.isAuthenticated();
+  }
+
+  onAuthButtonClick(): void {
+    if (this.isAuthenticated) {
+      this.userService.logout();
+    }
+    this.router.navigate(['/login']);
+  }
+
+  navigate(route: string): void {
+    this.router.navigate([`/${route}`]);
+  }
 }

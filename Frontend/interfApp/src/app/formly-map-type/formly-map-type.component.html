@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+
+<div id="map"style="height: 500px;"></div>
+
+<!-- Formulaire pour afficher et soumettre les coordonnées -->
+<div style="margin-top: 10px;">
+  <div *ngIf="selectedCoords">
+    <p><strong>Coordonnées sélectionnées :</strong> {{ selectedCoords.lat }}, {{ selectedCoords.lng }}</p>
+  </div>
+  <input
+  [type]="to.type"
+  [id]="id"
+  [formControl]="control"
+  [formlyAttributes]="field"
+  [ngClass]="{'is-invalid': showError}"
+  class="form-control"
+/>
+</div>
