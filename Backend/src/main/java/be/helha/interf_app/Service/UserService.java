@@ -10,6 +10,7 @@ import be.helha.interf_app.Model.User;
 import be.helha.interf_app.Repository.UserRepository;
 import be.helha.interf_app.security.JwtUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +37,8 @@ public class UserService {
     /**
      * The authentication manager for authenticating users.
      */
-    @Autowired
-    private AuthenticationManager authenticationManager;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
 
     /**
      * Saves a new user to the repository with a default role of "ROLE_User".
@@ -50,6 +51,7 @@ public class UserService {
         if (getUserById(user.getId()).isEmpty()) {
             // The method POST is accessible by any user and if they know the ID, they can use it like an update method.
             user.setRoles("User");
+            user.setListGroup(new ArrayList<>());
             return userRepository.save(user);
         }
         return null;
