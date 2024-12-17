@@ -9,15 +9,15 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { authGuardGuard } from './guard/auth-guard.guard';
 import { roleGuardGuard } from './guard/role-guard.guard';
-import { ProfilComponent } from './pages/profil/profil.component';
 import { notAuthGuard } from './guard/not-auth.guard';
+import {ProfilePageComponent} from "./pages/profile-page/profile-page.component";
 
 export const routes: Routes = [
     { path: 'createform', component: CreateFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'forms', component: OpenFormComponent , canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: 'form/:id', component:  ReplyFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
-    { path: 'profil', component:  ProfilComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
+    { path: 'profile', component:  ProfilePageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: 'register', component:  RegisterComponent},
     { path: 'login', component:  LoginComponent, canActivate : [notAuthGuard ] },
     {
