@@ -2,20 +2,22 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Group} from "../models/Group";
 import {SubGroup} from "../models/SubGroup";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupService {
 
-  constructor(private http : HttpClient) { }
+  private apiUrl = 'http://localhost:8080/api/groups';
+  constructor(private http : HttpClient) {}
 
-  getMyGroups(id: number) {
+  getMyGroups(id: number): void {
 
   }
 
-  getAllGroups() {
-
+  getAllGroups(): Observable<any>{
+    return this.http.get<any[]>(this.apiUrl);
   }
 
   addGroup(group: Group) {
@@ -30,8 +32,8 @@ export class GroupService {
 
   }
 
-  getGroupById(id: number) {
-
+  getGroupById(id: string): Observable<any> {
+    return this.http.get<any[]>(`${this.apiUrl}/${id}`);
   }
 
   addUsersToGroup(groupId: number, users: number[]) {

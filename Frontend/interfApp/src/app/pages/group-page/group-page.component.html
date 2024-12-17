@@ -16,10 +16,9 @@
   <tbody>
   @for (group of myGroups; track group.id; let i=$index) {
 
-
-<!--    start of modal-->
-<app-modal-sub-group [group]="group"></app-modal-sub-group>
-<!--    end of modal-->
+    <!--    start of modal-->
+    <app-modal-sub-group [group]="group"></app-modal-sub-group>
+    <!--    end of modal-->
 
     <tr (click)="toggleExpand(group.id)" class="group-row">
       <th scope="row">{{group.id}}</th>

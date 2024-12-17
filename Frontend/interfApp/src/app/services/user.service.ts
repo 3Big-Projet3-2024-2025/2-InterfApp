@@ -9,8 +9,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:8080/api/users'; 
-  
+  private apiUrl = 'http://localhost:8080/api/users';
+
   constructor(private http: HttpClient, @Inject(CookieService) private cookieService : CookieService) { }
 
   get tokenJWT() : any{
@@ -32,7 +32,6 @@ export class UserService {
   }
 
   register(userData: any): Observable<any> {
-    
     return this.http.post(this.apiUrl, userData);
   }
 
@@ -60,6 +59,6 @@ export class UserService {
     console.log("User logout");
   }
 
-  
+
 }
 

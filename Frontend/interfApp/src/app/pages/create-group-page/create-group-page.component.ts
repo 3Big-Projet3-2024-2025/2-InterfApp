@@ -25,7 +25,7 @@ export class CreateGroupPageComponent {
   }
 
   groupToAdd: Group = {
-    id: 0,
+    id: "",
     name: '',
     managers: [this.manager],
     members: [],
