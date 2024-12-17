@@ -20,8 +20,8 @@ export class GroupService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  addGroup(group: Group) {
-
+  addGroup(group: any) {
+    return this.http.post<any>(this.apiUrl, group);
   }
 
   deleteGroup(id: number) {

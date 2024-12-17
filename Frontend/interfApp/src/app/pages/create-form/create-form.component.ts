@@ -1,5 +1,5 @@
 import { Component, input, QueryList, ViewChildren } from '@angular/core';
-import { QuestionComponent } from '../../question/question.component';
+import { QuestionComponent } from '../../components/question/question.component';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormService } from '../../services/form.service';

@@ -10,6 +10,7 @@ import be.helha.interf_app.Model.User;
 import be.helha.interf_app.Repository.UserRepository;
 import be.helha.interf_app.security.JwtUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 /**
@@ -40,6 +41,7 @@ public class UserService {
     public User saveUser(User user) {
         if(getUserById(user.getId()).isEmpty()) { // The methode post is accessible by any User and if he knows the id he can use it like an update methode
             user.setRoles("User");
+            user.setListGroup(new ArrayList<>());
             return userRepository.save(user);
         }
         return null;
