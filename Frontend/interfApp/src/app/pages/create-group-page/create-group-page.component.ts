@@ -17,7 +17,7 @@ import {ModalConfirmComponent} from "../../components/modal-confirm/modal-confir
 })
 export class CreateGroupPageComponent {
   manager: User = {
-    id: 0,
+    id: "",
     email: '',
     username: '',
     password: '',
