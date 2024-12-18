@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +17,5 @@ public class Group {
     @Id
     private String id;
     private String name;
-    private List<String> listManagers;
-    private List<String> listMembers;
+    private Map<String,List<String>> listSubGroups;
 }

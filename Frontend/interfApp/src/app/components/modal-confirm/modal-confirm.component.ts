@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -9,10 +9,5 @@ import {Router} from "@angular/router";
   styleUrl: './modal-confirm.component.css'
 })
 export class ModalConfirmComponent {
-  constructor(private router: Router) {
-  }
-  addGroup() {
-
-    this.router.navigate(['/group']);
-  }
+  @Output() confirmEmitter = new EventEmitter<string>();
 }

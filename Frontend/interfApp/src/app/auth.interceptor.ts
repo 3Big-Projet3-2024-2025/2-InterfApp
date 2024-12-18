@@ -11,7 +11,6 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Obs
     
     // Retrieve the JWT token from cookies
     const token = cookieService.get("jwt");
-    console.log("TOKEN:", token);
     
     // If the token exists, clone the request and add the Authorization header
     if (token) {

@@ -11,21 +11,27 @@ import { authGuardGuard } from './guard/auth-guard.guard';
 import { roleGuardGuard } from './guard/role-guard.guard';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { notAuthGuard } from './guard/not-auth.guard';
+import { ListGroupPageComponent } from './pages/list-group-page/list-group-page.component';
+import { AnswerPageComponent } from './pages/answer-page/answer-page.component';
+import { ModifFormPageComponent } from './pages/modif-form-page/modif-form-page.component';
 
 export const routes: Routes = [
-    { path: 'createform', component: CreateFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
+    { path: 'createform/:id', component: CreateFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'forms', component: OpenFormComponent , canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: 'form/:id', component:  ReplyFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
+    { path: 'form-modif/:id', component:  ModifFormPageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
+    { path: 'answer/:id', component:  AnswerPageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: 'profil', component:  ProfilComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: 'register', component:  RegisterComponent},
     { path: 'login', component:  LoginComponent, canActivate : [notAuthGuard ] },
     {
-      path: 'group', component: GroupPageComponent,
+      path: 'group', component: ListGroupPageComponent,
       children: [
         { path: 'modify/:id', component: ModifyGroupComponent }
 
       ]
     },
+    { path: 'group/:id', component: GroupPageComponent },
     { path: 'create-group', component: CreateGroupPageComponent }
 ];

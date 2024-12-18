@@ -28,7 +28,7 @@ public class GroupService {
             String managerId = (String) jwtUtil.parsedJWT.get("id");
             if (userRepository.findById(managerId).isPresent()) {
                 List<String> listIdMember = new ArrayList<>();
-                for (String email :group.getListMembers()) {
+                for (String email :group.getListSubGroups().get("Members")) {
                     Optional<User> member = userRepository.findByEmail(email);
                     if(member.isPresent()){
                         listIdMember.add(member.get().getId());
@@ -40,8 +40,8 @@ public class GroupService {
                         listIdMember.add(userRepository.save(invitedUser).getId()) ;
                     }
                 }
-                group.setListManagers(new ArrayList<>(Arrays.asList(managerId)));
-                group.setListMembers(new ArrayList<>());
+                group.getListSubGroups().put("Managers",new ArrayList<>(Arrays.asList(managerId)));
+                group.getListSubGroups().put("Members",new ArrayList<>());
                 String idGroup = groupRepository.save(group).getId();
 
                 listIdMember.forEach((idMember) -> addMember(idMember,group.getId()));
@@ -85,7 +85,7 @@ public class GroupService {
             manager.getListGroup().add(groupId);
             userRepository.save(manager);
             Group group = getGroupById(groupId).get();
-            group.getListManagers().add(managerId);
+            group.getListSubGroups().get("Managers").add(managerId);
             return groupRepository.save(group);
         }
         return null;
@@ -97,7 +97,7 @@ public class GroupService {
             member.getListGroup().add(groupId);
             userRepository.save(member);
             Group group = getGroupById(groupId).get();
-            group.getListMembers().add(memberId);
+            group.getListSubGroups().get("Members").add(memberId);
             return groupRepository.save(group);
         }
         return null;
@@ -109,19 +109,19 @@ public class GroupService {
             member.getListGroup().remove(groupId);
             userRepository.save(member);
             Group group = getGroupById(groupId).get();
-            group.getListMembers().remove(memberId);
+            group.getListSubGroups().get("Members").remove(memberId);
             return groupRepository.save(group);
         }
         return null;
     }
 
     public Group deleteManager(String managerId, String groupId) {
-        if (userRepository.findById(managerId).isPresent() && getGroupById(groupId).isPresent()&& getGroupById(groupId).get().getListManagers().size() > 1) {
+        if (userRepository.findById(managerId).isPresent() && getGroupById(groupId).isPresent()&& getGroupById(groupId).get().getListSubGroups().get("Managers").size() > 2) {
             User manager = userRepository.findById(managerId).get();
             manager.getListGroup().remove(groupId);
             userRepository.save(manager);
             Group group = getGroupById(groupId).get();
-            group.getListManagers().remove(managerId);
+            group.getListSubGroups().get("Managers").remove(managerId);
             return groupRepository.save(group);
         }
         return null;

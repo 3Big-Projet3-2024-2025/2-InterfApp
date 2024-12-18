@@ -3,6 +3,7 @@ import { QuestionComponent } from '../../components/question/question.component'
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormService } from '../../services/form.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-create-form',
   standalone:true,
@@ -17,7 +18,7 @@ export class CreateFormComponent {
 
   @ViewChildren(QuestionComponent) questionComponents!: QueryList<QuestionComponent>;
 
-  constructor(private formBuilder: FormBuilder, private formService: FormService){
+  constructor(private formBuilder: FormBuilder, private formService: FormService,private route: ActivatedRoute){
     this.formForm = this.formBuilder.group({
       inputTitreForm:['', Validators.required],
       arrayFormQuestion: this.formBuilder.array([]),
@@ -69,7 +70,8 @@ export class CreateFormComponent {
       this.errorMessage = "";
       const formData = {
         title: this.formForm.get('inputTitreForm')?.value,
-        questions: this.formForm.get('arrayFormQuestion')?.value
+        questions: this.formForm.get('arrayFormQuestion')?.value,
+        idGroup: this.route.snapshot.paramMap.get('id')
       };
 
       // Logique pour sauvegarder le formulaire

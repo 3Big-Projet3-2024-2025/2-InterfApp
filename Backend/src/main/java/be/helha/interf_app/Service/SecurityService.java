@@ -1,14 +1,17 @@
 package be.helha.interf_app.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityService {
 
-    public boolean checkOwnerGroupAccess(HttpServletRequest request, Authentication authentication) {
-        String requestUrl = request.getRequestURI();
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+    public boolean checkOwnerGroupAccess( Authentication authentication) {
+        String requestUrl = httpServletRequest.getRequestURI();
 
         String idGroup = requestUrl.substring(requestUrl.lastIndexOf("/") + 1);
 

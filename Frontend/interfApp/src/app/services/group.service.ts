@@ -20,7 +20,15 @@ export class GroupService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  addGroup(group: any) {
+  addGroup(group: any): Observable<any> {
+    // convert a Map into an Object so it can be convert into a JSON structure 
+    if (group.listSubGroups instanceof Map) {
+      const listSubGroupsObject: { [key: string]: any } = {};
+      group.listSubGroups.forEach((value : any , key : any) => {
+        listSubGroupsObject[key] = value;
+      });
+      group.listSubGroups = listSubGroupsObject;
+    }
     return this.http.post<any>(this.apiUrl, group);
   }
 
@@ -28,8 +36,16 @@ export class GroupService {
 
   }
 
-  updateGroup(group: Group) {
-
+  updateGroup(group: any): Observable<any> {
+    if (group.listSubGroups instanceof Map) {
+      const listSubGroupsObject: { [key: string]: any } = {};
+      group.listSubGroups.forEach((value : any , key : any) => {
+        listSubGroupsObject[key] = value;
+      });
+      group.listSubGroups = listSubGroupsObject;
+    }
+    console.log(`${this.apiUrl}/${group.id}`);
+    return this.http.put<any>(`${this.apiUrl}/${group.id}`, group);
   }
 
   getGroupById(id: string): Observable<any> {

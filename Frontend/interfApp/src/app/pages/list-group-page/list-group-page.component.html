@@ -1,0 +1,20 @@
+<div class="container mt-4">
+    <div class="container">
+        <button type="button" class="btn" [routerLink]="['/create-group']" >Créer un group</button>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let group of groups">
+        <div class="card shadow-sm h-100" [routerLink]="['/group/', group.id]" style="cursor: pointer;">
+          <div class="card-body text-center">
+            <h2 class="card-title text-primary">
+              <a class="text-decoration-none text-primary">
+                {{ group.name }}
+              </a>
+            </h2>
+            <strong>Créé par :</strong> {{ group.listSubGroups["Managers"][0] }}
+            <p><strong>Nombre de membres :</strong> {{ group.listSubGroups["Members"].length }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

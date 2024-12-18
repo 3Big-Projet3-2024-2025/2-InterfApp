@@ -33,12 +33,14 @@ export class CreateGroupPageComponent {
 
   onSubmit(){
     if (this.formGroup.valid) {
-      const userData = {
+      const groupData = {
         name: this.formGroup.value.inputName,
-        listMembers: this.emailList,
+        listSubGroups: new Map([["Members",this.emailList]]),
       };
 
-      this.groupService.addGroup(userData).subscribe(
+      console.log(groupData);
+
+      this.groupService.addGroup(groupData).subscribe(
         (response) => {
           console.log(response);
           this.router.navigate(['group']);

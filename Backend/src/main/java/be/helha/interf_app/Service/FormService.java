@@ -30,7 +30,7 @@ public class FormService {
      * @return The saved form.
      */
     public Form saveForm(Form form) {
-        if(getFormById(form.getId()).isEmpty()&& groupService.getGroupById(form.getId()).isPresent()) {
+        if(getFormById(form.getId()).isEmpty()&& groupService.getGroupById(form.getIdGroup()).isPresent()) {
             return formRepository.save(form);
         }
         return null;

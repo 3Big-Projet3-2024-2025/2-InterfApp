@@ -1,65 +1,118 @@
 import {Component, OnInit} from '@angular/core';
-import {Group} from "../../models/Group";
 import {GroupService} from "../../services/group.service";
-import {FormsModule} from "@angular/forms";
-import {Router, RouterOutlet} from "@angular/router";
-import {ModalSubGroupComponent} from "../../components/modal-sub-group/modal-sub-group.component";
-import {SubgroupComponent} from "../../components/subgroup/subgroup.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ActivatedRoute, Router, RouterModule, RouterOutlet} from "@angular/router";
+import { CommonModule, KeyValue, KeyValuePipe } from '@angular/common';
+import { FormService } from '../../services/form.service';
+import { ModalConfirmComponent } from '../../components/modal-confirm/modal-confirm.component';
+import { ModalSubGroupComponent } from '../../components/modal-sub-group/modal-sub-group.component';
+import { UserService } from '../../services/user.service';
+import { ModalModifSubGroupComponent } from '../../components/modal-modif-sub-group/modal-modif-sub-group.component';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-group-page',
   standalone: true,
-  imports: [
-    FormsModule,
-    RouterOutlet,
-    ModalSubGroupComponent,
-    SubgroupComponent
-  ],
+  imports: [FormsModule,CommonModule, RouterModule, ModalConfirmComponent, ModalSubGroupComponent, ModalModifSubGroupComponent],
   templateUrl: './group-page.component.html',
   styleUrl: './group-page.component.css'
 })
 export class GroupPageComponent implements OnInit {
 
-  groups: Group[] = [];
+  groupId: string | null = null;
+  group: any;
+  listSubGroups : Map<string,string[]> = new Map();
+  expandedSubGroups: boolean[] = [];
+  subGroupModif : KeyValue<string, string[]> | undefined ;
 
-  myGroups: Group[] = [];
+  forms: any[] = [];
+  expandedForms: boolean[] = [];
+  formToDelete : string = "";
 
-  groupById: Group = {
-    id: "",
-    name: '',
-    managers: [],
-    members: [],
-    subGroups: []
-  }
+  members : any [] = [];
 
-  expandedGroups: Set<string> = new Set<string>();
+  constructor(private route: ActivatedRoute,private groupService: GroupService, private formService : FormService, private userService : UserService) {}
 
-  constructor(private groupService: GroupService, private router: Router) {
-  }
   ngOnInit(): void {
-    this.groupService.getGroupById("67602b4723a48e04bfbdc612").subscribe(
+    this.groupId = this.route.snapshot.paramMap.get('id');
+    this.loadGroups();
+    this.loadForms();
+  }
+
+  loadGroups(){
+    if (this.groupId) {
+      this.groupService.getGroupById(this.groupId).subscribe(
+          (data) => {
+            this.group = data;
+            this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+            this.loadMembers();
+            this.group.listSubGroups.forEach(() => {
+              this.expandedForms.push(false);
+            });
+            this.listSubGroups = this.group.listSubGroups;
+          },
+          (error) => {
+          }
+        );
+    }
+  }
+
+  loadForms(){
+    this.formService.getAllForms().subscribe(
       (data) => {
-        this.groupById = data;
-        this.myGroups.push(this.groupById);
+        this.forms = data;
+        this.expandedForms = this.forms.map(() => false)
+      },
+      (error) => {
       }
     );
   }
 
-  toggleExpand(groupId: string): void {
-    console.log(groupId);
-    if (this.expandedGroups.has(groupId)) {
-      this.expandedGroups.delete(groupId);
-    } else {
-      this.expandedGroups.clear(); // <- To collapse other expanded groups
-      this.expandedGroups.add(groupId);
-    }
+  loadMembers(){
+    const uniqueElementsSet = new Set<number>();
+
+    this.group.listSubGroups.forEach((sublist : any) => {
+      sublist.forEach((element : any) => uniqueElementsSet.add(element));
+    });
+
+    Array.from(uniqueElementsSet).forEach((idUser : any) =>{
+      this.userService.getUserById(idUser).subscribe(
+        (data) => {
+          this.members.push(data);
+        }
+      );
+    });
   }
 
-  isExpanded(groupId: string): boolean {
-    return this.expandedGroups.has(groupId);
+  deleteForm(){
+    this.formService.deleteForm(this.formToDelete).subscribe();
+    this.loadForms();
   }
 
-  createGroup(): void {
-    this.router.navigate(['create-group']);
+  createSubGroup(name :any){
+    this.group.listSubGroups.set(name,[]);
+    this.groupService.updateGroup(this.group).subscribe(
+      (data) => {
+        this.group = data;
+        this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+        this.group.listSubGroups.forEach(() => {
+          this.expandedForms.push(false);
+        });
+        this.listSubGroups = this.group.listSubGroups;
+      },
+      (error) => {
+      }
+    );
+  }
+
+  saveSubGroup(subGroup : any){
+    this.subGroupModif = undefined;
+  }
+
+
+  getUserNameById(id : string) : string{
+    const user = this.members.find(u => u.id === id);
+    return user ? user.username : 'Utilisateur inconnu';
   }
 }
