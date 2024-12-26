@@ -14,6 +14,9 @@ import { notAuthGuard } from './guard/not-auth.guard';
 import { ListGroupPageComponent } from './pages/list-group-page/list-group-page.component';
 import { AnswerPageComponent } from './pages/answer-page/answer-page.component';
 import { ModifFormPageComponent } from './pages/modif-form-page/modif-form-page.component';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { AdminUserComponent } from './admin-user/admin-user.component';
+import { AdminGroupComponent } from './admin-group/admin-group.component';
 
 export const routes: Routes = [
     { path: 'createform/:id', component: CreateFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
@@ -25,13 +28,7 @@ export const routes: Routes = [
     { path: 'profil', component:  ProfilComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' }},
     { path: 'register', component:  RegisterComponent},
     { path: 'login', component:  LoginComponent, canActivate : [notAuthGuard ] },
-    {
-      path: 'group', component: ListGroupPageComponent,
-      children: [
-        { path: 'modify/:id', component: ModifyGroupComponent }
-
-      ]
-    },
-    { path: 'group/:id', component: GroupPageComponent },
-    { path: 'create-group', component: CreateGroupPageComponent }
+    { path: 'admin', component: AdminHomeComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'ADMIN' }},
+    { path: 'admin/users', component: AdminUserComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'ADMIN' }},
+    { path: 'admin/groups', component: AdminGroupComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'ADMIN' }},
 ];
