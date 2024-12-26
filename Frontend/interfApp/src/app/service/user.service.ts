@@ -24,8 +24,8 @@ export class UserService {
     return this.tokenJWT != "" ? true : false;
   }
 
-  hasRole( role: string): boolean {
-    if (!this.isAuthenticated){
+  hasRole(role: string): boolean {
+    if (!this.isAuthenticated()) {
       return false;
     }
     return this.tokenJWT.roles.includes(role);
