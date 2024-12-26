@@ -116,6 +116,16 @@ public class UserService {
     }
 
     /**
+     * Retrieves a user by their name from the repository.
+     *
+     * @param name The name of the user to be retrieved.
+     * @return An Optional containing the user if found, or an empty Optional if not.
+     */
+    public Optional<User> getUserByName(String name) {
+        return userRepository.findByName(name);
+    }
+
+    /**
      * Deletes a user by their ID from the repository.
      *
      * @param id The ID of the user to be deleted.
