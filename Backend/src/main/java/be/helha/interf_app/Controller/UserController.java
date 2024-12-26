@@ -108,6 +108,23 @@ public class UserController {
     }
 
     /**
+     * Endpoint to retrieve a user by their name.
+     *
+     * This method retrieves a user by their name. If the user is found, it returns the
+     * user wrapped in a ResponseEntity with HTTP 200 status. If the user is not found, it returns
+     * HTTP 404 (Not Found).
+     *
+     * @param name the name of the user to retrieve, extracted from the URL path
+     * @return a ResponseEntity containing the requested user with HTTP 200 status, or HTTP 404 if not found
+     */
+    @GetMapping("/name/{name}")
+    public ResponseEntity<User> getUserByName(@PathVariable String name) {
+        Optional<User> user = userService.getUserByName(name);
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
      * Endpoint to delete a user by their ID.
      *
      * This method deletes a user by their unique ID. If the user is found and deleted successfully,
