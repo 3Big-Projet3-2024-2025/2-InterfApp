@@ -108,23 +108,6 @@ public class UserController {
     }
 
     /**
-     * Endpoint to retrieve a user by their name.
-     *
-     * This method retrieves a user by their name. If the user is found, it returns the
-     * user wrapped in a ResponseEntity with HTTP 200 status. If the user is not found, it returns
-     * HTTP 404 (Not Found).
-     *
-     * @param name the name of the user to retrieve, extracted from the URL path
-     * @return a ResponseEntity containing the requested user with HTTP 200 status, or HTTP 404 if not found
-     */
-    @GetMapping("/name/{name}")
-    public ResponseEntity<User> getUserByName(@PathVariable String name) {
-        Optional<User> user = userService.getUserByName(name);
-        return user.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    /**
      * Endpoint to delete a user by their ID.
      *
      * This method deletes a user by their unique ID. If the user is found and deleted successfully,
@@ -157,6 +140,23 @@ public class UserController {
     @GetMapping("/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         Optional<User> user = userService.getUserByEmail(email);
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Endpoint to retrieve a user by their username.
+     *
+     * This method retrieves a user by their username. If the user is found, it returns
+     * the user wrapped in a ResponseEntity with HTTP 200 status. If the user is not found,
+     * it returns HTTP 404 (Not Found).
+     *
+     * @param username The username of the user to retrieve.
+     * @return a ResponseEntity containing the requested user with HTTP 200 status, or HTTP 404 if not found
+     */
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        Optional<User> user = userService.getUserByUsername(username);
         return user.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
