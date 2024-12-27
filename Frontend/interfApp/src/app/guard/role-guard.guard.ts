@@ -8,7 +8,7 @@ export const roleGuardGuard: CanActivateFn = (route, state) => {
 
   const expectedRole = route.data?.['role'];
 
-  if (userService.hasRole(expectedRole)) {
+  if (userService.hasRole('ADMIN') || userService.hasRole(expectedRole)) {
     return true;
   } else {
     console.warn('Access denied - User does not have required role');
