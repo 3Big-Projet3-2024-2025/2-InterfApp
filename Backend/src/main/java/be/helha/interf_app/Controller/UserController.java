@@ -168,6 +168,7 @@ public class UserController {
      * If the update is successful, it returns the updated user wrapped in a ResponseEntity with HTTP 200 status.
      * If the update fails or the user is not found, it returns HTTP 404 (Not Found).
      *
+     * @param id   the ID of the user to be updated, provided as a path variable
      * @param user the updated user object, provided in the request body
      * @return a ResponseEntity containing the updated user with HTTP 200 status, or HTTP 404 if the update fails
      */

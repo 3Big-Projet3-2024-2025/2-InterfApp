@@ -148,7 +148,8 @@ public class UserService {
      * Updates an existing user in the repository.
      * The method ensures that the user's role cannot be modified by unauthorized users.
      *
-     * @param user The user to be updated with new information.
+     * @param id   The ID of the user to be updated.
+     * @param user The user object containing the new information.
      * @return The updated user if the update is successful, or null if the user's role is being changed.
      */
     public User updateUser(String id, User user) {
@@ -156,26 +157,23 @@ public class UserService {
         if (existingUserOpt.isPresent()) {
             User existingUser = existingUserOpt.get();
 
-            // Si des rôles sont envoyés par le frontend, on les met à jour
+            // If roles are sent from the frontend, update them
             if (user.getRoles() != null && !user.getRoles().isEmpty()) {
                 existingUser.setRoles(user.getRoles());
             }
 
-            // Ne pas toucher au mot de passe si l'utilisateur ne l'a pas changé
+            // Do not change the password if the user has not modified it
             if (user.getPassword() == null || user.getPassword().isEmpty()) {
                 user.setPassword(existingUser.getPassword());
             }
-
-            // Mettre à jour les autres champs de l'utilisateur
+            // Update other user fields
             existingUser.setUsername(user.getUsername());
             existingUser.setEmail(user.getEmail());
-            existingUser.setPassword(user.getPassword()); // Mettre à jour seulement si le mot de passe est fourni
-
-            // Sauvegarder l'utilisateur mis à jour dans la base de données
+            existingUser.setPassword(user.getPassword()); // Only update if password is provided
+            // Save the updated user to the database
             return userRepository.save(existingUser);
         }
-
-        // Si l'utilisateur n'existe pas, retourner null
+        // Return null if the user does not exist
         return null;
     }
 }

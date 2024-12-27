@@ -1,25 +1,26 @@
 <div class="container-fluid vh-100">
   <div class="row h-100">
-    <!-- Barre latérale -->
-    <div class="col-3 bg-light border-end">
-      <h2 class="text-center mt-4">Admin Panel</h2>
+
+    <!-- Sidebar -->
+    <div class="col-3 bg-primary border-end">
+      <h2 class="text-center mt-4 text-light">Admin Panel</h2>
       <div class="list-group mt-5">
         <button 
           class="list-group-item list-group-item-action" 
           [class.active]="activeView === 'users'"
           (click)="setActiveView('users')">
-          Gérer les utilisateurs
+          <i class="bi bi-person"></i> Manage Users
         </button>
         <button 
           class="list-group-item list-group-item-action" 
           [class.active]="activeView === 'groups'"
           (click)="setActiveView('groups')">
-          Gérer les groupes
+          <i class="bi bi-person-check"></i> Manage Groups
         </button>
       </div>
     </div>
 
-    <!-- Contenu central -->
+    <!-- Main Content -->
     <div class="col-9">
       <div class="content-container p-4">
         <ng-container *ngIf="activeView === 'users'">
@@ -27,8 +28,8 @@
         </ng-container>
 
         <ng-container *ngIf="activeView === 'groups'">
-          <h3>Gestion des groupes</h3>
-          <p>Ajoutez, modifiez ou supprimez des groupes ici.</p>
+          <h3>Group Management</h3>
+          <p>Add, modify, or delete groups here.</p>
         </ng-container>
       </div>
     </div>

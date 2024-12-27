@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './admin-edit-user.component.css'
 })
 export class AdminEditUserComponent implements OnInit {
-  userId: string = '';  // ID de l'utilisateur à éditer
-  user: any = {};       // Informations de l'utilisateur à éditer
+  userId: string = '';  // ID of the user to edit
+  user: any = {};       // User data to edit
 
   constructor(
     private route: ActivatedRoute,
@@ -22,46 +22,46 @@ export class AdminEditUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Récupérer l'ID de l'utilisateur depuis l'URL
+    // Retrieve the user ID from the URL
     this.userId = this.route.snapshot.paramMap.get('id')!;
     this.loadUserData();
   }
 
-  // Charger les données de l'utilisateur
+  // Load user data
   loadUserData() {
     this.userService.getUserById(this.userId).subscribe(
       (data) => {
         this.user = data;
-        // Si le backend retourne les rôles sous forme de chaîne, on peut les transformer en tableau
+        // If the backend returns roles as a string, we can convert them into an array
         if (data.roles) {
-          this.user.roles = data.roles.split(','); // transformer la chaîne en tableau
+          this.user.roles = data.roles.split(','); // Convert string to array
         }
       },
       (error) => {
-        console.error('Erreur lors du chargement de l\'utilisateur', error);
+        console.error('Error loading the user', error);
       }
     );
   }
 
-  // Sauvegarder les modifications
+  // Save the changes
   saveChanges() {
-    // Si le mot de passe n'est pas modifié, on le retire de l'objet
+    // If the password is not modified, remove it from the object
     if (!this.user.password || this.user.password.trim() === '') {
       delete this.user.password;
     }
 
-    // Si l'utilisateur a changé des rôles, on les envoie en tant que chaîne
+    // If the user has changed roles, send them as a string
     if (this.user.roles) {
-      this.user.roles = this.user.roles.join(',');  // convertir le tableau en chaîne
+      this.user.roles = this.user.roles.join(',');  // Convert the array to a string
     }
 
     this.userService.updateUser(this.userId, this.user).subscribe(
       (response) => {
-        console.log('Utilisateur mis à jour avec succès');
-        this.router.navigate(['/admin']); // Rediriger vers la liste des utilisateurs
+        console.log('User updated successfully');
+        this.router.navigate(['/admin']); // Redirect to the user list
       },
       (error) => {
-        console.error('Erreur lors de la mise à jour de l\'utilisateur', error);
+        console.error('Error updating the user', error);
       }
     );
   }

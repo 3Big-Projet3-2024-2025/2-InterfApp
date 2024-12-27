@@ -1,81 +1,81 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router'; // Correctement importé depuis Angular
+import { Router, RouterLink } from '@angular/router'; // Correctly imported from Angular
 
 @Component({
   selector: 'app-admin-user',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './admin-user.component.html',
-  styleUrls: ['./admin-user.component.css'] // Corrigé "styleUrl" en "styleUrls"
+  styleUrls: ['./admin-user.component.css'] // Corrected "styleUrl" to "styleUrls"
 })
 export class AdminUserComponent implements OnInit {
-  users: any[] = []; // Liste complète des utilisateurs
-  pagedUsers: any[] = []; // Utilisateurs affichés dans la pagination
+  users: any[] = []; // Full list of users
+  pagedUsers: any[] = []; // Users displayed in the pagination
   currentPage: number = 1;
   pageSize: number = 8;
   totalPages: number = 0;
 
-  constructor(private userService: UserService, private router: Router) {} // Injecter Router
+  constructor(private userService: UserService, private router: Router) {} // Injecting Router
 
   ngOnInit() {
     this.loadUsers();
   }
 
-  // Charger tous les utilisateurs
+  // Load all users
   loadUsers() {
     this.userService.getAllUsers().subscribe(
       (data) => {
-        console.log('Utilisateurs chargés:', data); // Vérifiez la structure des données ici
+        console.log('Users loaded:', data); // Check the structure of the data here
         this.users = data.map(user => ({
           ...user,
-          roles: user.roles ? user.roles.split(',') : [] // Convertir la chaîne en tableau
+          roles: user.roles ? user.roles.split(',') : [] // Convert the string to an array
         }));
         this.totalPages = Math.ceil(this.users.length / this.pageSize);
         this.updatePagedUsers();
       },
       (error) => {
-        console.error('Erreur lors du chargement des utilisateurs', error);
+        console.error('Error loading users', error);
       }
     );
   }
 
-  // Mettre à jour les utilisateurs affichés pour la page actuelle
+  // Update the users displayed for the current page
   updatePagedUsers() {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.pagedUsers = this.users.slice(startIndex, endIndex);
   }
 
-  // Aller à une page spécifique
+  // Go to a specific page
   goToPage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updatePagedUsers();
   }
 
-  // Supprimer un utilisateur
+  // Delete a user
   deleteUser(id: string) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+    if (confirm('Are you sure you want to delete this user?')) {
       this.userService.deleteUser(id).subscribe(
         () => {
           this.users = this.users.filter((user) => user.id !== id);
           this.updatePagedUsers();
         },
         (error) => {
-          console.error('Erreur lors de la suppression de l\'utilisateur', error);
+          console.error('Error deleting user', error);
         }
       );
     }
   }
 
-  // Modifier un utilisateur (redirige vers la page d'édition)
+  // Edit a user (redirects to the edit page)
   editUser(id: string) {
     this.router.navigate([`/admin/users/edit/${id}`]);
   }
 
-  // Total des pages pour la pagination
+  // Total number of pages for pagination
   get totalPagesArray(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
