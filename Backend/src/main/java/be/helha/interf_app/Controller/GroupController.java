@@ -112,7 +112,7 @@ public class GroupController {
      * @return A ResponseEntity containing the updated group if successful, or a
      *         bad request response if the update fails.
      */
-    @PutMapping
+    @PutMapping("/{idGroup}")
     public ResponseEntity<Group> updateGroup(@RequestBody Group group) {
         Group updateGroup = groupService.updateGroup(group);
         if (updateGroup != null) {

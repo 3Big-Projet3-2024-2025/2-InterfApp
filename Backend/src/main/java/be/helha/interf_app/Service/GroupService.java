@@ -3,6 +3,7 @@ package be.helha.interf_app.Service;
 import be.helha.interf_app.Model.Group;
 import be.helha.interf_app.Model.User;
 import be.helha.interf_app.Repository.GroupRepository;
+import be.helha.interf_app.Repository.UserRepository;
 import be.helha.interf_app.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class GroupService {
      * Service for managing user-related operations.
      */
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     /**
      * Saves a new group in the repository.
@@ -47,13 +48,31 @@ public class GroupService {
     public Group saveGroup(Group group) {
         if (getGroupById(group.getId()).isEmpty()) {
             String managerId = (String) jwtUtil.parsedJWT.get("id");
-            if (userService.getUserById(managerId).isPresent()) {
-                User manager = userService.getUserById(managerId).get();
-                manager.setRoles(manager.getRoles() + ",Manager_" + managerId);
-                userService.updateUser(manager);
-                group.setListManagers(new ArrayList<>(Arrays.asList(managerId)));
-                group.setListMembers(new ArrayList<>());
-                return groupRepository.save(group);
+            if (userRepository.findById(managerId).isPresent()) {
+                List<String> listIdMember = new ArrayList<>();
+                for (String email :group.getListSubGroups().get("Members")) {
+                    Optional<User> member = userRepository.findByEmail(email);
+                    if(member.isPresent()){
+                        listIdMember.add(member.get().getId());
+                    }else{
+                        User invitedUser = new User();
+                        invitedUser.setEmail(email);
+                        invitedUser.setRoles("User");
+                        invitedUser.setListGroup(new ArrayList<>());
+                        listIdMember.add(userRepository.save(invitedUser).getId()) ;
+                    }
+                }
+                group.getListSubGroups().put("Managers",new ArrayList<>(Arrays.asList(managerId)));
+                group.getListSubGroups().put("Members",new ArrayList<>());
+                String idGroup = groupRepository.save(group).getId();
+
+                listIdMember.forEach((idMember) -> addMember(idMember,group.getId()));
+
+                User manager = userRepository.findById(managerId).get();
+                manager.setRoles(manager.getRoles() + ",Manager_" + idGroup);
+                userRepository.save(manager);
+
+                return getGroupById(idGroup).get();
             }
         }
         return null;
@@ -112,13 +131,13 @@ public class GroupService {
      * @return The updated {@link Group}, or {@code null} if the user or group does not exist.
      */
     public Group addManager(String managerId, String groupId) {
-        if (userService.getUserById(managerId).isPresent() && getGroupById(groupId).isPresent()) {
-            User manager = userService.getUserById(managerId).get();
+        if (userRepository.findById(managerId).isPresent() && getGroupById(groupId).isPresent()) {
+            User manager = userRepository.findById(managerId).get();
             manager.setRoles(manager.getRoles() + ",Manager_" + groupId);
             manager.getListGroup().add(groupId);
-            userService.updateUser(manager);
+            userRepository.save(manager);
             Group group = getGroupById(groupId).get();
-            group.getListManagers().add(managerId);
+            group.getListSubGroups().get("Managers").add(managerId);
             return groupRepository.save(group);
         }
         return null;
@@ -133,12 +152,12 @@ public class GroupService {
      * @return The updated {@link Group}, or {@code null} if the user or group does not exist.
      */
     public Group addMember(String memberId, String groupId) {
-        if (userService.getUserById(memberId).isPresent() && getGroupById(groupId).isPresent()) {
-            User member = userService.getUserById(memberId).get();
+        if (userRepository.findById(memberId).isPresent() && getGroupById(groupId).isPresent()) {
+            User member = userRepository.findById(memberId).get();
             member.getListGroup().add(groupId);
-            userService.updateUser(member);
+            userRepository.save(member);
             Group group = getGroupById(groupId).get();
-            group.getListManagers().add(memberId);
+            group.getListSubGroups().get("Members").add(memberId);
             return groupRepository.save(group);
         }
         return null;
@@ -153,12 +172,12 @@ public class GroupService {
      * @return The updated {@link Group}, or {@code null} if the user or group does not exist.
      */
     public Group deleteMember(String memberId, String groupId) {
-        if (userService.getUserById(memberId).isPresent() && getGroupById(groupId).isPresent()) {
-            User member = userService.getUserById(memberId).get();
+        if (userRepository.findById(memberId).isPresent() && getGroupById(groupId).isPresent()) {
+            User member = userRepository.findById(memberId).get();
             member.getListGroup().remove(groupId);
-            userService.updateUser(member);
+            userRepository.save(member);
             Group group = getGroupById(groupId).get();
-            group.getListManagers().remove(memberId);
+            group.getListSubGroups().get("Members").remove(memberId);
             return groupRepository.save(group);
         }
         return null;
@@ -173,14 +192,13 @@ public class GroupService {
      * @return The updated {@link Group}, or {@code null} if the user, group does not exist, or if it is the last manager.
      */
     public Group deleteManager(String managerId, String groupId) {
-        if (userService.getUserById(managerId).isPresent() &&
-                getGroupById(groupId).isPresent() &&
-                getGroupById(groupId).get().getListManagers().size() > 1) {
-            User manager = userService.getUserById(managerId).get();
+        if (userRepository.findById(managerId).isPresent() && getGroupById(groupId).isPresent()&& getGroupById(groupId).get().getListSubGroups().get("Managers").size() > 2) {
+            User manager = userRepository.findById(managerId).get();
+
             manager.getListGroup().remove(groupId);
-            userService.updateUser(manager);
+            userRepository.save(manager);
             Group group = getGroupById(groupId).get();
-            group.getListManagers().remove(managerId);
+            group.getListSubGroups().get("Managers").remove(managerId);
             return groupRepository.save(group);
         }
         return null;

@@ -35,7 +35,9 @@ public class FormService {
      * @return The saved {@link Form}, or {@code null} if the form already exists or the group is invalid.
      */
     public Form saveForm(Form form) {
-        if (getFormById(form.getId()).isEmpty() && groupService.getGroupById(form.getId()).isPresent()) {
+
+        if(getFormById(form.getId()).isEmpty()&& groupService.getGroupById(form.getIdGroup()).isPresent()) {
+
             return formRepository.save(form);
         }
         return null;

@@ -1,0 +1,8 @@
+<div>
+  {{subGroup.name}} :
+  @for (member of subGroup.members; track member.id; let i=$index) {
+    <div>
+      - {{member.username}}
+    </div>
+  }
+</div>

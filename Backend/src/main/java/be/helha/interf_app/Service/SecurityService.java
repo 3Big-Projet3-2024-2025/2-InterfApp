@@ -1,6 +1,7 @@
 package be.helha.interf_app.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityService {
 
-    /**
-     * Checks if the authenticated user has access to a specific group as a manager.
-     *
-     * @param request The HTTP request containing the URI with the group ID.
-     * @param authentication The authentication object containing user details and roles.
-     * @return {@code true} if the user has the necessary role to access the group, {@code false} otherwise.
-     */
-    public boolean checkOwnerGroupAccess(HttpServletRequest request, Authentication authentication) {
-        // Extract the group ID from the request URL.
-        String requestUrl = request.getRequestURI();
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+    public boolean checkOwnerGroupAccess( Authentication authentication) {
+        String requestUrl = httpServletRequest.getRequestURI();
         String idGroup = requestUrl.substring(requestUrl.lastIndexOf("/") + 1);
 
         // Check if the user has the required role for the group.

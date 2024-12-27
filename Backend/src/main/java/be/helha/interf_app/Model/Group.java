@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a group in the application with the following attributes:
@@ -31,14 +32,6 @@ public class Group {
      * The name of the group.
      */
     private String name;
+    private Map<String,List<String>> listSubGroups;
 
-    /**
-     * A list of user IDs representing the managers of the group.
-     */
-    private List<String> listManagers;
-
-    /**
-     * A list of user IDs representing the members of the group.
-     */
-    private List<String> listMembers;
 }

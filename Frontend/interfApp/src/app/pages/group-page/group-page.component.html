@@ -1,0 +1,66 @@
+<div class="container-fluid mt-4">
+  <div class="row">
+    <button type="button" class="btn" [routerLink]="['/createform/', groupId ]" >Créer un group</button>
+    <div class="col-md-8">
+      <h3 class="mb-3">Liste des formlaire</h3>
+      <div class="list-group">
+        <div
+          *ngFor="let form of forms; let i = index"
+          class="list-group-item list-group-item-action"
+        >
+          <div (click)="expandedForms[i] = !expandedForms[i]" style="cursor: pointer;">
+            <h5 class="mb-0">{{ form.title }}</h5>
+            <small *ngIf="!expandedForms[i]" class="text-muted">Cliquez pour voir plus</small>
+          </div>
+
+          <div *ngIf="expandedForms[i]" class="mt-2">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary" [routerLink]="['/answer/', form.id ]">View Answer</button>
+              <button type="button" class="btn btn-secondary" [routerLink]="['/form/', form.id ]">Respond</button>
+              <button type="button" class="btn btn-warning" [routerLink]="['/form-modif/', form.id ]" >Modify Form</button>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal" (click)="formToDelete = form.id" >Delete Form</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <h3 class="mb-3">SubGroups</h3>
+      <div class="list-group">
+        <div
+          *ngFor="let subGroup of listSubGroups| keyvalue; let i = index"
+          class="list-group-item list-group-item-action"
+        >
+        <div (click)="expandedSubGroups[i] = !expandedSubGroups[i]" class="d-flex align-items-center justify-content-between" style="cursor: pointer;">
+          <strong>{{ subGroup.key }}</strong>
+          <button class="btn btn-link p-0" style="text-decoration: none;" (click)="subGroupModif = subGroup" data-bs-toggle="modal" data-bs-target="#modifsubgroupModal">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+        </div>
+
+          <div *ngIf="expandedSubGroups[i]" class="card-body">
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let user of subGroup.value" class="list-group-item">
+                {{ getUserNameById(user) }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#subgroupModal">New subGroup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="!group" class="text-center mt-5">
+  <h3 class="text-danger">Groupe introuvable</h3>
+</div>
+
+<app-modal-confirm (confirmEmitter)="deleteForm()"></app-modal-confirm>
+<app-modal-sub-group (subGroupEmitter)="createSubGroup($event)"></app-modal-sub-group>
+<app-modal-modif-sub-group  (subGroupEmitter)="saveSubGroup($event)" [members]="members" [subGroup]="subGroupModif"></app-modal-modif-sub-group>
+
+
