@@ -35,8 +35,12 @@ public class FormController {
     /**
      * Endpoint to create a new form.
      *
+     * This method creates a new form based on the provided form object in the request body.
+     * It returns the created form wrapped in a ResponseEntity with an HTTP 200 status if successful.
+     * If creation fails, an HTTP 400 response is returned.
+     *
      * @param form the form object to be created, provided in the request body
-     * @return the created form wrapped in a ResponseEntity with HTTP 200 status
+     * @return the created form wrapped in a ResponseEntity with HTTP 200 status, or HTTP 400 if creation fails
      */
     @PostMapping
     public ResponseEntity<Form> createForm(@RequestBody Form form) {
@@ -51,6 +55,9 @@ public class FormController {
     /**
      * Endpoint to retrieve all forms.
      *
+     * This method retrieves a list of all forms and returns them wrapped in a ResponseEntity
+     * with HTTP 200 status.
+     *
      * @return a ResponseEntity containing a list of all forms with HTTP 200 status
      */
     @GetMapping
@@ -61,6 +68,9 @@ public class FormController {
 
     /**
      * Endpoint to retrieve a specific form by its unique ID.
+     *
+     * This method retrieves a form by its unique ID. If the form is found, it returns
+     * the form with HTTP 200 status. If the form is not found, it returns HTTP 404.
      *
      * @param id the unique identifier of the form to retrieve, extracted from the URL path
      * @return a ResponseEntity containing the requested form with HTTP 200 status, or HTTP 404 if not found
@@ -74,6 +84,9 @@ public class FormController {
 
     /**
      * Endpoint to delete a specific form by its unique ID.
+     *
+     * This method deletes a form by its unique ID. If the form is found and deleted
+     * successfully, it returns HTTP 204 status. If the form is not found, it returns HTTP 404.
      *
      * @param id the unique identifier of the form to delete, extracted from the URL path
      * @return a ResponseEntity with HTTP 204 status upon successful deletion, or HTTP 404 if the form is not found
@@ -91,6 +104,10 @@ public class FormController {
 
     /**
      * Endpoint to update an existing form.
+     *
+     * This method updates an existing form based on the provided form object in the request body.
+     * If the update is successful, it returns the updated form wrapped in a ResponseEntity with HTTP 200 status.
+     * If the update fails or the form is not found, it returns HTTP 404.
      *
      * @param form the updated form object, provided in the request body
      * @return a ResponseEntity containing the updated form with HTTP 200 status, or HTTP 404 if the update fails

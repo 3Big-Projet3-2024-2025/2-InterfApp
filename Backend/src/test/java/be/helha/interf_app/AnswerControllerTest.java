@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This class contains unit tests for the AnswerController, which is responsible for handling HTTP requests
  * related to answer operations. The tests include creating, retrieving, and deleting answers.
  */
+@SpringBootTest
 public class AnswerControllerTest {
     private MockMvc mockMvc;
 

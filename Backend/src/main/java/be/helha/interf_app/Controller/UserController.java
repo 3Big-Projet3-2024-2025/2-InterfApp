@@ -37,6 +37,10 @@ public class UserController {
     /**
      * Endpoint to create a new user.
      *
+     * This method creates a new user based on the provided user object in the request body.
+     * If the user is created successfully, the method returns the created user with HTTP 200 status.
+     * If the creation fails, it returns an HTTP 400 status.
+     *
      * @param user the user object to be created, provided in the request body
      * @return a ResponseEntity containing the created user with HTTP 200 status, or HTTP 400 if creation fails
      */
@@ -52,6 +56,11 @@ public class UserController {
 
     /**
      * Endpoint to authenticate a user via login.
+     *
+     * This method authenticates a user based on the login credentials (email and password) provided
+     * in the request body. If the authentication is successful, it returns a ResponseEntity with
+     * HTTP 200 status and the login request details.
+     * If authentication fails, it returns HTTP 401 (Unauthorized).
      *
      * @param loginRequest the login credentials (email and password), provided in the request body
      * @return a ResponseEntity containing the login response with HTTP 200 status, or HTTP 401 if authentication fails
@@ -70,6 +79,9 @@ public class UserController {
     /**
      * Endpoint to retrieve all users.
      *
+     * This method retrieves a list of all users from the database and returns them wrapped in a
+     * ResponseEntity with HTTP 200 status.
+     *
      * @return a ResponseEntity containing a list of all users with HTTP 200 status
      */
     @GetMapping
@@ -80,6 +92,10 @@ public class UserController {
 
     /**
      * Endpoint to retrieve a user by their ID.
+     *
+     * This method retrieves a user by their unique ID. If the user is found, it returns the
+     * user wrapped in a ResponseEntity with HTTP 200 status. If the user is not found, it returns
+     * HTTP 404 (Not Found).
      *
      * @param id the unique identifier of the user to retrieve, extracted from the URL path
      * @return a ResponseEntity containing the requested user with HTTP 200 status, or HTTP 404 if not found
@@ -93,6 +109,9 @@ public class UserController {
 
     /**
      * Endpoint to delete a user by their ID.
+     *
+     * This method deletes a user by their unique ID. If the user is found and deleted successfully,
+     * it returns HTTP 204 (No Content). If the user is not found, it returns HTTP 404 (Not Found).
      *
      * @param id the unique identifier of the user to delete, extracted from the URL path
      * @return a ResponseEntity with HTTP 204 status upon successful deletion, or HTTP 404 if the user is not found
@@ -111,6 +130,10 @@ public class UserController {
     /**
      * Endpoint to retrieve a user by their email.
      *
+     * This method retrieves a user by their email address. If the user is found, it returns the
+     * user wrapped in a ResponseEntity with HTTP 200 status. If the user is not found, it returns
+     * HTTP 404 (Not Found).
+     *
      * @param email the email address of the user to retrieve, extracted from the URL path
      * @return a ResponseEntity containing the requested user with HTTP 200 status, or HTTP 404 if not found
      */
@@ -123,6 +146,10 @@ public class UserController {
 
     /**
      * Endpoint to update an existing user.
+     *
+     * This method updates an existing user based on the provided user object in the request body.
+     * If the update is successful, it returns the updated user wrapped in a ResponseEntity with HTTP 200 status.
+     * If the update fails or the user is not found, it returns HTTP 404 (Not Found).
      *
      * @param user the updated user object, provided in the request body
      * @return a ResponseEntity containing the updated user with HTTP 200 status, or HTTP 404 if the update fails
