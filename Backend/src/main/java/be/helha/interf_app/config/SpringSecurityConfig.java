@@ -58,6 +58,7 @@ public class SpringSecurityConfig {
 
                     authorizeRequests.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
+                    // Group-related permissions
                     authorizeRequests.requestMatchers(HttpMethod.GET,"/api/groups/**").hasRole("User");
                     authorizeRequests.requestMatchers(HttpMethod.POST,"/api/groups/**").hasRole("User");
                     authorizeRequests.requestMatchers(HttpMethod.PUT,"/api/groups/**")
@@ -65,9 +66,15 @@ public class SpringSecurityConfig {
                     authorizeRequests.requestMatchers(HttpMethod.DELETE,"/api/groups/**")
                             .access("@securityService.checkOwnerGroupAccess(authentication)");
 
+                    // Form-related permissions
                     authorizeRequests.requestMatchers("/api/forms/**").hasRole("User");
-
-                    authorizeRequests.requestMatchers("/api/adminPart").hasRole("ADMIN");
+                    // Admin-only endpoints
+                    authorizeRequests.requestMatchers("/api/admin").hasRole("Admin");
+                    // User management permissions for Admin
+                    authorizeRequests.requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("Admin");
+                    authorizeRequests.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("Admin");
+                    authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("Admin");
+                    authorizeRequests.requestMatchers("/api/forms/**").hasRole("Admin");
 
                     authorizeRequests.requestMatchers("/swagger-ui/**","/v3/api-docs","/api/users/**").permitAll();
 

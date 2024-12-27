@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <h2>Modifier l'utilisateur</h2>
+
+  <div class="form-container mt-4">
+    <form (ngSubmit)="saveChanges()">
+      <div class="mb-3">
+        <label for="username" class="form-label">Nom d'utilisateur</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          [(ngModel)]="user.username"
+          name="username"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          [(ngModel)]="user.email"
+          name="email"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="roles" class="form-label">Rôles</label>
+        <select
+          class="form-select"
+          id="roles"
+          [(ngModel)]="user.roles"
+          name="roles"
+          multiple
+        >
+          <option value="Admin">Admin</option>
+          <option value="User">User</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    </form>
+  </div>
+</div>

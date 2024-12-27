@@ -19,7 +19,7 @@ export class NavbarComponent {
   }
 
   get isAdmin(): boolean {
-    return this.userService.hasRole('ADMIN');
+    return this.userService.hasRole('Admin');
   }
 
   onAuthButtonClick(): void {

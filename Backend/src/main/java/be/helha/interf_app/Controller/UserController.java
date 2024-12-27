@@ -171,9 +171,9 @@ public class UserController {
      * @param user the updated user object, provided in the request body
      * @return a ResponseEntity containing the updated user with HTTP 200 status, or HTTP 404 if the update fails
      */
-    @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        User updatedUser = userService.updateUser(user);
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
+        User updatedUser = userService.updateUser(id, user);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {

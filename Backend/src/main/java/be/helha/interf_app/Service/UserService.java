@@ -151,12 +151,31 @@ public class UserService {
      * @param user The user to be updated with new information.
      * @return The updated user if the update is successful, or null if the user's role is being changed.
      */
-    public User updateUser(User user) {
-        // Prohibit any attempt to modify the user's role
-        if (getUserById(user.getId()).isPresent() &&
-                getUserById(user.getId()).get().getRoles().equals(user.getRoles())) {
-            return userRepository.save(user);
+    public User updateUser(String id, User user) {
+        Optional<User> existingUserOpt = getUserById(id);
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+
+            // Si des rôles sont envoyés par le frontend, on les met à jour
+            if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+                existingUser.setRoles(user.getRoles());
+            }
+
+            // Ne pas toucher au mot de passe si l'utilisateur ne l'a pas changé
+            if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                user.setPassword(existingUser.getPassword());
+            }
+
+            // Mettre à jour les autres champs de l'utilisateur
+            existingUser.setUsername(user.getUsername());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPassword(user.getPassword()); // Mettre à jour seulement si le mot de passe est fourni
+
+            // Sauvegarder l'utilisateur mis à jour dans la base de données
+            return userRepository.save(existingUser);
         }
+
+        // Si l'utilisateur n'existe pas, retourner null
         return null;
     }
 }
