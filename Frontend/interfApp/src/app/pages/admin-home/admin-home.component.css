@@ -1,68 +1,110 @@
-
 .container-fluid {
   padding: 0;
-  height: 100vh; 
+  height: 100vh;
 }
 
 .row {
   margin: 0;
-  height: 100%; 
+  height: 100%;
 }
 
 .bg-primary {
-  background-color: #16697A !important; 
+  background-color: #16697A !important;
 }
 
 .text-light {
-  color: #EDE7E3 !important; 
+  color: #EDE7E3 !important;
 }
 
 .list-group-item {
   cursor: pointer;
   padding: 12px 20px;
   transition: background-color 0.3s ease;
-  color: #EDE7E3; 
-  border: 1px solid #489FB5; 
-  background-color: #489FB5; 
+  color: #EDE7E3;
+  border: 1px solid #489FB5;
+  background-color: #489FB5;
 }
 
 .list-group-item:hover {
-  background-color: #82C0CC; 
+  background-color: #82C0CC;
 }
 
 .list-group-item.active {
-  background-color: #FFA62B; 
+  background-color: #FFA62B;
   color: #16697A;
   font-weight: bold;
 }
 
 .content-container {
-  background: #EDE7E3; 
+  background: #EDE7E3;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  height: 100%; 
-  padding-bottom: 20px; 
-  overflow-y: auto; 
+  height: 100%;
+  padding-bottom: 20px;
+  overflow-y: auto;
 }
 
-.col-9 {
-  height: 100%; 
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
+/* Ajustements pour la sidebar et le bouton de toggle */
 @media (max-width: 768px) {
-  .col-3 {
-    display: none; 
+  /* Cacher la sidebar sur les petits écrans par défaut */
+  #sidebar {
+    position: absolute;
+    left: -250px; /* Cache la sidebar */
+    top: 60px; /* Juste en dessous de la navbar */
+    bottom: 0;
+    width: 250px;
+    transition: 0.3s;
   }
 
-  .col-9 {
-    width: 100%; 
+  /* Quand la sidebar est active, elle se déplace à gauche */
+  #sidebar.sidebar-active {
+    left: 0; /* Affiche la sidebar */
+  }
+
+  /* Si la sidebar est ouverte, le contenu se déplace */
+  .col-12.col-md-9.sidebar-open {
+    margin-left: 250px; /* Espace laissé pour la sidebar */
+  }
+
+  /* Le bouton pour ouvrir/fermer la sidebar */
+  #sidebar-toggle {
+    position: absolute;
+    top: 60px; /* Juste sous la navbar */
+    left: 0;
+    width: 50px; /* Taille du bouton */
+    background-color: #16697A;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0; /* Bord arrondi à droite */
+    cursor: pointer;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    height: calc(100% - 60px); /* Occupe tout l'espace restant sous la navbar */
+  }
+
+  /* Au survol, le bouton change de couleur */
+  #sidebar-toggle:hover {
+    background-color: #489FB5;
   }
 }
 
 @media (max-width: 576px) {
   .list-group-item {
-    font-size: 14px; 
+    font-size: 14px;
+  }
+}
+
+.col-12 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media (max-width: 1200px) {
+  .container-fluid {
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }

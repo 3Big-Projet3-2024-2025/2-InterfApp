@@ -1,4 +1,3 @@
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -8,7 +7,6 @@
     color: #16697A !important; 
   }
   
-
   .table {
     background-color: #EDE7E3;
     border-radius: 10px;
@@ -30,7 +28,6 @@
     background-color: #82C0CC;
   }
   
-
   .btn {
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -88,5 +85,20 @@
   .page-item.active .page-link {
     background-color: #16697A;
     font-weight: bold;
+  }
+  
+  @media (max-width: 576px) {
+    .table th, .table td {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+    
+    .pagination {
+      font-size: 12px;
+    }
+    
+    .pagination .page-link {
+      padding: 8px 12px;
+    }
   }
   
