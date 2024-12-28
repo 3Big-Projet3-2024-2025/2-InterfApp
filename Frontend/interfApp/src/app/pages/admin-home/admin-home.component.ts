@@ -12,9 +12,9 @@ import { AdminUserComponent } from '../../components/admin-user/admin-user.compo
 })
 export class AdminHomeComponent {
   activeView: string = 'users'; 
-
-  // Méthode pour changer la vue active
+  
   setActiveView(view: string) {
     this.activeView = view;
   }
+  
 }

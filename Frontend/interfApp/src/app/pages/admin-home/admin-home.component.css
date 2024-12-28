@@ -44,48 +44,53 @@
   overflow-y: auto;
 }
 
-/* Ajustements pour la sidebar et le bouton de toggle */
+/* Mise en forme de la sidebar et du bouton */
 @media (max-width: 768px) {
-  /* Cacher la sidebar sur les petits écrans par défaut */
+  /* Masquer la barre latérale sur les petits écrans par défaut */
   #sidebar {
-    position: absolute;
-    left: -250px; /* Cache la sidebar */
-    top: 60px; /* Juste en dessous de la navbar */
+    position: fixed;
+    left: -250px; /* Cache la barre latérale */
+    top: 60px; /* Démarre juste en dessous de la navbar */
     bottom: 0;
     width: 250px;
     transition: 0.3s;
+    z-index: 10;
   }
 
-  /* Quand la sidebar est active, elle se déplace à gauche */
+  /* Quand la barre latérale est ouverte */
   #sidebar.sidebar-active {
-    left: 0; /* Affiche la sidebar */
+    left: 0; /* La barre latérale est affichée */
   }
 
-  /* Si la sidebar est ouverte, le contenu se déplace */
+  .col-12.col-md-9 {
+    width: 100%; /* Prendre toute la largeur */
+  }
+
+  /* Animation de contenu principal pour avoir de la place pour la sidebar */
   .col-12.col-md-9.sidebar-open {
-    margin-left: 250px; /* Espace laissé pour la sidebar */
+    margin-left: 250px; /* Décale le contenu quand la sidebar est ouverte */
   }
 
-  /* Le bouton pour ouvrir/fermer la sidebar */
+  /* Bouton sur la gauche verticalement (juste en dessous de la navbar) */
   #sidebar-toggle {
-    position: absolute;
+    position: fixed;
     top: 60px; /* Juste sous la navbar */
     left: 0;
-    width: 50px; /* Taille du bouton */
-    background-color: #16697A;
-    color: white;
+    bottom: 0;
+    width: 50px; /* Largeur du bouton */
+    background-color: #16697A; /* Couleur de fond du bouton */
+    color: #fff; /* Couleur du texte */
     border: none;
-    border-radius: 0 5px 5px 0; /* Bord arrondi à droite */
+    border-radius: 0 5px 5px 0; /* Bordure arrondie à droite */
     cursor: pointer;
     font-size: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 20;
-    height: calc(100% - 60px); /* Occupe tout l'espace restant sous la navbar */
   }
 
-  /* Au survol, le bouton change de couleur */
+  /* Style du bouton au survol */
   #sidebar-toggle:hover {
     background-color: #489FB5;
   }
