@@ -61,7 +61,7 @@ public class FormControllerTest {
         );
 
         // Créer un formulaire avec une question
-        form = new Form("1", "Form with question", List.of(question));
+        form = new Form("1", "1","Form with question", List.of(question));
     }
 
     /**
@@ -148,7 +148,7 @@ public class FormControllerTest {
         questions.add(new Question("Provide your location", "coordinates", null, false, true));
 
         // Create the form with all these questions
-        Form formWithAllQuestionTypes = new Form("2", "Form with all question types", questions);
+        Form formWithAllQuestionTypes = new Form("2","2", "Form with all question types", questions);
 
         // Mock the service call to return the form with all questions
         when(formService.saveForm(any(Form.class))).thenReturn(formWithAllQuestionTypes);
@@ -295,7 +295,7 @@ public class FormControllerTest {
         questions.add(new Question("Provide your location", "coordinates", null, false, true));
 
         // Create the form with all these questions
-        Form formWithAllQuestionTypes = new Form("2", "Form with all question types", questions);
+        Form formWithAllQuestionTypes = new Form("2","2" ,"Form with all question types", questions);
 
         // Mock the service call
         when(formService.getFormById("2")).thenReturn(java.util.Optional.of(formWithAllQuestionTypes));
@@ -388,4 +388,5 @@ public class FormControllerTest {
         // Verify that the service method was called once
         verify(formService, times(1)).deleteForm("2");
     }
+
 }

@@ -18,6 +18,10 @@ export class NavbarComponent {
     return this.userService.isAuthenticated();
   }
 
+  get isAdmin(): boolean {
+    return this.userService.hasRole('Admin');
+  }
+
   onAuthButtonClick(): void {
     if (this.isAuthenticated) {
       this.userService.logout();

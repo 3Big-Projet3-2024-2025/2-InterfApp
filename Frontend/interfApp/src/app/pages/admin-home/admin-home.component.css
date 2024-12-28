@@ -1,0 +1,115 @@
+.container-fluid {
+  padding: 0;
+  height: 100vh;
+}
+
+.row {
+  margin: 0;
+  height: 100%;
+}
+
+.bg-primary {
+  background-color: #16697A !important;
+}
+
+.text-light {
+  color: #EDE7E3 !important;
+}
+
+.list-group-item {
+  cursor: pointer;
+  padding: 12px 20px;
+  transition: background-color 0.3s ease;
+  color: #EDE7E3;
+  border: 1px solid #489FB5;
+  background-color: #489FB5;
+}
+
+.list-group-item:hover {
+  background-color: #82C0CC;
+}
+
+.list-group-item.active {
+  background-color: #FFA62B;
+  color: #16697A;
+  font-weight: bold;
+}
+
+.content-container {
+  background: #EDE7E3;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: 100%;
+  padding-bottom: 20px;
+  overflow-y: auto;
+}
+
+/* Mise en forme de la sidebar et du bouton */
+@media (max-width: 768px) {
+  /* Masquer la barre latérale sur les petits écrans par défaut */
+  #sidebar {
+    position: fixed;
+    left: -250px; /* Cache la barre latérale */
+    top: 60px; /* Démarre juste en dessous de la navbar */
+    bottom: 0;
+    width: 250px;
+    transition: 0.3s;
+    z-index: 10;
+  }
+
+  /* Quand la barre latérale est ouverte */
+  #sidebar.sidebar-active {
+    left: 0; /* La barre latérale est affichée */
+  }
+
+  .col-12.col-md-9 {
+    width: 100%; /* Prendre toute la largeur */
+  }
+
+  /* Animation de contenu principal pour avoir de la place pour la sidebar */
+  .col-12.col-md-9.sidebar-open {
+    margin-left: 250px; /* Décale le contenu quand la sidebar est ouverte */
+  }
+
+  /* Bouton sur la gauche verticalement (juste en dessous de la navbar) */
+  #sidebar-toggle {
+    position: fixed;
+    top: 60px; /* Juste sous la navbar */
+    left: 0;
+    bottom: 0;
+    width: 50px; /* Largeur du bouton */
+    background-color: #16697A; /* Couleur de fond du bouton */
+    color: #fff; /* Couleur du texte */
+    border: none;
+    border-radius: 0 5px 5px 0; /* Bordure arrondie à droite */
+    cursor: pointer;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+  }
+
+  /* Style du bouton au survol */
+  #sidebar-toggle:hover {
+    background-color: #489FB5;
+  }
+}
+
+@media (max-width: 576px) {
+  .list-group-item {
+    font-size: 14px;
+  }
+}
+
+.col-12 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media (max-width: 1200px) {
+  .container-fluid {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
