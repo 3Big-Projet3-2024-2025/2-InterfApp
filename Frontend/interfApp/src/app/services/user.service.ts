@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
+import {User} from "../models/User";
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +64,12 @@ export class UserService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
+  updateUser(user: User) {
+    return this.http.put(`${this.apiUrl}`, user);
+  }
+
+  checkPassword(user: User): Observable<Object> {
+    return this.http.post(`${this.apiUrl}/checkPassword`, user);
+  }
 }
 
