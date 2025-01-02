@@ -65,6 +65,13 @@ public class AnswerController {
         return ResponseEntity.ok(answers);
     }
 
+    @GetMapping("/form/{id}")
+    public ResponseEntity<List<Answer>> getAnswersByIdForm(@PathVariable String id) {
+        List<Answer> answers = answerService.getAnswerById_Form(id);
+        return ResponseEntity.ok(answers);
+    }
+
+
     /**
      * Endpoint to retrieve a specific answer by its unique ID.
      *
