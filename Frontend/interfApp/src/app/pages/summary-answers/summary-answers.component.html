@@ -1,0 +1,40 @@
+
+<div class="container mt-5">
+
+    <div *ngFor="let answerSummarize of mapAnswerSummarize | keyvalue " class="align-items-center">
+        <label> {{ answerSummarize.key.inputQuestion }} </label>
+
+        <!-- if the type of question is multiple choice-->
+        <div *ngIf="answerSummarize.key.inputTypeQuestion==='Multiple choice' || answerSummarize.key.inputTypeQuestion==='Checkbox'">
+            <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
+            <ng-container *ngIf="answerSummarize.value  && answerSummarize.value.length > 0; else noAnswer"> 
+                <div *ngFor="let countofAnswer of answerSummarize.value; let index=index">
+                    <div class="d-flex justify-content-between">
+                     <span>{{ answerSummarize.key.inputChoices[index] }}</span>
+                     <span>{{ countofAnswer}}</span>
+                    </div>
+                  </div>
+            </ng-container>
+            <!-- if no one has answered the question -->
+            <ng-template #noAnswer>
+                <p>No answer</p>
+              </ng-template> 
+        </div>
+
+        <!-- if the type of question is everything except checkbox or multiple choice, then, the answer will be as shown below-->
+        <div *ngIf="answerSummarize.key.inputTypeQuestion !=='Checkbox' && answerSummarize.key.inputTypeQuestion !=='Multiple choice'">
+        <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
+        <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
+            <select class="form-select" multiple [disabled]="true">
+                <option *ngFor="let value of answerSummarize.value"> {{ value }}</option>
+            </select>
+        </ng-container>
+        <!-- if no one has answered the question -->
+        <ng-template #noAnswer>
+            <p>No answer</p>
+          </ng-template>
+        </div>
+
+    </div>
+</div>
+
