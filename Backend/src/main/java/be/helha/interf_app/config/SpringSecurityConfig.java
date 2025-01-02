@@ -75,6 +75,8 @@ public class SpringSecurityConfig {
                     authorizeRequests.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("Admin");
                     authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("Admin");
                     authorizeRequests.requestMatchers("/api/forms/**").hasRole("Admin");
+                    // Answer-related permissions
+                    authorizeRequests.requestMatchers("/api/answers").permitAll();
 
                     authorizeRequests.requestMatchers("/swagger-ui/**","/v3/api-docs","/api/users/**").permitAll();
 
