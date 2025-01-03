@@ -98,4 +98,15 @@ export class SummaryAnswersComponent implements OnInit {
     });
   }
 
+  minValue(tabNumberRange:number[]){
+    return Math.min(...tabNumberRange);
+  }
+
+  Maxvalue(tabNumberRange:number[]){
+    return Math.max(...tabNumberRange);
+  }
+
+  AverageValue(tabNumberRange:number[]){
+    return tabNumberRange.reduce((sum: number, num: number) => Number(sum) + Number(num), 0) / tabNumberRange.length;
+  }
 }
