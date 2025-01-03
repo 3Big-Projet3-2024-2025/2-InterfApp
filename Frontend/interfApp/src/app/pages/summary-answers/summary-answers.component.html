@@ -54,7 +54,14 @@
         <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
         <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
             <select class="form-select" multiple [disabled]="true">
-                <option *ngFor="let value of answerSummarize.value"> {{ value }}</option>
+                <option *ngFor="let value of answerSummarize.value"> 
+                    <div [ngSwitch]="answerSummarize.key.inputTypeQuestion">
+                        <p *ngSwitchCase="'Date question'"> {{ value | date}} </p>
+                        <p *ngSwitchCase="'Date and time question'"> {{ value | date : "MMM dd, yyyy HH:mm "}} </p>
+                        <p *ngSwitchCase="'Month question'"> {{ value | date : "MMMM yyyy"}} </p>
+                        <p *ngSwitchDefault> {{ value}} </p>
+                    </div>
+                </option>
             </select>
         </ng-container>
         <!-- if no one has answered the question -->
