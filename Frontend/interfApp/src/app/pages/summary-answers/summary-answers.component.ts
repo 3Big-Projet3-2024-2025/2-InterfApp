@@ -49,7 +49,6 @@ export class SummaryAnswersComponent implements OnInit {
         }
       )
     }
-
   }
 
   //create a map of answers by question
@@ -96,9 +95,6 @@ export class SummaryAnswersComponent implements OnInit {
       
       
     });
-  
   }
-
-  
 
 }

@@ -4,7 +4,7 @@
     <div *ngFor="let answerSummarize of mapAnswerSummarize | keyvalue " class="align-items-center">
         <label> {{ answerSummarize.key.inputQuestion }} </label>
 
-        <!-- if the type of question is multiple choice-->
+        <!-- if the type of question is multiple choice or checkbox-->
         <div *ngIf="answerSummarize.key.inputTypeQuestion==='Multiple choice' || answerSummarize.key.inputTypeQuestion==='Checkbox'">
             <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
             <ng-container *ngIf="answerSummarize.value  && answerSummarize.value.length > 0; else noAnswer"> 
@@ -21,8 +21,39 @@
               </ng-template> 
         </div>
 
+        <!-- if the type of question is a color question, to show the real colors of the forms-->
+        <div *ngIf="answerSummarize.key.inputTypeQuestion =='Color question'">
+            <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
+            <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
+                <select class="form-select" multiple [disabled]="true">
+                    <option *ngFor="let value of answerSummarize.value" [style.backgroundColor]="value"> {{ value }} 
+                    </option>
+                </select>
+            </ng-container>
+            <!-- if no one has answered the question -->
+            <ng-template #noAnswer>
+                <p>No answer</p>
+              </ng-template>
+            </div>
+
+            <!-- if the type of question is a map question, to show the map with all the coordinates-->
+        <div *ngIf="answerSummarize.key.inputTypeQuestion =='Ask coordonates'">
+            <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
+            <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
+            
+                
+                    <option *ngFor="let value of answerSummarize.value"> {{ value.lat }}{{ value.lng}}</option>
+                
+            </ng-container>
+            <!-- if no one has answered the question -->
+            <ng-template #noAnswer>
+                <p>No answer</p>
+              </ng-template>
+            </div>
+
         <!-- if the type of question is everything except checkbox or multiple choice, then, the answer will be as shown below-->
-        <div *ngIf="answerSummarize.key.inputTypeQuestion !=='Checkbox' && answerSummarize.key.inputTypeQuestion !=='Multiple choice'">
+        <div *ngIf="answerSummarize.key.inputTypeQuestion !=='Checkbox' && answerSummarize.key.inputTypeQuestion !=='Multiple choice' 
+        && answerSummarize.key.inputTypeQuestion !=='Color question' && answerSummarize.key.inputTypeQuestion !=='Ask coordonates'">
         <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
         <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
             <select class="form-select" multiple [disabled]="true">
@@ -34,6 +65,8 @@
             <p>No answer</p>
           </ng-template>
         </div>
+
+
 
     </div>
 </div>
