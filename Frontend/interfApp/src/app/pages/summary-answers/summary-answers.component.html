@@ -40,10 +40,7 @@
         <div *ngIf="answerSummarize.key.inputTypeQuestion =='Ask coordonates'">
             <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
             <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
-            
-                
-                    <option *ngFor="let value of answerSummarize.value"> {{ value.lat }}{{ value.lng}}</option>
-                
+                <app-map-answers [answersCoordinates]="answerSummarize.value"> </app-map-answers>
             </ng-container>
             <!-- if no one has answered the question -->
             <ng-template #noAnswer>

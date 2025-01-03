@@ -5,10 +5,11 @@ import { AnswerService } from '../../services/answer.service';
 import {  CommonModule, KeyValue } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { count } from 'console';
+import { MapAnswersComponent } from '../../components/map-answers/map-answers.component';
 
 @Component({
   selector: 'app-summary-answers',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MapAnswersComponent],
   templateUrl: './summary-answers.component.html',
   styleUrl: './summary-answers.component.css'
 })
