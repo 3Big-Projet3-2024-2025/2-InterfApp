@@ -138,10 +138,10 @@ public class UserController {
         }
     }
 
-    @PostMapping("/checkPassword")
+    @PostMapping("/checkpassword")
     public ResponseEntity<Boolean> checkPassword(@RequestBody User user) {
         PasswordCheckRequest passwordCheckRequest = new PasswordCheckRequest(user.getId(), user.getPassword());
-        boolean isPasswordCorrect = userService.checkPassword(passwordCheckRequest.getId(), passwordCheckRequest.getPassword());
+        boolean isPasswordCorrect = userService.checkPassword(user);
         return ResponseEntity.ok(isPasswordCorrect);
     }
 }

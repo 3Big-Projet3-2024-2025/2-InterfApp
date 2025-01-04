@@ -26,14 +26,14 @@ export class ModalConfirmOldPasswordComponent {
   };
   // @Input() id?: string;
 
-  constructor(private formBuilder: FormBuilder, private loginService: UserService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.formPassword = this.formBuilder.group({
       inputPassword: ['', [Validators.required]]
     });
   }
 
   ngOnInit() {
-    this.loginService.checkPassword(this.user);
+    this.userService.checkPassword(this.user);
     console.log("my email in child component: " + this.user?.email);
     console.log("my id in my child component: " + this.user?.id);
   }
@@ -55,19 +55,18 @@ export class ModalConfirmOldPasswordComponent {
 
   onSubmit() {
     if (this.formPassword.valid) {
-      const userData = {
-        email: this.user?.email,
-        password: this.formPassword.value.inputPassword
-      };
+      this.user.password = this.formPassword.value.inputPassword;
+      console.log("User information:", this.user);
 
       this.sha512Hash(this.formPassword.value.inputPassword).then((hdata) => {
-        userData.password = hdata
-        console.log("my user to login: " + userData + " " + userData.email + " " + userData.password);
-        this.loginService.login(userData).subscribe(
+        this.user.password = hdata;
+        console.log("my scripted password: " + hdata);
+
+        this.userService.checkPassword(this.user).subscribe(
           (response) => {
             console.log(response);
             // this.loginService.saveJwt(response.token, userData.rememberMe);
-            this.router.navigate(['forms']);
+            // this.router.navigate(['forms']);
             // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
             console.log('Utilisateur est connecté avec succès!', response);
           },
@@ -77,6 +76,21 @@ export class ModalConfirmOldPasswordComponent {
             console.error(error);
           }
         );
+        // console.log("my user to login: " + userData + " " + userData.email + " " + userData.password);
+        // this.loginService.login(userData).subscribe(
+        //   (response) => {
+        //     console.log(response);
+        //     // this.loginService.saveJwt(response.token, userData.rememberMe);
+        //     this.router.navigate(['forms']);
+        //     // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
+        //     console.log('Utilisateur est connecté avec succès!', response);
+        //   },
+        //   (error) => {
+        //     console.log("not logged in");
+        //     // this.errorMessage = 'Une erreur est survenue, veuillez réessayer.';
+        //     console.error(error);
+        //   }
+        // );
       });
     } else {
       // this.errorMessage = 'Veuillez vérifier vos informations.';

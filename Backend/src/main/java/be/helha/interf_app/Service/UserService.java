@@ -122,10 +122,10 @@ public class UserService {
         return null;
     }
 
-    public boolean checkPassword(String id, String password) {
-        Optional<User> user = getUserById(id);
-        if (user.isPresent()) {
-            return user.get().getPassword().equals(password);
+    public boolean checkPassword(User user) {
+        Optional<User> userFromDB = getUserById(user.getId());
+        if (userFromDB.isPresent()) {
+            return userFromDB.get().getPassword().equals(user.getPassword());
         }
         return false;
     }
