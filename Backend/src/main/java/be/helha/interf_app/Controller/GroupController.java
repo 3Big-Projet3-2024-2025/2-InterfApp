@@ -135,7 +135,7 @@ public class GroupController {
      * @return A ResponseEntity containing the updated group if successful, or a
      *         bad request response if the manager could not be added.
      */
-    @PostMapping("/{idGroup},{idManager}")
+    @PutMapping("/manager/{idManager}/{idGroup}")
     public ResponseEntity<Group> addManager(@PathVariable String idGroup, @PathVariable String idManager) {
         Group updateGroup = groupService.addManager(idManager, idGroup);
         if (updateGroup != null) {
@@ -158,7 +158,7 @@ public class GroupController {
      * @return A ResponseEntity containing the updated group if successful, or a
      *         bad request response if the member could not be added.
      */
-    @PostMapping("/{idGroup},{idMember}")
+    @PutMapping("/member/{idMember}/{idGroup}")
     public ResponseEntity<Group> addMember(@PathVariable String idGroup, @PathVariable String idMember) {
         Group updateGroup = groupService.addMember(idMember, idGroup);
         if (updateGroup != null) {
@@ -180,7 +180,7 @@ public class GroupController {
      * @return A ResponseEntity containing the updated group if successful, or a
      *         bad request response if the member could not be removed.
      */
-    @DeleteMapping("/{idGroup},{idMember}")
+    @DeleteMapping("/member/{idMember}/{idGroup}")
     public ResponseEntity<Group> deleteMember(@PathVariable String idGroup, @PathVariable String idMember) {
         Group updateGroup = groupService.deleteMember(idMember, idGroup);
         if (updateGroup != null) {
@@ -202,7 +202,7 @@ public class GroupController {
      * @return A ResponseEntity containing the updated group if successful, or a
      *         bad request response if the manager could not be removed.
      */
-    @DeleteMapping("/{idGroup},{idManager}")
+    @DeleteMapping("/manager/{idManager}/{idGroup}")
     public ResponseEntity<Group> deleteManager(@PathVariable String idGroup, @PathVariable String idManager) {
         Group updateGroup = groupService.deleteManager(idManager, idGroup);
         if (updateGroup != null) {
