@@ -1,23 +1,29 @@
 
 <div class="container mt-5">
 
-    <div *ngFor="let answerSummarize of mapAnswerSummarize | keyvalue " class="align-items-center">
-        <label> {{ answerSummarize.key.inputQuestion }} </label>
+    <div *ngFor="let answerSummarize of mapAnswerSummarize | keyvalue " class="mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header question-header">      
+                <h5 class="mb-0">{{ answerSummarize.key.inputQuestion }}</h5>
+            </div>
+
+    <div class="card-body"> 
+
 
         <!-- if the type of question is multiple choice or checkbox-->
         <div *ngIf="answerSummarize.key.inputTypeQuestion==='Multiple choice' || answerSummarize.key.inputTypeQuestion==='Checkbox'">
             <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
-            <ng-container *ngIf="answerSummarize.value  && answerSummarize.value.length > 0; else noAnswer"> 
-                <div *ngFor="let countofAnswer of answerSummarize.value; let index=index">
-                    <div class="d-flex justify-content-between">
-                     <span>{{ answerSummarize.key.inputChoices[index] }}</span>
-                     <span>{{ countofAnswer}}</span>
-                    </div>
+            <ng-container *ngIf="answerSummarize.value  && answerSummarize.value.length > 0; else noAnswer">
+                <ul class="list-group">
+                <div *ngFor="let countofAnswer of answerSummarize.value; let index=index"  class="d-flex justify-content-between mb-2 list-group-item" >
+                     <span class="fw-bold">{{ answerSummarize.key.inputChoices[index] }}</span>
+                     <span class="badge bg-secondary">{{ countofAnswer}}</span>
                   </div>
+                </ul>
             </ng-container>
             <!-- if no one has answered the question -->
             <ng-template #noAnswer>
-                <p>No answer</p>
+                <p class="text-muted fst-italic">No answer available.</p>
               </ng-template> 
         </div>
 
@@ -25,14 +31,17 @@
         <div *ngIf="answerSummarize.key.inputTypeQuestion =='Color question'">
             <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
             <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
-                <select class="form-select" multiple [disabled]="true">
-                    <option *ngFor="let value of answerSummarize.value" [style.backgroundColor]="value"> {{ value }} 
-                    </option>
-                </select>
+                <div class="d-flex flex-wrap">
+                <div class="me-2 mb-2">
+                    <div *ngFor="let value of answerSummarize.value" [style.backgroundColor]="value" class="p-2 border rounded"> 
+                        {{ value }} 
+                    </div>
+                </div>
+                </div>
             </ng-container>
             <!-- if no one has answered the question -->
             <ng-template #noAnswer>
-                <p>No answer</p>
+                <p class="text-muted fst-italic">No answer available.</p>
               </ng-template>
             </div>
 
@@ -44,7 +53,7 @@
             </ng-container>
             <!-- if no one has answered the question -->
             <ng-template #noAnswer>
-                <p>No answer</p>
+                <p class="text-muted fst-italic">No answer available.</p>
               </ng-template>
             </div>
 
@@ -53,10 +62,15 @@
         && answerSummarize.key.inputTypeQuestion !=='Color question' && answerSummarize.key.inputTypeQuestion !=='Ask coordonates'">
         <!-- verifie if there is answers to the questions, if not, see the templore noAnswer-->
         <ng-container *ngIf="answerSummarize.value && answerSummarize.value.length > 0; else noAnswer">
-            <p *ngIf="answerSummarize.key.inputTypeQuestion =='Range question'"> 
-                 minimum value : {{minValue(answerSummarize.value) }}  maximum value : {{Maxvalue(answerSummarize.value)}} Avegare value : {{AverageValue(answerSummarize.value)}} </p>
-            <select class="form-select" multiple [disabled]="true">
-                <option *ngFor="let value of answerSummarize.value"> 
+            <div *ngIf="answerSummarize.key.inputTypeQuestion =='Range question'" class="mb-3"> 
+                <p class="text-muted">
+                    <span class="fw-bold">Minimum value:</span> {{ minValue(answerSummarize.value) }}<br>
+                    <span class="fw-bold">Maximum value:</span> {{ Maxvalue(answerSummarize.value) }}<br>
+                    <span class="fw-bold">Average value:</span> {{ AverageValue(answerSummarize.value) }}
+                </p>
+            </div>
+            <ul class="list-group">
+                <li *ngFor="let value of answerSummarize.value" class="list-group-item"> 
                     <div [ngSwitch]="answerSummarize.key.inputTypeQuestion">
                         <p *ngSwitchCase="'Date question'"> {{ value | date}} </p>
                         <p *ngSwitchCase="'Date and time question'"> {{ value | date : "MMM dd, yyyy HH:mm "}} </p>
@@ -64,15 +78,16 @@
                         <p *ngSwitchCase="'Range question'"> {{value}} </p>
                         <p *ngSwitchDefault> {{ value}} </p>
                     </div>
-                </option>
-            </select>
+                </li>
+            </ul>
         </ng-container>
         <!-- if no one has answered the question -->
         <ng-template #noAnswer>
-            <p>No answer</p>
+            <p class="text-muted fst-italic">No answer available.</p>
           </ng-template>
         </div>
 
+        </div>
+        </div>
     </div>
 </div>
-
