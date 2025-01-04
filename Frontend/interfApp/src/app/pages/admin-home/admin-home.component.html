@@ -1,8 +1,15 @@
 <div class="container-fluid vh-100">
-  <div class="row h-100">
+  <div class="row">
+    <!-- Sidebar Toggle Button -->
+    <button
+      id="sidebar-toggle"
+      class="d-lg-none"
+      (click)="toggleSidebar()">☰</button>
+  </div>
 
+  <div class="row h-100">
     <!-- Sidebar -->
-    <div class="col-3 bg-primary border-end">
+    <div id="sidebar" class="col-lg-3 bg-primary border-end">
       <h2 class="text-center mt-4 text-light">Admin Panel</h2>
       <div class="list-group mt-5">
         <button 
@@ -21,7 +28,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="col-9">
+    <div class="col-lg-9">
       <div class="content-container p-4">
         <ng-container *ngIf="activeView === 'users'">
           <app-admin-user></app-admin-user>
