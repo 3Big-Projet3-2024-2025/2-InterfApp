@@ -5,7 +5,6 @@
 
 .row {
   margin: 0;
-  height: 100%;
 }
 
 .bg-primary {
@@ -44,72 +43,43 @@
   overflow-y: auto;
 }
 
-/* Mise en forme de la sidebar et du bouton */
-@media (max-width: 768px) {
-  /* Masquer la barre latérale sur les petits écrans par défaut */
+/* Sidebar Toggle Button */
+#sidebar-toggle {
+  display: block; /* Ensure visibility */
+  background-color: #16697A;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 20px;
+  border-radius: 5px;
+  margin: 10px auto 20px; /* Add spacing around the button */
+  cursor: pointer;
+  position: relative; /* Stay within the document flow */
+  z-index: 1049; /* Ensure visibility */
+}
+
+#sidebar-toggle:hover {
+  background-color: #489FB5;
+  color: white;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 992px) {
   #sidebar {
     position: fixed;
-    left: -250px; /* Cache la barre latérale */
-    top: 60px; /* Démarre juste en dessous de la navbar */
+    left: -250px; /* Hidden by default */
+    top: 0;
     bottom: 0;
     width: 250px;
-    transition: 0.3s;
-    z-index: 10;
+    transition: all 0.3s ease;
+    z-index: 1050; /* Ensure above main content */
   }
 
-  /* Quand la barre latérale est ouverte */
   #sidebar.sidebar-active {
-    left: 0; /* La barre latérale est affichée */
+    left: 0; /* Visible when active */
   }
 
-  .col-12.col-md-9 {
-    width: 100%; /* Prendre toute la largeur */
-  }
-
-  /* Animation de contenu principal pour avoir de la place pour la sidebar */
-  .col-12.col-md-9.sidebar-open {
-    margin-left: 250px; /* Décale le contenu quand la sidebar est ouverte */
-  }
-
-  /* Bouton sur la gauche verticalement (juste en dessous de la navbar) */
-  #sidebar-toggle {
-    position: fixed;
-    top: 60px; /* Juste sous la navbar */
-    left: 0;
-    bottom: 0;
-    width: 50px; /* Largeur du bouton */
-    background-color: #16697A; /* Couleur de fond du bouton */
-    color: #fff; /* Couleur du texte */
-    border: none;
-    border-radius: 0 5px 5px 0; /* Bordure arrondie à droite */
-    cursor: pointer;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-  }
-
-  /* Style du bouton au survol */
-  #sidebar-toggle:hover {
-    background-color: #489FB5;
-  }
-}
-
-@media (max-width: 576px) {
-  .list-group-item {
-    font-size: 14px;
-  }
-}
-
-.col-12 {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-@media (max-width: 1200px) {
-  .container-fluid {
-    padding-left: 5px;
-    padding-right: 5px;
+  .col-lg-9.sidebar-open {
+    margin-left: 250px; /* Shift content when sidebar is open */
   }
 }

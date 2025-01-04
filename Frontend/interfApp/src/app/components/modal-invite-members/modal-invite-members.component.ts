@@ -10,7 +10,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './modal-invite-members.component.css'
 })
 export class ModalInviteMembersComponent {
-
   @Output() emailEmitter = new EventEmitter<string>();
   formEmail: FormGroup;
 

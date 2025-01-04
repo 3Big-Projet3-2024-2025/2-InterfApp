@@ -1,6 +1,7 @@
 <div class="container-fluid mt-4">
   <div class="row">
     <button type="button" class="btn" [routerLink]="['/createform/', groupId ]" >Créer un group</button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#groupSettingsModal">Settings</button>
     <div class="col-md-8">
       <h3 class="mb-3">Liste des formlaire</h3>
       <div class="list-group">
@@ -35,7 +36,7 @@
         >
         <div (click)="expandedSubGroups[i] = !expandedSubGroups[i]" class="d-flex align-items-center justify-content-between" style="cursor: pointer;">
           <strong>{{ subGroup.key }}</strong>
-          <button class="btn btn-link p-0" style="text-decoration: none;" (click)="subGroupModif = subGroup" data-bs-toggle="modal" data-bs-target="#modifsubgroupModal">
+          <button *ngIf="i > 1" class="btn btn-link p-0" style="text-decoration: none;" (click)="subGroupModif = subGroup" data-bs-toggle="modal" data-bs-target="#modifsubgroupModal">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
         </div>
@@ -44,6 +45,9 @@
             <ul class="list-group list-group-flush">
               <li *ngFor="let user of subGroup.value" class="list-group-item">
                 {{ getUserNameById(user) }}
+                <button class="btn btn-link p-0" style="text-decoration: none;" (click)="memberModif = user" data-bs-toggle="modal" data-bs-target="#modifmemberModal">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
               </li>
             </ul>
           </div>
@@ -62,5 +66,6 @@
 <app-modal-confirm (confirmEmitter)="deleteForm()"></app-modal-confirm>
 <app-modal-sub-group (subGroupEmitter)="createSubGroup($event)"></app-modal-sub-group>
 <app-modal-modif-sub-group  (subGroupEmitter)="saveSubGroup($event)" [members]="members" [subGroup]="subGroupModif"></app-modal-modif-sub-group>
-
-
+<app-modal-modif-member [member]="memberModif" [subGroups]="listSubGroups"
+(deleteFromGroup)="deleteMemberFromGroup($event)" (givePermission)="givePermissionManager($event)" (save)="updateMember($event)"></app-modal-modif-member>
+<app-modify-group  (saveEmitter)="saveGroupModif($event)" (deleteEmitter)="deleteGroup()"  [group]="group"></app-modify-group>

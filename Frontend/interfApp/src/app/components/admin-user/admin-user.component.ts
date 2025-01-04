@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router'; // Correctly imported from Angular
+import { Router, RouterLink } from '@angular/router'; 
 
 @Component({
   selector: 'app-admin-user',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './admin-user.component.html',
-  styleUrls: ['./admin-user.component.css'] // Corrected "styleUrl" to "styleUrls"
+  styleUrls: ['./admin-user.component.css'] 
 })
 export class AdminUserComponent implements OnInit {
   users: any[] = []; // Full list of users
@@ -17,7 +17,7 @@ export class AdminUserComponent implements OnInit {
   pageSize: number = 8;
   totalPages: number = 0;
 
-  constructor(private userService: UserService, private router: Router) {} // Injecting Router
+  constructor(private userService: UserService, private router: Router) {} 
 
   ngOnInit() {
     this.loadUsers();
@@ -79,4 +79,6 @@ export class AdminUserComponent implements OnInit {
   get totalPagesArray(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
+
+  
 }

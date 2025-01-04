@@ -1,12 +1,12 @@
 .custom-navbar {
     background-color: #16697A !important;
-    padding: 10px 20px; /* Augmente le padding de la navbar */
+    padding: 10px 20px; 
   }
   
   .navbar-nav .nav-link {
     color: white !important;
-    font-size: 1.2rem; /* Augmente la taille des liens */
-    padding: 8px 15px; /* Ajuste le padding autour des liens pour les espacer légèrement */
+    font-size: 1.2rem; 
+    padding: 8px 15px; 
   }
   
   .navbar-nav .nav-link:hover {
@@ -19,8 +19,8 @@
     color: white;
     background-color: transparent;
     border: none;
-    font-size: 1.2rem; /* Augmente la taille du texte des boutons */
-    padding: 8px 15px; /* Augmente l'espace autour du texte du bouton */
+    font-size: 1.2rem;
+    padding: 8px 15px; 
   }
   
   .btn:hover {
@@ -34,9 +34,8 @@
     box-shadow: none;
   }
   
-  /* Ajuster l'espacement entre les éléments du menu */
   .navbar-nav {
-    margin-left: 10px; /* Réduit légèrement l'écart entre les éléments */
+    margin-left: 10px;
     margin-right: 10px;
   }
   

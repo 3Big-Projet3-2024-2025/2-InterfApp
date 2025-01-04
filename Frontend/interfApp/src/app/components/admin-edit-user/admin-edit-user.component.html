@@ -3,8 +3,8 @@
 
   <div class="form-container mt-4">
     <form (ngSubmit)="saveChanges()">
-      <div class="mb-3">
-        <label for="username" class="form-label">User name</label>
+      <div class="mb-4">
+        <label for="username" class="form-label">User Name</label>
         <input
           type="text"
           class="form-control"
@@ -12,10 +12,11 @@
           [(ngModel)]="user.username"
           name="username"
           required
+          placeholder="Enter username"
         />
       </div>
 
-      <div class="mb-3">
+      <div class="mb-4">
         <label for="email" class="form-label">Email</label>
         <input
           type="email"
@@ -24,10 +25,11 @@
           [(ngModel)]="user.email"
           name="email"
           required
+          placeholder="Enter email"
         />
       </div>
 
-      <div class="mb-3">
+      <div class="mb-4">
         <label for="roles" class="form-label">Roles</label>
         <select
           class="form-select"
@@ -41,7 +43,9 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-primary">Save</button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
     </form>
   </div>
 </div>
