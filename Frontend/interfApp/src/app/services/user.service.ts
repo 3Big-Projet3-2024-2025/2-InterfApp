@@ -68,8 +68,8 @@ export class UserService {
     return this.http.put(`${this.apiUrl}`, user);
   }
 
-  checkPassword(user: User): Observable<Object> {
-    return this.http.post(`${this.apiUrl}/checkPassword`, user);
+  checkPassword(user: User): Observable<boolean> {
+    return this.http.post<boolean>(`${this.apiUrl}/checkpassword`, user);
   }
 }
 

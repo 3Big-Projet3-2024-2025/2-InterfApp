@@ -15,8 +15,9 @@ import {Router} from "@angular/router";
   styleUrl: './modal-confirm-old-password.component.css'
 })
 export class ModalConfirmOldPasswordComponent {
+
   formPassword: FormGroup;
-  password?: string;
+
   @Input() user: User = {
     id: "",
     email: "",
@@ -24,7 +25,8 @@ export class ModalConfirmOldPasswordComponent {
     password: "",
     roles: [],
   };
-  // @Input() id?: string;
+
+  isPasswordCorrect: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.formPassword = this.formBuilder.group({
@@ -32,11 +34,11 @@ export class ModalConfirmOldPasswordComponent {
     });
   }
 
-  ngOnInit() {
-    this.userService.checkPassword(this.user);
-    console.log("my email in child component: " + this.user?.email);
-    console.log("my id in my child component: " + this.user?.id);
-  }
+  // ngOnInit() {
+  //   this.userService.checkPassword(this.user);
+  //   console.log("my email in child component: " + this.user?.email);
+  //   console.log("my id in my child component: " + this.user?.id);
+  // }
 
   async sha512Hash(data: string): Promise<string> {
     // Convert the input string to an ArrayBuffer
@@ -55,45 +57,27 @@ export class ModalConfirmOldPasswordComponent {
 
   onSubmit() {
     if (this.formPassword.valid) {
-      this.user.password = this.formPassword.value.inputPassword;
-      console.log("User information:", this.user);
-
       this.sha512Hash(this.formPassword.value.inputPassword).then((hdata) => {
         this.user.password = hdata;
-        console.log("my scripted password: " + hdata);
-
         this.userService.checkPassword(this.user).subscribe(
-          (response) => {
-            console.log(response);
-            // this.loginService.saveJwt(response.token, userData.rememberMe);
-            // this.router.navigate(['forms']);
-            // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
-            console.log('Utilisateur est connecté avec succès!', response);
+          (isPasswordCorrect) => {
+            console.log("is my password correct? " + isPasswordCorrect);
+            if (isPasswordCorrect) {
+              // Handle successful password check
+              console.log('Password is correct');
+              this.isPasswordCorrect = true;
+            } else {
+              // Handle incorrect password
+              console.log('Password is incorrect');
+            }
           },
           (error) => {
-            console.log("not logged in");
-            // this.errorMessage = 'Une erreur est survenue, veuillez réessayer.';
             console.error(error);
           }
         );
-        // console.log("my user to login: " + userData + " " + userData.email + " " + userData.password);
-        // this.loginService.login(userData).subscribe(
-        //   (response) => {
-        //     console.log(response);
-        //     // this.loginService.saveJwt(response.token, userData.rememberMe);
-        //     this.router.navigate(['forms']);
-        //     // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
-        //     console.log('Utilisateur est connecté avec succès!', response);
-        //   },
-        //   (error) => {
-        //     console.log("not logged in");
-        //     // this.errorMessage = 'Une erreur est survenue, veuillez réessayer.';
-        //     console.error(error);
-        //   }
-        // );
       });
     } else {
-      // this.errorMessage = 'Veuillez vérifier vos informations.';
+      console.log("Veuillez remplir le formulaire");
     }
   }
 }

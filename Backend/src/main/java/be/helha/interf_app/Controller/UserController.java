@@ -1,6 +1,5 @@
 package be.helha.interf_app.Controller;
 
-import be.helha.interf_app.Model.PasswordCheckRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -140,7 +139,6 @@ public class UserController {
 
     @PostMapping("/checkpassword")
     public ResponseEntity<Boolean> checkPassword(@RequestBody User user) {
-        PasswordCheckRequest passwordCheckRequest = new PasswordCheckRequest(user.getId(), user.getPassword());
         boolean isPasswordCorrect = userService.checkPassword(user);
         return ResponseEntity.ok(isPasswordCorrect);
     }
