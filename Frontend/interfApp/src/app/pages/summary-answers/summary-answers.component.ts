@@ -69,17 +69,14 @@ export class SummaryAnswersComponent implements OnInit {
               }
             this.everyAnswersOfForm.forEach(answersMultipleOfForm => {
               let answerOfQuestion = answersMultipleOfForm.answer['Question_'+index];
-              if (answerOfQuestion) {
+              if (answerOfQuestion !== undefined) {
                 let countAnswer = mapAnswerMultiple.get(answerOfQuestion);
-                console.log(answerOfQuestion);
-                console.log(countAnswer); 
 
-                if(countAnswer!= undefined) {
-                  
+                if(countAnswer!== undefined) {
                   mapAnswerMultiple.set(answerOfQuestion, countAnswer+1);
                 }
               }
-            }) 
+            });
         // Crée une structure pour stocker le nombre d'occurrences
         this.mapAnswerSummarize.set(question, Array.from(mapAnswerMultiple.values())); 
       } else {
