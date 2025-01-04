@@ -8,13 +8,15 @@ import { ModalConfirmComponent } from '../../components/modal-confirm/modal-conf
 import { ModalSubGroupComponent } from '../../components/modal-sub-group/modal-sub-group.component';
 import { UserService } from '../../services/user.service';
 import { ModalModifSubGroupComponent } from '../../components/modal-modif-sub-group/modal-modif-sub-group.component';
+import { ModalModifMemberComponent } from '../../components/modal-modif-member/modal-modif-member.component';
+import { ModifyGroupComponent } from '../../components/modify-group/modify-group.component';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-group-page',
   standalone: true,
-  imports: [FormsModule,CommonModule, RouterModule, ModalConfirmComponent, ModalSubGroupComponent, ModalModifSubGroupComponent],
+  imports: [FormsModule,CommonModule, RouterModule, ModalConfirmComponent, ModalSubGroupComponent, ModalModifSubGroupComponent, ModalModifMemberComponent,ModifyGroupComponent],
   templateUrl: './group-page.component.html',
   styleUrl: './group-page.component.css'
 })
@@ -31,8 +33,9 @@ export class GroupPageComponent implements OnInit {
   formToDelete : string = "";
 
   members : any [] = [];
+  memberModif : any;
 
-  constructor(private route: ActivatedRoute,private groupService: GroupService, private formService : FormService, private userService : UserService) {}
+  constructor(private route: ActivatedRoute,private groupService: GroupService, private formService : FormService, private userService : UserService, private router : Router) {}
 
   ngOnInit(): void {
     this.groupId = this.route.snapshot.paramMap.get('id');
@@ -107,12 +110,111 @@ export class GroupPageComponent implements OnInit {
   }
 
   saveSubGroup(subGroup : any){
-    this.subGroupModif = undefined;
+    if (this.subGroupModif?.key != subGroup.inputSubGroupName){
+      this.group.listSubGroups.delete(this.subGroupModif?.key);
+    }
+    this.group.listSubGroups.set(subGroup.inputSubGroupName,subGroup.inputMembers);
+    this.groupService.updateGroup(this.group).subscribe(
+      (data) => {
+        this.group = data;
+        this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+        this.group.listSubGroups.forEach(() => {
+          this.expandedForms.push(false);
+        });
+        this.listSubGroups = this.group.listSubGroups;
+      },
+      (error) => {
+      }
+    );
   }
 
 
   getUserNameById(id : string) : string{
     const user = this.members.find(u => u.id === id);
     return user ? user.username : 'Utilisateur inconnu';
+  }
+
+  deleteMemberFromGroup(idMember : any){
+    this.groupService.deleteMemberFromGroup(this.group.id,idMember).subscribe(
+      (data) => {
+        this.group = data;
+        this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+        this.group.listSubGroups.forEach(() => {
+          this.expandedForms.push(false);
+        });
+        this.listSubGroups = this.group.listSubGroups;
+      },
+      (error) => {
+      }
+    );
+
+  }
+
+  givePermissionManager(idMember : any){
+    if(this.listSubGroups.get("Managers")?.filter(member => member === idMember).length != 1){
+      this.groupService.addManagerToGroup(this.group.id,idMember).subscribe(
+        (data) => {
+          this.group = data;
+          this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+          this.group.listSubGroups.forEach(() => {
+            this.expandedForms.push(false);
+          });
+          this.listSubGroups = this.group.listSubGroups;
+        },
+        (error) => {
+        }
+      );
+    }else{
+      this.groupService.deleteManagerFromGroup(this.group.id,idMember).subscribe(
+        (data) => {
+          this.group = data;
+          this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+          this.group.listSubGroups.forEach(() => {
+            this.expandedForms.push(false);
+          });
+          this.listSubGroups = this.group.listSubGroups;
+        },
+        (error) => {
+        }
+      );
+    }
+    
+  }
+
+  updateMember(listSubGroups : any){
+    console.log(this.group);
+    this.group.listSubGroups = listSubGroups;
+    this.groupService.updateGroup(this.group).subscribe(
+      (data) => {
+        this.group = data;
+        this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+        this.group.listSubGroups.forEach(() => {
+          this.expandedForms.push(false);
+        });
+        this.listSubGroups = this.group.listSubGroups;
+      },
+      (error) => {
+      }
+    );
+  }
+
+  deleteGroup(){
+    this.groupService.deleteGroup(this.group.id).subscribe();
+    this.router.navigate(['group']);
+  }
+
+  saveGroupModif(group : any){
+    this.groupService.updateGroup(group).subscribe(
+      (data) => {
+        this.group = data;
+        this.group.listSubGroups = new Map(Object.entries(this.group.listSubGroups));
+        this.group.listSubGroups.forEach(() => {
+          this.expandedForms.push(false);
+        });
+        this.listSubGroups = this.group.listSubGroups;
+      },
+      (error) => {
+      }
+    );
   }
 }
