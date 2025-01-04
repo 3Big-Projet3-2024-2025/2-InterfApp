@@ -12,7 +12,7 @@ import { roleGuardGuard } from './guard/role-guard.guard';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { notAuthGuard } from './guard/not-auth.guard';
 import { ListGroupPageComponent } from './pages/list-group-page/list-group-page.component';
-import { AnswerPageComponent } from './pages/answer-page/answer-page.component';
+import { SummaryAnswersComponent } from './pages/summary-answers/summary-answers.component';
 import { ModifFormPageComponent } from './pages/modif-form-page/modif-form-page.component';
 import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
@@ -28,24 +28,27 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [notAuthGuard] },
 
   // Pages utilisateur
-  { path: 'createform/:id', component: CreateFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
-  { path: 'forms', component: OpenFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
-  { path: 'form/:id', component: ReplyFormComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
-  { path: 'form-modif/:id', component: ModifFormPageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
-  { path: 'answer/:id', component: AnswerPageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
-  { path: 'profil', component: ProfilComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
+  { path: 'createform/:id', component: CreateFormComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
+  { path: 'forms', component: OpenFormComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
+  { path: 'form/:id', component: ReplyFormComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
+  { path: 'form-modif/:id', component: ModifFormPageComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
+  { path: 'answer/:id', component: SummaryAnswersComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
+  { path: 'profil', component: ProfilComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
 
   // Pages administrateur
-  { path: 'admin', component: AdminHomeComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'Admin' } },
-  { path: 'admin/users', component: AdminUserComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'Admin' } },
-  { path: 'admin/users/edit/:id', component: AdminEditUserComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'Admin' } }, // Nouvelle route pour modifier un utilisateur
-  { path: 'admin/groups', component: AdminGroupComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'Admin' } },
+  { path: 'admin', component: AdminHomeComponent, canActivate: [authGuardGuard], data: { role: 'Admin' } },
+  { path: 'admin/users', component: AdminUserComponent, canActivate: [authGuardGuard], data: { role: 'Admin' } },
+  { path: 'admin/users/edit/:id', component: AdminEditUserComponent, canActivate: [authGuardGuard], data: { role: 'Admin' } }, // Nouvelle route pour modifier un utilisateur
+  { path: 'admin/groups', component: AdminGroupComponent, canActivate: [authGuardGuard], data: { role: 'Admin' } },
 
   // Gestion des groupes
-  { path: 'groups', component: GroupPageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
-  { path: 'groups/create', component: CreateGroupPageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
-  { path: 'groups/edit/:id', component: ModifyGroupComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
+  { path: 'group', component: ListGroupPageComponent,
+    children: [
+      { path: 'modify/:id', component: ModifyGroupComponent }
+              ] },
+  { path: 'group/:id', component: GroupPageComponent },
+  { path: 'create-group', component: CreateGroupPageComponent },
 
   // Gestion des groupes (liste)
-  { path: 'groups/list', component: ListGroupPageComponent, canActivate: [authGuardGuard, roleGuardGuard], data: { role: 'User' } },
+  { path: 'groups/list', component: ListGroupPageComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
 ];

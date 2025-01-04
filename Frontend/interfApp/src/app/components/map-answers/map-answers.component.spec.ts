@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnswerPageComponent } from './answer-page.component';
+import { MapAnswersComponent } from './map-answers.component';
 
-describe('AnswerPageComponent', () => {
-  let component: AnswerPageComponent;
-  let fixture: ComponentFixture<AnswerPageComponent>;
+describe('MapAnswersComponent', () => {
+  let component: MapAnswersComponent;
+  let fixture: ComponentFixture<MapAnswersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnswerPageComponent]
+      imports: [MapAnswersComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AnswerPageComponent);
+    fixture = TestBed.createComponent(MapAnswersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
