@@ -1,22 +1,43 @@
 <div class="text-center mt-4 ">
   <h3>Hello {{ user.username }} !</h3>
   <div class="border profile-container container p-5 mt-2">
+    <form [formGroup]="formUpdateProfile" (ngSubmit)="onSubmit()">
     <div class="text-start myContainer pt-2 align-self-center">
       <div class="yourName">
         Your username
         <br>
-          <input type="text" class="form-control" value="{{ user.username }}" [readonly]="!isEditable">
+          <input type="text" class="form-control" value="{{ user.username }}" [readonly]="!isEditable" formControlName="inputUsername">
       </div>
       <div class="yourEmail">
         Your email
         <br>
-        <input type="text" class="form-control" value="{{ user.email }}" [readonly]="!isEditable">
+        <input type="text" class="form-control" value="{{ user.email }}" [readonly]="!isEditable" formControlName="inputEmail">
+      </div>
+      <div class="yourPassword">
+      @if(!isEditable) {
+        Your password
+        <br>
+        <input type="password" class="form-control" [readonly]="!isEditable" >
+      }
+        @if(isEditable) {
+          Your new password
+          <br>
+          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword1">
+          Confirm your new password
+          <br>
+          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword2">
+        }
       </div>
     </div>
-    <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Change my password</button>
-    <button class="btn btn-primary mt-3" (click)="toggleEdit()">
-      {{ isEditable ? 'Save' : 'Modify my profile' }}
-    </button>
+    @if(isEditable) {
+      <input type="submit" class="btn btn-primary mt-3" (click)="toggleEdit()" value="Save changes">
+    }
+    @else {
+      <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Modify my profile</button>
+    }
+    </form>
   </div>
 </div>
-<app-modal-confirm-old-password [user]="user"></app-modal-confirm-old-password>
+<app-modal-confirm-old-password [user]="user" (passwordCheckResult)="handlePasswordCheckResult($event)"></app-modal-confirm-old-password>
+
+

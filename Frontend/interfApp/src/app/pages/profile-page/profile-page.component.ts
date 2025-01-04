@@ -6,11 +6,14 @@ import {UserService} from "../../services/user.service";
 import {
   ModalConfirmOldPasswordComponent
 } from "../../components/modal-confirm-old-password/modal-confirm-old-password.component";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-profile-page',
   imports: [
-    ModalConfirmOldPasswordComponent
+    ModalConfirmOldPasswordComponent,
+    FormsModule,
+    ReactiveFormsModule
   ],
   standalone: true,
   templateUrl: './profile-page.component.html',
@@ -24,12 +27,21 @@ export class ProfilePageComponent {
     password: "",
     roles: [],
   }
-  email: string = "email.test@gmail.com";
+  email: string = "";
 
   jwtToken: string | null = null;
   isEditable = false;
 
-  constructor(private cookieService: CookieService, private userService: UserService) { }
+  formUpdateProfile: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private cookieService: CookieService, private userService: UserService) {
+    this.formUpdateProfile = this.formBuilder.group({
+      inputEmail: [],
+      inputUsername: [],
+      inputPassword1: [],
+      inputPassword2: []
+    });
+  }
   ngOnInit(){
     this.userService.getUserById(this.getUserId()).subscribe(
       (data) => {
@@ -53,5 +65,19 @@ export class ProfilePageComponent {
 
   toggleEdit() {
     this.isEditable = !this.isEditable;
+  }
+
+  handlePasswordCheckResult(isPasswordCorrect: boolean) {
+    console.log('Password check result:', isPasswordCorrect);
+    if (isPasswordCorrect) {
+      this.isEditable = !this.isEditable;
+      // Handle the case when the password is correct
+    } else {
+      // Handle the case when the password is incorrect
+    }
+  }
+
+  onSubmit() {
+    console.log('Form data:', this.formUpdateProfile.value);
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {User} from "../../models/User";
@@ -27,6 +27,7 @@ export class ModalConfirmOldPasswordComponent {
   };
 
   isPasswordCorrect: boolean = false;
+  @Output() passwordCheckResult = new EventEmitter<boolean>();
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.formPassword = this.formBuilder.group({
@@ -34,11 +35,6 @@ export class ModalConfirmOldPasswordComponent {
     });
   }
 
-  // ngOnInit() {
-  //   this.userService.checkPassword(this.user);
-  //   console.log("my email in child component: " + this.user?.email);
-  //   console.log("my id in my child component: " + this.user?.id);
-  // }
 
   async sha512Hash(data: string): Promise<string> {
     // Convert the input string to an ArrayBuffer
@@ -66,6 +62,7 @@ export class ModalConfirmOldPasswordComponent {
               // Handle successful password check
               console.log('Password is correct');
               this.isPasswordCorrect = true;
+              this.passwordCheckResult.emit(this.isPasswordCorrect);
             } else {
               // Handle incorrect password
               console.log('Password is incorrect');
