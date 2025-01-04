@@ -15,7 +15,7 @@ import { filter } from 'rxjs';
 export class ListGroupPageComponent {
   groups: any[] = [];
   filteredGroups: any[] = []; // filtered list by research
-  user:any[]=[];
+  userNamesMap: { [key: string]: string } = {}; 
   currentPage: number = 1; // actual page
   groupPerPage: number = 9; // number of group per page
   searchQuery: string = ''; // research querry 
@@ -27,12 +27,29 @@ export class ListGroupPageComponent {
     this.groupService.getAllGroups().subscribe(
       (data) => {
         this.groups = data;
-        this.filteredGroups = [...this.groups]; // initialise groups
+        this.filteredGroups = [...this.groups];
+        this.preloadUserNames();
       },
       (error) => {
         console.error('Erreur lors de la récupération des groupes', error);
       }
     );
+  }
+
+  preloadUserNames(): void {
+    this.groups.forEach((group) => {
+      const managerId = group.listSubGroups["Managers"][0];
+      if (managerId && !this.userNamesMap[managerId]) {
+        this.userService.getUserById(managerId).subscribe(
+          (user) => {
+            this.userNamesMap[managerId] = user.username;
+          },
+          (error) => {
+            console.error(`Erreur lors de la récupération de l'utilisateur avec l'id ${managerId}`, error);
+          }
+        );
+      }
+    });
   }
   
   // to separage the groups of each page
@@ -40,22 +57,6 @@ export class ListGroupPageComponent {
     const startIndex = (this.currentPage - 1) * this.groupPerPage;
     return this.filteredGroups.slice(startIndex, startIndex + this.groupPerPage);
   }
-
-
- /* getUserName(managerId:any): any{
-    if (managerId) {
-      this.userService.getUserById(managerId).subscribe(
-        (user) => {
-          let nameManager = user.username; 
-          return nameManager;
-        },
-        (error) => {
-          console.error(`Erreur lors de la récupération de l'utilisateur avec l'id ${managerId}`, error);
-        }
-      );
-    }
-  }
-*/
 
   goToPage(page:number){
     if (page > 0 && page <= this.totalPages()) {
