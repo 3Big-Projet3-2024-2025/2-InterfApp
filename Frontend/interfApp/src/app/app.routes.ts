@@ -18,6 +18,7 @@ import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { AdminGroupComponent } from './components/admin-group/admin-group.component';
 import { AdminEditUserComponent } from './components/admin-edit-user/admin-edit-user.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   // Redirection vers login
@@ -34,6 +35,7 @@ export const routes: Routes = [
   { path: 'form-modif/:id', component: ModifFormPageComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'answer/:id', component: SummaryAnswersComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'profil', component: ProfilComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
+  { path: 'home', component: HomeComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
 
   // Pages administrateur
   { path: 'admin', component: AdminHomeComponent, canActivate: [authGuardGuard], data: { role: 'Admin' } },
