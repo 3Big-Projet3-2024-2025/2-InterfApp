@@ -230,6 +230,9 @@ export class GroupPageComponent implements OnInit {
 
     try {
         const token = jwtDecode(jwt) as any;
+        if(token.roles.includes("Admin")){
+          return true;
+        }
         return this.listSubGroups.get("Managers")?.includes(token.id);
     } catch (error) {
         console.error("Error decoding JWT:", error);
