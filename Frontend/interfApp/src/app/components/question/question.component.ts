@@ -22,7 +22,6 @@ export class QuestionComponent {
 
   constructor(private formBuilder: FormBuilder){
     this.formQuestion = this.formBuilder.group({
-      inputTitleQuestion:[''],
       inputRequired:[true],
       inputQuestion:['', Validators.required],
       inputTypeQuestion: ['', Validators.required],

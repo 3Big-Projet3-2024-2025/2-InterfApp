@@ -7,7 +7,7 @@
         type="text" 
         formControlName="inputTitreForm" 
         class="form-control" 
-        placeholder="Entrez le titre du formulaire">
+        placeholder="Enter the form title">
     </div>
   </form>
 
@@ -24,12 +24,12 @@
 
   <div class="d-flex justify-content-between">
     <button 
-      class="btn btn-success" 
+      class="btn btn-add-question" 
       (click)="addQuestion()">
       +
     </button>
     <button 
-      class="btn btn-primary" 
+      class="btn btn-save-questions" 
       (click)="saveQuestions()" 
       [disabled]="!formForm.valid">
       Save

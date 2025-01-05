@@ -65,7 +65,6 @@ export class CreateFormComponent {
 
   saveQuestions(): void {
     this.requestForms();
-    console.log(this.formForm.value);
 
     if (this.formForm.valid) {
       this.errorMessage = "";
