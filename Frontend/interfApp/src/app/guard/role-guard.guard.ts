@@ -12,7 +12,7 @@ export const roleGuardGuard: CanActivateFn = (route, state) => {
     return true;
   } else {
     console.warn('Access denied - User does not have required role');
-    router.navigate(['/login']);
+    router.navigate(['/home']);
     return false;
   }
 };
