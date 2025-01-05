@@ -1,24 +1,41 @@
-table {
-  /*width: 100%;*/
-  /*table-layout: fixed;*/
-}
-.group-row{
-  background-color: #c50000;
-}
-
-.group-row:hover {
-  background-color: #dedede;
-  cursor: pointer;
-}
-.expanded-rows td {
-
-}
-
-button {
-  color: white;
-  background-color: #FFA62B;
-}
-
-.subGroupAdd {
-  height: 10px;
-}
+/* Couleur personnalisée pour le bouton Settings */
+.btn-settings {
+    background-color: #8e5301;
+    border-color: #8e5301;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .btn-settings:hover {
+    background-color: #7a4801;
+    border-color: #7a4801;
+    transform: scale(1.05);
+  }
+  
+  /* Couleur personnalisée pour le bouton New SubGroup */
+  .btn-new-subgroup {
+    background-color: #8e5301;
+    border-color: #8e5301;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .btn-new-subgroup:hover {
+    background-color: #7a4801;
+    border-color: #7a4801;
+    transform: scale(1.05);
+  }
+  
+  /* Général */
+  .btn {
+    border-radius: 0.5rem;
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  .btn:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+  

@@ -1,37 +1,57 @@
 import { Component } from '@angular/core';
-import {User} from "../../models/User";
-import {Group} from "../../models/Group";
 import {Router} from "@angular/router";
 import {ModalInviteMembersComponent} from "../../components/modal-invite-members/modal-invite-members.component";
-import {ModalConfirmComponent} from "../../components/modal-confirm/modal-confirm.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { GroupService } from '../../services/group.service';
 
 @Component({
   selector: 'app-create-group-pages',
   standalone: true,
-  imports: [
-    ModalInviteMembersComponent,
-    ModalConfirmComponent
-  ],
+  imports: [ModalInviteMembersComponent,CommonModule, ReactiveFormsModule],
   templateUrl: './create-group-page.component.html',
   styleUrl: './create-group-page.component.css'
 })
 export class CreateGroupPageComponent {
-  manager: User = {
-    id: "",
-    email: '',
-    username: '',
-    password: '',
-    roles: []
+  formGroup: FormGroup;
+  emailList: string[] = [];
+
+
+  constructor(private router: Router , private formBuilder: FormBuilder, private groupService: GroupService) {
+      this.formGroup = this.formBuilder.group({
+        inputName: ['', [Validators.required]]
+      });
   }
 
-  groupToAdd: Group = {
-    id: "",
-    name: '',
-    managers: [this.manager],
-    members: [],
-    subGroups: []
+  removeEmail(index : number ){
+    this.emailList.splice(index, 1);
   }
-  constructor(private router: Router) {
+
+  addEmail(email : string){
+    this.emailList.push(email);
+  }
+
+  onSubmit(){
+    if (this.formGroup.valid) {
+      const groupData = {
+        name: this.formGroup.value.inputName,
+        listSubGroups: new Map([["Members",this.emailList]]),
+      };
+
+      console.log(groupData);
+
+      this.groupService.addGroup(groupData).subscribe(
+        (response) => {
+          console.log(response);
+          this.router.navigate(['group']);
+          // You can redirect the user or display a success message
+          console.log('group crée avec succés', response);
+        },
+        (error) => {
+          console.error(error);
+        }
+      )
+    }
   }
 
 

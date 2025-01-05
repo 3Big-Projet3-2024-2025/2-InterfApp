@@ -12,7 +12,7 @@ export class GroupService {
   private apiUrl = 'http://localhost:8080/api/groups';
   constructor(private http : HttpClient) {}
 
-  getMyGroups(id: number): void {
+  getMyGroups(id: any): void {
 
   }
 
@@ -20,35 +20,51 @@ export class GroupService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  addGroup(group: Group) {
-
+  addGroup(group: any): Observable<any> {
+    // convert a Map into an Object so it can be convert into a JSON structure 
+    if (group.listSubGroups instanceof Map) {
+      const listSubGroupsObject: { [key: string]: any } = {};
+      group.listSubGroups.forEach((value : any , key : any) => {
+        listSubGroupsObject[key] = value;
+      });
+      group.listSubGroups = listSubGroupsObject;
+    }
+    return this.http.post<any>(this.apiUrl, group);
   }
 
-  deleteGroup(id: number) {
-
+  deleteGroup(id: any) {
+    return this.http.delete<any[]>(`${this.apiUrl}/${id}`);
   }
 
-  updateGroup(group: Group) {
-
+  updateGroup(group: any): Observable<any> {
+    if (group.listSubGroups instanceof Map) {
+      const listSubGroupsObject: { [key: string]: any } = {};
+      group.listSubGroups.forEach((value : any , key : any) => {
+        listSubGroupsObject[key] = value;
+      });
+      group.listSubGroups = listSubGroupsObject;
+    }
+    console.log(`${this.apiUrl}/${group.id}`);
+    return this.http.put<any>(`${this.apiUrl}/${group.id}`, group);
   }
 
   getGroupById(id: string): Observable<any> {
     return this.http.get<any[]>(`${this.apiUrl}/${id}`);
   }
 
-  addUsersToGroup(groupId: number, users: number[]) {
-
+  addUserToGroup(groupId: any, memberEmail: any) {
+    return this.http.put<any[]>(`${this.apiUrl}/member/${memberEmail}/${groupId}`, memberEmail );
   }
 
-  addUsersToGroupCsv(groupId: number, file: File) {
-
+  addManagerToGroup(groupId: any, managerId: any) {
+    return this.http.put<any[]>(`${this.apiUrl}/manager/${managerId}/${groupId}`,managerId);
   }
 
-  addManagerToGroup(groupId: number, managerId: number) {
-
+  deleteMemberFromGroup(groupId: any, memberId: any){
+    return this.http.delete<any[]>(`${this.apiUrl}/member/${memberId}/${groupId}`);
   }
 
-  addSubGroupToGroup(groupId: number, subGroup: SubGroup) {
-
+  deleteManagerFromGroup(groupId: any, memberId: any){
+    return this.http.delete<any[]>(`${this.apiUrl}/manager/${memberId}/${groupId}`);
   }
 }

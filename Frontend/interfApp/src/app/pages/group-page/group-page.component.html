@@ -1,66 +1,84 @@
-<div>
-  My groups :
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="mb-4 d-flex flex-column align-items-center">
+    <button *ngIf="isManager()" type="button" class="btn btn-lg btn-custom me-3" style="background-color: #FFA62B; border-color: #FFA62B;"  [routerLink]="['/createform/', groupId ]" > Create form</button>
+  </div>
+  <div class="mb-4 d-flex flex-column align-items-center">
+    <button *ngIf="isManager()" type="button" class="btn btn-lg btn-settings" data-bs-toggle="modal" data-bs-target="#groupSettingsModal">Settings</button>
+  </div>
+
+    <div class="col-md-8">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+      <h3 class="mb-3">Form's list</h3>
+    </div>
+      <div class="list-group">
+        <div
+          *ngFor="let form of forms; let i = index"
+          class="list-group-item list-group-item-action"
+        >
+          <div (click)="expandedForms[i] = !expandedForms[i]" style="cursor: pointer;">
+            <h5 class="mb-0">{{ form.title }}</h5>
+            <small *ngIf="!expandedForms[i]" class="text-muted">Click to see more</small>
+          </div>
+
+          <div *ngIf="expandedForms[i]" class="mt-2">
+            <div class="btn-group" role="group">
+              <button *ngIf="isManager()" type="button" class="btn btn-primary" [routerLink]="['/answer/', form.id ]"> <i class="bi bi-eye me-2"></i>View Answer</button>
+              <button type="button" class="btn btn-secondary" [routerLink]="['/form/', form.id ]">  <i class="bi bi-pencil me-2"></i> Respond</button>
+              <button *ngIf="isManager()" type="button" class="btn btn-warning" [routerLink]="['/form-modif/', form.id ]" >  <i class="bi bi-pencil-square me-2"></i>Modify Form</button>
+              <button *ngIf="isManager()" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal" (click)="formToDelete = form.id" >  <i class="bi bi-trash me-2"></i>Delete Form</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+      <h3 class="mb-3">SubGroups</h3>
+    </div>
+      <div class="list-group">
+        <div
+          *ngFor="let subGroup of listSubGroups| keyvalue; let i = index"
+          class="list-group-item list-group-item-action"
+        >
+        <div (click)="expandedSubGroups[i] = !expandedSubGroups[i]" class="d-flex align-items-center justify-content-between" style="cursor: pointer;">
+          <strong>{{ subGroup.key }}</strong>
+          <button *ngIf="i > 1 && isManager()" class="btn btn-link p-0" style="text-decoration: none;" (click)="subGroupModif = subGroup" data-bs-toggle="modal" data-bs-target="#modifsubgroupModal">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+        </div>
+
+          <div *ngIf="expandedSubGroups[i]" class="card-body">
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let user of subGroup.value" class="list-group-item">
+                {{ getUserNameById(user) }}
+                <button *ngIf="isManager()" class="btn btn-link p-0" style="text-decoration: none;" (click)="memberModif = user" data-bs-toggle="modal" data-bs-target="#modifmemberModal">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <button *ngIf="isManager()" type="button" class="btn btn-new-subgroup w-100 mt-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#subgroupModal"> <i class="bi bi-plus-circle me-2"></i>New subGroup</button>
+      </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<table class="table">
-  <thead>
-  <tr>
-    <th scope="col">id</th>
-    <th scope="col">Name of the group</th>
-    <th scope="col">Members</th>
-    <th scope="col">SubGroups</th>
-    <th scope="col">Forms</th>
-    <th scope="col"></th>
-  </tr>
-  </thead>
-  <tbody>
-  @for (group of myGroups; track group.id; let i=$index) {
 
-    <!--    start of modal-->
-    <app-modal-sub-group [group]="group"></app-modal-sub-group>
-    <!--    end of modal-->
+<div *ngIf="!group" class="text-center mt-5">
+  <h3 class="text-danger">Group not found</h3>
+</div>
 
-    <tr (click)="toggleExpand(group.id)" class="group-row">
-      <th scope="row">{{group.id}}</th>
-      <td>{{ group.name }}</td>
-      <td>{{ group.members.length }}</td>
-      <td>{{ group.subGroups.length }}</td>
-      <td></td>
-      <td>
-        {{ isExpanded(group.id) ? '-' : '+' }}
-      </td>
-    </tr>
-      @if(isExpanded(group.id)) {
-        <tr class="expanded-rows">
-          <td></td>
-          <td>
-            expanded row
-          </td>
-          <td>
-            @for (membre of group.members; track membre.id; let i=$index) {
-              <div>
-                - {{membre.username}}
-              </div>
-            }
-          </td>
-          <td class="subGroup">
-            @for (subGroup of group.subGroups; track subGroup.id; let i=$index) {
-            <app-subgroup [subGroup]="subGroup"></app-subgroup>
-            }
-            <button class="btn" data-bs-toggle="modal" data-bs-target="#subgroupModal">Add subGroup</button>
-          </td>
-          <td></td>
-          <td></td>
-        </tr>
-      }
-    }
-  </tbody>
-</table>
-
-<button type="button" class="btn" (click)="createGroup()">Créer un group</button>
-
-<router-outlet></router-outlet>
-
-
-
-
+<app-modal-confirm (confirmEmitter)="deleteForm()"></app-modal-confirm>
+<app-modal-sub-group (subGroupEmitter)="createSubGroup($event)"></app-modal-sub-group>
+<app-modal-modif-sub-group  (subGroupEmitter)="saveSubGroup($event)" [members]="members" [subGroup]="subGroupModif"></app-modal-modif-sub-group>
+<app-modal-modif-member [member]="memberModif" [subGroups]="listSubGroups"
+(deleteFromGroup)="deleteMemberFromGroup($event)" (givePermission)="givePermissionManager($event)" (save)="updateMember($event)"></app-modal-modif-member>
+<app-modify-group  (saveEmitter)="saveGroupModif($event)" (deleteEmitter)="deleteGroup()"  [group]="group"></app-modify-group>

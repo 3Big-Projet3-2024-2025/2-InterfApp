@@ -11,23 +11,32 @@ export class FormService {
 
   constructor(private http: HttpClient) {}
 
-  // Méthode pour sauvegarder un formulaire (POST)
+  // Method to save a form (POST)
   saveForm(form: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, form);
   }
 
-  // Méthode pour récupérer tous les formulaires (GET)
+  updateForm(form: any): Observable<any> {
+    return this.http.put<any>(this.baseUrl, form);
+  }
+
+  // method to get all forms (GET)
   getAllForms(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
 
-  // (Optionnel) Méthode pour récupérer un formulaire par ID (GET)
+  // (Optionnal) method to get all form by its id (GET)
   getFormById(id: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
-  // (Optionnel) Méthode pour supprimer un formulaire (DELETE)
+  getFormByIdGroup(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/group/${id}`);
+  }
+
+  // (Optionnal) method to delete a form (DELETE)
   deleteForm(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/${id}`);
+    console.log(id);
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

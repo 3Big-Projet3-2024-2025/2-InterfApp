@@ -2,14 +2,7 @@
   <form [formGroup]="formQuestion" class="p-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="flex-grow-1 me-3">
-        <label for="inputTitleQuestion" class="form-label">Question Title :</label>
-        <input
-          id="inputTitleQuestion"
-          type="text"
-          formControlName="inputTitleQuestion"
-          class="form-control"
-          placeholder="Question {{ questionId }}"
-        />
+        <label for="inputTitleQuestion" class="form-label">Question {{ questionId }}</label>
       </div>
       <div class="btn-group ms-3">
         <button
@@ -31,7 +24,7 @@
 
     <div [ngClass]="{ 'd-none': isContentHidden }">
       <div class="mb-3">
-        <label for="inputTypeQuestion" class="form-label">Type de question :</label>
+        <label for="inputTypeQuestion" class="form-label"> Question type :</label>
         <select
           id="inputTypeQuestion"
           formControlName="inputTypeQuestion"
@@ -71,7 +64,7 @@
           *ngFor="let choice of inputChoicesArray.controls; let i = index"
           class="d-flex align-items-center mb-2"
         >
-          <label [for]="'choice' + i" class="form-label me-2 text-nowrap">Choix {{ i + 1 }} :</label>
+          <label [for]="'choice' + i" class="form-label me-2 text-nowrap">choice {{ i + 1 }} :</label>
           <input
             [id]="'inputChoice' + i"
             type="text"

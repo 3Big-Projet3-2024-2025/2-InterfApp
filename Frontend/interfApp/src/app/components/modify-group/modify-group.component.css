@@ -1,0 +1,82 @@
+.create-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .group-form {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1%;
+    /*height: auto;*/
+    border: solid #FFA62B 2px;
+    border-radius: 10px;
+  }
+  
+  .group-form button {
+    background-color: #FFA62B;
+    color: white;
+  }
+  
+  .group-form input {
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  #email-container {
+    min-height: 40px;
+    cursor: text;
+  }
+  
+  .badge {
+    display: flex;
+    align-items: center;
+    padding: 0.5em 0.75em;
+    background-color: #9a6e31;
+    color: #fff;
+    border-radius: 15px;
+    margin-bottom: 5px;
+  }
+  
+  .btn-close {
+    margin-left: 5px;
+    color: #fff;
+    opacity: 1;
+  }
+
+  .invite-button {
+    background-color: #FFA62B;
+    color: white; 
+    border: none; 
+    padding: 8px 15px; 
+    border-radius: 5px;
+    font-size: 14px; 
+    transition: background-color 0.3s ease; 
+  }
+  
+  .invite-button:hover {
+    background-color: #cb891e;
+    cursor: pointer; 
+  }
+  
+  .save-changes-button {
+    background-color: #16697A; 
+    color: white; 
+    border: none; 
+    padding: 8px 15px; 
+    border-radius: 5px; 
+    font-size: 14px; 
+    transition: background-color 0.3s ease; 
+  }
+  
+  .save-changes-button:hover {
+    background-color: #124f55; 
+    cursor: pointer; 
+  }
+  
+  

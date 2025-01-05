@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -16,6 +16,10 @@ export class NavbarComponent {
 
   get isAuthenticated() : boolean {
     return this.userService.isAuthenticated();
+  }
+
+  get isAdmin(): boolean {
+    return this.userService.hasRole('Admin');
   }
 
   onAuthButtonClick(): void {

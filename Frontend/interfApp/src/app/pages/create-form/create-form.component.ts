@@ -1,8 +1,9 @@
 import { Component, input, QueryList, ViewChildren } from '@angular/core';
-import { QuestionComponent } from '../../question/question.component';
+import { QuestionComponent } from '../../components/question/question.component';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormService } from '../../services/form.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-create-form',
   standalone:true,
@@ -17,7 +18,7 @@ export class CreateFormComponent {
 
   @ViewChildren(QuestionComponent) questionComponents!: QueryList<QuestionComponent>;
 
-  constructor(private formBuilder: FormBuilder, private formService: FormService){
+  constructor(private formBuilder: FormBuilder, private formService: FormService,private route: ActivatedRoute, private router: Router){
     this.formForm = this.formBuilder.group({
       inputTitreForm:['', Validators.required],
       arrayFormQuestion: this.formBuilder.array([]),
@@ -30,24 +31,24 @@ export class CreateFormComponent {
 
   addQuestion(): void {
     const newId  = this.questions[this.questions.length - 1] + 1;
-    this.questions.push(newId); // Ajoute une nouvelle question
+    this.questions.push(newId); // add a new question
   }
 
   removeQuestion(index: number): void {
     if (this.questions.length > 1) {
-      this.questions.splice(index, 1); // Supprime la question à l'index donné
+      this.questions.splice(index, 1); // delete the question at the giving index
     }
   }
 
   requestForms(): void {
-    this.arrayFormQuestion.clear(); // Vide le tableau pour pouvoir update les données
+    this.arrayFormQuestion.clear(); // Empty the table to be able to update the data
     this.questionComponents.toArray().forEach((questionComp) => {
-      questionComp.emitFormGroup(); // Demande à chaque enfant de fournir son FormGroup
+      questionComp.emitFormGroup(); // Ask each child to provide their FormGroup
     });
   }
 
   saveForm(form: FormGroup): void {
-    this.arrayFormQuestion.push(form); // Ajoute le FormGroup de l'enfant à la liste
+    this.arrayFormQuestion.push(form); // Adds the FormGroup to the list
   }
 
   move(isupwards : boolean , id : number){
@@ -63,20 +64,21 @@ export class CreateFormComponent {
 
   saveQuestions(): void {
     this.requestForms();
-    console.log(this.formForm.value);
 
     if (this.formForm.valid) {
       this.errorMessage = "";
       const formData = {
         title: this.formForm.get('inputTitreForm')?.value,
-        questions: this.formForm.get('arrayFormQuestion')?.value
+        questions: this.formForm.get('arrayFormQuestion')?.value,
+        idGroup: this.route.snapshot.paramMap.get('id')
       };
 
-      // Logique pour sauvegarder le formulaire
+      // save the form
       this.formService.saveForm(formData).subscribe({
         next: (response) => {
           console.log('Form saved successfully:', response);
           alert('Formulaire sauvegardé avec succès !');
+          this.router.navigate(['/group/'+ formData.idGroup]);
         },
         error: (err) => {
           console.error('Error saving form:', err);

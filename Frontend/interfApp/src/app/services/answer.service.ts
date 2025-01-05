@@ -8,26 +8,31 @@ import { Observable } from 'rxjs';
 })
 export class AnswerService {
 
-  private baseUrl = 'http://localhost:8080/api/reponses'; // URL de base pour l'API backend
+  private baseUrl = 'http://localhost:8080/api/answers'; // base url for api backend
 
   constructor(private http: HttpClient) {}
 
-  // Méthode pour sauvegarder un formulaire (POST)
+  // method to save an answer (POST)
   saveAnswer(form: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, form);
   }
 
-  // Méthode pour récupérer tous les formulaires (GET)
+  // methode to get all answers (GET)
   getAllAnswer(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
 
-  // (Optionnel) Méthode pour récupérer un formulaire par ID (GET)
+  // (Optionnal)method to get the answer by id (GET)
   getAnswerById(id: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
-  // (Optionnel) Méthode pour supprimer un formulaire (DELETE)
+   // (Optionnal) methor to retrieve the answers of the form by its id 
+   getAnswerByIdForm(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/form/${id}`);
+  }
+
+  // (Optionnal) method to delete a form (DELETE)
   deleteAnswer(id: string): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/${id}`);
   }

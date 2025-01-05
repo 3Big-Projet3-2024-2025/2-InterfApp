@@ -1,0 +1,85 @@
+.container-fluid {
+  padding: 0;
+  height: 100vh;
+}
+
+.row {
+  margin: 0;
+}
+
+.bg-primary {
+  background-color: #16697A !important;
+}
+
+.text-light {
+  color: #EDE7E3 !important;
+}
+
+.list-group-item {
+  cursor: pointer;
+  padding: 12px 20px;
+  transition: background-color 0.3s ease;
+  color: #EDE7E3;
+  border: 1px solid #489FB5;
+  background-color: #489FB5;
+}
+
+.list-group-item:hover {
+  background-color: #82C0CC;
+}
+
+.list-group-item.active {
+  background-color: #FFA62B;
+  color: #16697A;
+  font-weight: bold;
+}
+
+.content-container {
+  background: #EDE7E3;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: 100%;
+  padding-bottom: 20px;
+  overflow-y: auto;
+}
+
+/* Sidebar Toggle Button */
+#sidebar-toggle {
+  display: block; /* Ensure visibility */
+  background-color: #16697A;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 20px;
+  border-radius: 5px;
+  margin: 10px auto 20px; /* Add spacing around the button */
+  cursor: pointer;
+  position: relative; /* Stay within the document flow */
+  z-index: 1049; /* Ensure visibility */
+}
+
+#sidebar-toggle:hover {
+  background-color: #489FB5;
+  color: white;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 992px) {
+  #sidebar {
+    position: fixed;
+    left: -250px; /* Hidden by default */
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    transition: all 0.3s ease;
+    z-index: 1050; /* Ensure above main content */
+  }
+
+  #sidebar.sidebar-active {
+    left: 0; /* Visible when active */
+  }
+
+  .col-lg-9.sidebar-open {
+    margin-left: 250px; /* Shift content when sidebar is open */
+  }
+}

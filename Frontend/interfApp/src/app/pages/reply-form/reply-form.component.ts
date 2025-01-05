@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
 import { AnswerService } from '../../services/answer.service';
 import { FormService } from '../../services/form.service';
+import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
     selector: 'app-reply-form',
@@ -22,6 +24,7 @@ export class ReplyFormComponent implements OnInit {
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [];
+  idGroup: any;
 
   readonly mapType : Map<String,String> = new Map([
     ["Short Answer", "input"],
@@ -41,7 +44,8 @@ export class ReplyFormComponent implements OnInit {
     ["Ask coordonates" , "map"],
   ]);
 
-  constructor( private route: ActivatedRoute, private answerService: AnswerService, private formService: FormService) {}
+  constructor( private route: ActivatedRoute, private answerService: AnswerService, private formService: FormService,
+     private router : Router, private cookieService : CookieService) {}
 
   ngOnInit(){
     const formId = this.route.snapshot.paramMap.get('id');
@@ -52,6 +56,7 @@ export class ReplyFormComponent implements OnInit {
           this.title = data.title;
           this.questions = data.questions;
           this.fields = this.transformFormGroupIntoFormlyField();
+          this.idGroup = data.idGroup;
         },
         (error) => {
           console.error('Error loading form:', error);
@@ -62,8 +67,6 @@ export class ReplyFormComponent implements OnInit {
 
   transformFormGroupIntoFormlyField(): FormlyFieldConfig[] {
     const formlyFields: FormlyFieldConfig[] = [];
-
-    console.log(this.questions);
 
     this.questions.forEach((question: any , index : number) => {
       const field: FormlyFieldConfig = {
@@ -76,9 +79,10 @@ export class ReplyFormComponent implements OnInit {
           selectAllOption: 'Select All',
           options: (question.inputChoices || []).map((choice: string) => ({ value: choice, label: choice })),
         },
+        
         validation: {
           messages: {
-            required: 'This field is required', // Message d'erreur pour les champs obligatoires
+            required: 'This field is required', // Error message for required fields
           },
         },
       };
@@ -88,26 +92,30 @@ export class ReplyFormComponent implements OnInit {
 
     return formlyFields;
   }
+  
   submit(){
-    console.log(this.formReply.value);
-
-    if (this.formReply.valid) {
-      const Data = {
-        idForm: this.idForm,
-        idUser: "gestion user TO DO",
-        answer: this.formReply.value
-      };
-
-      // Logique pour sauvegarder le formulaire
+    if (this.formReply.valid && this.cookieService.get('jwt') !== "") {
+          const tokenJWT = jwtDecode(this.cookieService.get('jwt')) as any;
+          const Data = {
+          idForm: this.idForm,
+          idUser: tokenJWT.id,
+          answer: this.formReply.value
+          }
+      // save a form
       this.answerService.saveAnswer(Data).subscribe({
         next: (response) => {
           console.log('Form saved successfully:', response);
           alert('Réponses sauvegardé avec succès !');
+          this.router.navigate(['/group/'+ this.idGroup]);
         },
         error: (err) => {
           console.error('Error saving form:', err);
         },
+      
       });
     }
+  }
+  navigate(){
+    this.router.navigate(['/group/'+this.idGroup]);
   }
 }

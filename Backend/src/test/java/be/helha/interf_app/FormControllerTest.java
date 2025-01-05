@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This class contains unit tests for the FormController, which is responsible for handling HTTP requests
  * related to form operations. The tests include creating, retrieving, and deleting forms with questions.
  */
+@SpringBootTest
 public class FormControllerTest {
     private MockMvc mockMvc;
 
@@ -59,7 +61,7 @@ public class FormControllerTest {
         );
 
         // Créer un formulaire avec une question
-        form = new Form("1", "Form with question", List.of(question));
+        form = new Form("1", "1","Form with question", List.of(question));
     }
 
     /**
@@ -146,7 +148,7 @@ public class FormControllerTest {
         questions.add(new Question("Provide your location", "coordinates", null, false, true));
 
         // Create the form with all these questions
-        Form formWithAllQuestionTypes = new Form("2", "Form with all question types", questions);
+        Form formWithAllQuestionTypes = new Form("2","2", "Form with all question types", questions);
 
         // Mock the service call to return the form with all questions
         when(formService.saveForm(any(Form.class))).thenReturn(formWithAllQuestionTypes);
@@ -293,7 +295,7 @@ public class FormControllerTest {
         questions.add(new Question("Provide your location", "coordinates", null, false, true));
 
         // Create the form with all these questions
-        Form formWithAllQuestionTypes = new Form("2", "Form with all question types", questions);
+        Form formWithAllQuestionTypes = new Form("2","2" ,"Form with all question types", questions);
 
         // Mock the service call
         when(formService.getFormById("2")).thenReturn(java.util.Optional.of(formWithAllQuestionTypes));
@@ -363,27 +365,38 @@ public class FormControllerTest {
      */
     @Test
     void deleteForm() throws Exception {
-        // Mock the service call
+        // Mock the service to return the form for the given ID
+        Form mockForm = new Form("1", "Form 1", "Description", new ArrayList<>());
+        when(formService.getFormById("1")).thenReturn(Optional.of(mockForm));
+
+        // Mock the service call for deletion
         doNothing().when(formService).deleteForm("1");
 
         // Perform the DELETE request and validate the response
         mockMvc.perform(delete("/api/forms/1"))
                 .andExpect(status().isNoContent());
 
-        // Verify that the service method was called once
+        // Verify that the service methods were called
+        verify(formService, times(1)).getFormById("1");
         verify(formService, times(1)).deleteForm("1");
     }
 
     @Test
     void deleteFormAllQuestions() throws Exception {
-        // Mock the service call
+        // Mock the service to return the form for the given ID
+        Form mockForm = new Form("2", "Form 2", "Description", new ArrayList<>());
+        when(formService.getFormById("2")).thenReturn(Optional.of(mockForm));
+
+        // Mock the service call for deletion
         doNothing().when(formService).deleteForm("2");
 
         // Perform the DELETE request and validate the response
         mockMvc.perform(delete("/api/forms/2"))
                 .andExpect(status().isNoContent());
 
-        // Verify that the service method was called once
+        // Verify that the service methods were called
+        verify(formService, times(1)).getFormById("2");
         verify(formService, times(1)).deleteForm("2");
     }
+
 }

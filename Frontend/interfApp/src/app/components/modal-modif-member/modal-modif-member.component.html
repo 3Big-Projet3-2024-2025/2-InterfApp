@@ -1,0 +1,46 @@
+<div class="modal fade" id="modifmemberModal" tabindex="-1" aria-labelledby="modifmemberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modifmemberModalLabel">Manage Members</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formSubGroup">
+            <div class="mb-3">
+              <label for="inputSubGroups" class="form-label">Select Members</label>
+              <select class="form-select" id="inputSubGroups" formControlName="inputSubGroups" name="inputSubGroups" multiple>
+                <option *ngFor="let subGroup of SubGroupCustom | keyvalue" [value]="subGroup.key">
+                  {{ subGroup.key }}
+                </option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button 
+                type="button" 
+                class="btn btn-danger" 
+                (click)="onDeleteFromGroup()" 
+                data-bs-dismiss="modal">
+                Delete from this Group
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-warning" 
+                (click)="onGivePermission()" 
+                [disabled]="isManager() && subGroups.get('Managers')?.length == 1"
+                data-bs-dismiss="modal">
+                {{ isManager() ? 'revoke permission Manager' : 'Give Permission Manager' }}
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-primary" 
+                (click)="onSave()"
+                data-bs-dismiss="modal">
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
