@@ -36,7 +36,6 @@ export class FormService {
 
   // (Optionnal) method to delete a form (DELETE)
   deleteForm(id: string): Observable<any> {
-    console.log(id);
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

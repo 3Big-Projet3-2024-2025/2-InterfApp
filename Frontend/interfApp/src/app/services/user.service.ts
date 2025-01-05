@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { error } from 'console';
+import { User } from '../models/User'; 
 
 
 @Injectable({

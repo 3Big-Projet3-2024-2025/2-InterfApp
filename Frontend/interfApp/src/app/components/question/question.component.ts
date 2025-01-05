@@ -36,7 +36,7 @@ export class QuestionComponent implements OnInit{
         inputQuestion:[this.answerToformQuestion.inputQuestion, Validators.required],
         inputTypeQuestion: [this.answerToformQuestion.inputTypeQuestion, Validators.required],
       })
-      if(this.answerToformQuestion.inputAnswerMultiple){
+      if(this.answerToformQuestion.inputTypeQuestion == "Multiple choice"){
         this.choices = this.answerToformQuestion.inputChoices;
         this.InputChoicesArray = this.formBuilder.array(this.choices.map(choice => this.formBuilder.control(choice)));
         this.AnswerMultiple = new FormControl(this.answerToformQuestion.inputAnswerMultiple);

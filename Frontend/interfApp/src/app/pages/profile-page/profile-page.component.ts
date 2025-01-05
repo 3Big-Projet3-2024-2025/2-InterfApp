@@ -78,14 +78,14 @@ export class ProfilePageComponent {
           this.sha512Hash(this.formUpdateProfile.value.inputPassword1).then((hdata) => {
             this.user.password = hdata;
             console.log('hdata:', hdata);
-            this.userService.updateUser(this.user).subscribe(() => {
+            this.userService.updateUser(this.user.id,this.user).subscribe(() => {
               window.location.reload()});
           });
         }
 
       }
       else {
-        this.userService.updateUser(this.user).subscribe(() => {
+        this.userService.updateUser(this.user.id,this.user).subscribe(() => {
           window.location.reload()});
         console.log('Form data:', this.formUpdateProfile.value);
         console.log('User data final to send:', this.user);

@@ -38,11 +38,9 @@ export class CreateGroupPageComponent {
         listSubGroups: new Map([["Members",this.emailList]]),
       };
 
-      console.log(groupData);
 
       this.groupService.addGroup(groupData).subscribe(
         (response) => {
-          console.log(response);
           this.router.navigate(['group']);
           // You can redirect the user or display a success message
           console.log('group crée avec succés', response);
