@@ -1,9 +1,17 @@
 <div class="container-fluid mt-4">
   <div class="row">
-    <button *ngIf="isManager()" type="button" class="btn" [routerLink]="['/createform/', groupId ]" >Créer un group</button>
-    <button *ngIf="isManager()" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#groupSettingsModal">Settings</button>
+    <div class="mb-4 d-flex flex-column align-items-center">
+    <button *ngIf="isManager()" type="button" class="btn btn-lg btn-custom me-3" style="background-color: #FFA62B; border-color: #FFA62B;"  [routerLink]="['/createform/', groupId ]" > Create form</button>
+  </div>
+  <div class="mb-4 d-flex flex-column align-items-center">
+    <button *ngIf="isManager()" type="button" class="btn btn-lg btn-settings" data-bs-toggle="modal" data-bs-target="#groupSettingsModal">Settings</button>
+  </div>
+
     <div class="col-md-8">
-      <h3 class="mb-3">Liste des formlaire</h3>
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+      <h3 class="mb-3">Form's list</h3>
+    </div>
       <div class="list-group">
         <div
           *ngFor="let form of forms; let i = index"
@@ -11,24 +19,28 @@
         >
           <div (click)="expandedForms[i] = !expandedForms[i]" style="cursor: pointer;">
             <h5 class="mb-0">{{ form.title }}</h5>
-            <small *ngIf="!expandedForms[i]" class="text-muted">Cliquez pour voir plus</small>
+            <small *ngIf="!expandedForms[i]" class="text-muted">Click to see more</small>
           </div>
 
           <div *ngIf="expandedForms[i]" class="mt-2">
             <div class="btn-group" role="group">
-              <button *ngIf="isManager()" type="button" class="btn btn-primary" [routerLink]="['/answer/', form.id ]">View Answer</button>
-              <button type="button" class="btn btn-secondary" [routerLink]="['/form/', form.id ]">Respond</button>
-              <button *ngIf="isManager()" type="button" class="btn btn-warning" [routerLink]="['/form-modif/', form.id ]" >Modify Form</button>
-              <button *ngIf="isManager()" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal" (click)="formToDelete = form.id" >Delete Form</button>
+              <button *ngIf="isManager()" type="button" class="btn btn-primary" [routerLink]="['/answer/', form.id ]"> <i class="bi bi-eye me-2"></i>View Answer</button>
+              <button type="button" class="btn btn-secondary" [routerLink]="['/form/', form.id ]">  <i class="bi bi-pencil me-2"></i> Respond</button>
+              <button *ngIf="isManager()" type="button" class="btn btn-warning" [routerLink]="['/form-modif/', form.id ]" >  <i class="bi bi-pencil-square me-2"></i>Modify Form</button>
+              <button *ngIf="isManager()" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal" (click)="formToDelete = form.id" >  <i class="bi bi-trash me-2"></i>Delete Form</button>
             </div>
           </div>
           
         </div>
       </div>
     </div>
+    </div>
 
     <div class="col-md-4">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
       <h3 class="mb-3">SubGroups</h3>
+    </div>
       <div class="list-group">
         <div
           *ngFor="let subGroup of listSubGroups| keyvalue; let i = index"
@@ -52,7 +64,8 @@
             </ul>
           </div>
         </div>
-        <button *ngIf="isManager()" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#subgroupModal">New subGroup</button>
+        <button *ngIf="isManager()" type="button" class="btn btn-new-subgroup w-100 mt-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#subgroupModal"> <i class="bi bi-plus-circle me-2"></i>New subGroup</button>
+      </div>
       </div>
     </div>
   </div>

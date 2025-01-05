@@ -1,12 +1,12 @@
 <div class="container mt-5">
     <h1 class="mb-4">{{ title }}</h1>
   
-    <form [formGroup]="formReply" (ngSubmit)="submit()">
+    <form [formGroup]="formReply" (ngSubmit)="submit()" class="shadow p-4 rounded bg-light">
       <formly-form 
         [model]="model" 
         [fields]="fields" 
         [options]="options" 
-        [form]="formReply">
+        [form]="formReply"> 
         
         <!-- error -->
         <div *ngIf="formReply.invalid && formReply.touched" class="alert alert-danger">

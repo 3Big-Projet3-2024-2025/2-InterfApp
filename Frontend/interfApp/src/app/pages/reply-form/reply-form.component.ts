@@ -79,6 +79,7 @@ export class ReplyFormComponent implements OnInit {
           selectAllOption: 'Select All',
           options: (question.inputChoices || []).map((choice: string) => ({ value: choice, label: choice })),
         },
+        
         validation: {
           messages: {
             required: 'This field is required', // Error message for required fields
@@ -91,6 +92,7 @@ export class ReplyFormComponent implements OnInit {
 
     return formlyFields;
   }
+  
   submit(){
     if (this.formReply.valid && this.cookieService.get('jwt') !== "") {
           const tokenJWT = jwtDecode(this.cookieService.get('jwt')) as any;

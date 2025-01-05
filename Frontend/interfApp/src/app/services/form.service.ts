@@ -16,6 +16,10 @@ export class FormService {
     return this.http.post<any>(this.baseUrl, form);
   }
 
+  updateForm(form: any): Observable<any> {
+    return this.http.put<any>(this.baseUrl, form);
+  }
+
   // method to get all forms (GET)
   getAllForms(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
@@ -24,6 +28,10 @@ export class FormService {
   // (Optionnal) method to get all form by its id (GET)
   getFormById(id: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
+  }
+
+  getFormByIdGroup(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/group/${id}`);
   }
 
   // (Optionnal) method to delete a form (DELETE)

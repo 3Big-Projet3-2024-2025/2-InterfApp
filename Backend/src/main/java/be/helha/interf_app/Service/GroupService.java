@@ -35,6 +35,9 @@ public class GroupService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private FormService formService;
+
     /**
      * Saves a new group in the repository.
      * Ensures the group ID is unique and sets the current user as the group's manager.
@@ -96,6 +99,9 @@ public class GroupService {
                     member.setRoles(member.getRoles().replace(",Manager_" + groupId,""));
                     userRepository.save(member);
                 });
+            });
+            formService.getFormByIdGroup(groupId).forEach(form -> {
+                formService.deleteForm(form.getId());
             });
             groupRepository.deleteById(groupId);
         }
