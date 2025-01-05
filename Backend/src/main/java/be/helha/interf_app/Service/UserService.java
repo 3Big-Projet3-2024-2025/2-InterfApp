@@ -177,4 +177,12 @@ public class UserService {
         // Return null if the user does not exist
         return null;
     }
+
+    public boolean checkPassword(User user) {
+        Optional<User> userFromDB = getUserById(user.getId());
+        if (userFromDB.isPresent()) {
+            return userFromDB.get().getPassword().equals(user.getPassword());
+        }
+        return false;
+    }
 }

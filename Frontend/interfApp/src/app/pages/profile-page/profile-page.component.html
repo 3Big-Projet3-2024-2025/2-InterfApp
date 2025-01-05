@@ -1,0 +1,45 @@
+<div class="text-center mt-4 ">
+  <h3>Hello {{ user.username }} !</h3>
+  <div class="border profile-container container p-5 mt-2">
+    <form [formGroup]="formUpdateProfile" >
+<!--      (ngSubmit)="onSubmit()"-->
+    <div class="text-start myContainer pt-2 align-self-center">
+      <div class="yourName">
+        Your username
+        <br>
+          <input type="text" class="form-control" value="{{ user.username }}" [readonly]="!isEditable" formControlName="inputUsername" placeholder="Your username">
+      </div>
+      <div class="yourEmail">
+        Your email
+        <br>
+        <input type="text" class="form-control" value="{{ user.email }}" [readonly]="!isEditable" formControlName="inputEmail" placeholder="Your email">
+      </div>
+      <div class="yourPassword" placeholder="Your password">
+      @if(!isEditable) {
+        Your password
+        <br>
+        <input type="password" class="form-control" [readonly]="!isEditable" >
+      }
+        @if(isEditable) {
+          Your new password
+          <br>
+          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword1" placeholder="Your new password">
+          Confirm your new password
+          <br>
+          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword2" placeholder="Confirm your new password">
+        }
+      </div>
+    </div>
+    @if(isEditable) {
+<!--      <input type="submit" class="btn btn-primary mt-3" (click)="toggleEdit()" value="Save changes">-->
+      <button (click)="toggleEdit()" class="btn btn-primary mt-3">Save Changes</button>
+    }
+    @else {
+      <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Modify my profile</button>
+    }
+    </form>
+  </div>
+</div>
+<app-modal-confirm-old-password [user]="user" (passwordCheckResult)="handlePasswordCheckResult($event)"></app-modal-confirm-old-password>
+
+

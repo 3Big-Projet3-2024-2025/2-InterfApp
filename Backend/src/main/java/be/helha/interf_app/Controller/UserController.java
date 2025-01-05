@@ -195,4 +195,10 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/checkpassword")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody User user) {
+        boolean isPasswordCorrect = userService.checkPassword(user);
+        return ResponseEntity.ok(isPasswordCorrect);
+    }
 }

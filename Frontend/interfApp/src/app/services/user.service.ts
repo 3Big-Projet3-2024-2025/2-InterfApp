@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { error } from 'console';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -90,5 +91,8 @@ export class UserService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+  checkPassword(user: User): Observable<boolean> {
+    return this.http.post<boolean>(`${this.apiUrl}/checkpassword`, user);
+  }
 }
 

@@ -4,12 +4,11 @@ import { ModifyGroupComponent } from "./components/modify-group/modify-group.com
 import { CreateGroupPageComponent } from "./pages/create-group-page/create-group-page.component";
 import { CreateFormComponent } from './pages/create-form/create-form.component';
 import { ReplyFormComponent } from './pages/reply-form/reply-form.component';
-import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { authGuardGuard } from './guard/auth-guard.guard';
 import { roleGuardGuard } from './guard/role-guard.guard';
-import { ProfilComponent } from './pages/profil/profil.component';
 import { notAuthGuard } from './guard/not-auth.guard';
+import { ProfilePageComponent} from "./pages/profile-page/profile-page.component";
 import { ListGroupPageComponent } from './pages/list-group-page/list-group-page.component';
 import { SummaryAnswersComponent } from './pages/summary-answers/summary-answers.component';
 import { ModifFormPageComponent } from './pages/modif-form-page/modif-form-page.component';
@@ -32,7 +31,7 @@ export const routes: Routes = [
   { path: 'form/:id', component: ReplyFormComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'form-modif/:id', component: ModifFormPageComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'answer/:id', component: SummaryAnswersComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
-  { path: 'profil', component: ProfilComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
+  { path: 'profil', component: ProfilePageComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'home', component: HomeComponent},
 
   // admin pages
