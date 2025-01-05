@@ -8,10 +8,7 @@ import be.helha.interf_app.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Service class for managing and performing operations related to {@link Group} entities.
@@ -49,19 +46,6 @@ public class GroupService {
         if (getGroupById(group.getId()).isEmpty()) {
             String managerId = (String) jwtUtil.parsedJWT.get("id");
             if (userRepository.findById(managerId).isPresent()) {
-                /*List<String> listIdMember = new ArrayList<>();
-                for (String email :group.getListSubGroups().get("Members")) {
-                    Optional<User> member = userRepository.findByEmail(email);
-                    if(member.isPresent()){
-                        listIdMember.add(member.get().getId());
-                    }else{
-                        User invitedUser = new User();
-                        invitedUser.setEmail(email);
-                        invitedUser.setRoles("User");
-                        invitedUser.setListGroup(new ArrayList<>());
-                        listIdMember.add(userRepository.save(invitedUser).getId()) ;
-                    }
-                }*/
                 List<String>listMembers = group.getListSubGroups().get("Members");
                 group.getListSubGroups().put("Managers",new ArrayList<>(Arrays.asList(managerId)));
                 group.getListSubGroups().put("Members",new ArrayList<>());
@@ -104,10 +88,20 @@ public class GroupService {
     /**
      * Deletes a group by its ID from the repository.
      *
-     * @param id The ID of the group to delete.
+     * @param groupId The ID of the group to delete.
      */
-    public void deleteGroup(String id) {
-        groupRepository.deleteById(id);
+    public void deleteGroup(String groupId) {
+        if (getGroupById(groupId).isPresent()) {
+            List<String> listMembers = getGroupById(groupId).get().getListSubGroups().get("Members");
+            listMembers.forEach((memberId) -> {
+                userRepository.findById(memberId).ifPresent(member -> {
+                    member.getListGroup().remove(groupId);
+                    member.setRoles(member.getRoles().replace(",Manager_" + groupId,""));
+                    userRepository.save(member);
+                });
+            });
+            groupRepository.deleteById(groupId);
+        }
     }
 
     /**
@@ -186,7 +180,10 @@ public class GroupService {
             member.getListGroup().remove(groupId);
             userRepository.save(member);
             Group group = getGroupById(groupId).get();
-            group.getListSubGroups().get("Members").remove(memberId);
+            for (Map.Entry<String, List<String>> entry : group.getListSubGroups().entrySet()) {
+                List<String> subGroupList = entry.getValue();
+                subGroupList.remove(memberId);
+            }
             return groupRepository.save(group);
         }
         return null;
