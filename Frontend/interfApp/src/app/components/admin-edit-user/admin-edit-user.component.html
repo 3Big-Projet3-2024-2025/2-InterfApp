@@ -3,8 +3,8 @@
 
   <div class="form-container mt-4">
     <form (ngSubmit)="saveChanges()">
-      <div class="mb-4">
-        <label for="username" class="form-label">User Name</label>
+      <div class="mb-3">
+        <label for="username" class="form-label">User name</label>
         <input
           type="text"
           class="form-control"
@@ -12,11 +12,10 @@
           [(ngModel)]="user.username"
           name="username"
           required
-          placeholder="Enter username"
         />
       </div>
 
-      <div class="mb-4">
+      <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input
           type="email"
@@ -25,27 +24,25 @@
           [(ngModel)]="user.email"
           name="email"
           required
-          placeholder="Enter email"
         />
       </div>
 
-      <div class="mb-4">
-        <label for="roles" class="form-label">Roles</label>
-        <select
-          class="form-select"
-          id="roles"
-          [(ngModel)]="user.roles"
-          name="roles"
-          multiple
-        >
-          <option value="Admin">Admin</option>
-          <option value="User">User</option>
-        </select>
+      <label for="role" class="form-label">Role</label>
+      <div class="mb-3 form-check">
+        
+        <input
+          type="checkbox"
+          id="isAdmin"
+          class="form-check-input"
+          [(ngModel)]="user.isAdmin"
+          name="isAdmin"
+        />
+        <label class="form-check-label" for="isAdmin">
+          Check if user is an admin
+        </label>
       </div>
 
-      <div class="text-center">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
 </div>
