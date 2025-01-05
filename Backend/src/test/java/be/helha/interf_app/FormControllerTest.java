@@ -365,27 +365,37 @@ public class FormControllerTest {
      */
     @Test
     void deleteForm() throws Exception {
-        // Mock the service call
+        // Mock the service to return the form for the given ID
+        Form mockForm = new Form("1", "Form 1", "Description", new ArrayList<>());
+        when(formService.getFormById("1")).thenReturn(Optional.of(mockForm));
+
+        // Mock the service call for deletion
         doNothing().when(formService).deleteForm("1");
 
         // Perform the DELETE request and validate the response
         mockMvc.perform(delete("/api/forms/1"))
                 .andExpect(status().isNoContent());
 
-        // Verify that the service method was called once
+        // Verify that the service methods were called
+        verify(formService, times(1)).getFormById("1");
         verify(formService, times(1)).deleteForm("1");
     }
 
     @Test
     void deleteFormAllQuestions() throws Exception {
-        // Mock the service call
+        // Mock the service to return the form for the given ID
+        Form mockForm = new Form("2", "Form 2", "Description", new ArrayList<>());
+        when(formService.getFormById("2")).thenReturn(Optional.of(mockForm));
+
+        // Mock the service call for deletion
         doNothing().when(formService).deleteForm("2");
 
         // Perform the DELETE request and validate the response
         mockMvc.perform(delete("/api/forms/2"))
                 .andExpect(status().isNoContent());
 
-        // Verify that the service method was called once
+        // Verify that the service methods were called
+        verify(formService, times(1)).getFormById("2");
         verify(formService, times(1)).deleteForm("2");
     }
 
