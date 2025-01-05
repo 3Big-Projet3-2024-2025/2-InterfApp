@@ -1,13 +1,13 @@
 <div class="container mt-4 p-4 border rounded bg-light shadow-sm">
   <form [formGroup]="formForm">
     <div class="mb-3">
-      <label for="inputTitreForm" class="form-label">Titre du formulaire :</label>
+      <label for="inputTitreForm" class="form-label"> Form title :</label>
       <input 
         id="inputTitreForm" 
         type="text" 
         formControlName="inputTitreForm" 
         class="form-control" 
-        placeholder="Entrez le titre du formulaire">
+        placeholder="Enter the form title">
     </div>
   </form>
 
@@ -24,12 +24,12 @@
 
   <div class="d-flex justify-content-between">
     <button 
-      class="btn btn-success" 
+      class="btn btn-add-question" 
       (click)="addQuestion()">
       +
     </button>
     <button 
-      class="btn btn-primary" 
+      class="btn btn-save-questions" 
       (click)="saveQuestions()" 
       [disabled]="!formForm.valid">
       Enregistrer
