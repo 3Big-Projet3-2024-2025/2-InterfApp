@@ -3,7 +3,6 @@ import { GroupPageComponent } from "./pages/group-page/group-page.component";
 import { ModifyGroupComponent } from "./components/modify-group/modify-group.component";
 import { CreateGroupPageComponent } from "./pages/create-group-page/create-group-page.component";
 import { CreateFormComponent } from './pages/create-form/create-form.component';
-import { OpenFormComponent } from './pages/open-form/open-form.component';
 import { ReplyFormComponent } from './pages/reply-form/reply-form.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -30,7 +29,6 @@ export const routes: Routes = [
 
   // users pages
   { path: 'createform/:id', component: CreateFormComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
-  { path: 'forms', component: OpenFormComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'form/:id', component: ReplyFormComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'form-modif/:id', component: ModifFormPageComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
   { path: 'answer/:id', component: SummaryAnswersComponent, canActivate: [authGuardGuard], data: { role: 'User' } },
