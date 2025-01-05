@@ -27,6 +27,7 @@
                 type="button" 
                 class="btn btn-warning" 
                 (click)="onGivePermission()" 
+                [disabled]="isManager() && subGroups.get('Managers')?.length == 1"
                 data-bs-dismiss="modal">
                 {{ isManager() ? 'revoke permission Manager' : 'Give Permission Manager' }}
               </button>

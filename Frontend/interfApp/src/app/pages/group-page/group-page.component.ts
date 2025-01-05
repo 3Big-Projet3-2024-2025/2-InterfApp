@@ -10,6 +10,8 @@ import { UserService } from '../../services/user.service';
 import { ModalModifSubGroupComponent } from '../../components/modal-modif-sub-group/modal-modif-sub-group.component';
 import { ModalModifMemberComponent } from '../../components/modal-modif-member/modal-modif-member.component';
 import { ModifyGroupComponent } from '../../components/modify-group/modify-group.component';
+import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
 
 declare var bootstrap: any;
 
@@ -35,7 +37,7 @@ export class GroupPageComponent implements OnInit {
   members : any [] = [];
   memberModif : any;
 
-  constructor(private route: ActivatedRoute,private groupService: GroupService, private formService : FormService, private userService : UserService, private router : Router) {}
+  constructor(private route: ActivatedRoute,private groupService: GroupService, private formService : FormService, private userService : UserService, private router : Router,private cookieService : CookieService) {}
 
   ngOnInit(): void {
     this.groupId = this.route.snapshot.paramMap.get('id');
@@ -182,7 +184,7 @@ export class GroupPageComponent implements OnInit {
   }
 
   updateMember(listSubGroups : any){
-    console.log(this.group);
+    this.isManager();
     this.group.listSubGroups = listSubGroups;
     this.groupService.updateGroup(this.group).subscribe(
       (data) => {
@@ -216,5 +218,10 @@ export class GroupPageComponent implements OnInit {
       (error) => {
       }
     );
+  }
+
+  isManager(){
+    const token = jwtDecode(this.cookieService.get("jwt")) as any;
+    return this.listSubGroups.get("Managers")?.includes(token.id);
   }
 }
