@@ -3,10 +3,10 @@
   <div class="group-form">
     <div class="group-container">
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-        <label for="name" class="">Group name : </label>
+        <label for="name" class=""> Group name : </label>
         <br>
         <input type="text" id="name" formControlName="inputName" class="form-label mb-3 g-3">
-        <label for="name" class="">members : </label>
+        <label for="name" class=""> Members : </label>
         <div class="form-control d-flex flex-wrap align-items-center" id="email-container">
           <span *ngFor="let email of emailList; let i = index" class="badge badge-primary me-2">
             {{ email }}
