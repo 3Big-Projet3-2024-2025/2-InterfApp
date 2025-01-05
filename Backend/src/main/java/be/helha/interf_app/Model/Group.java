@@ -32,6 +32,9 @@ public class Group {
      * The name of the group.
      */
     private String name;
+    /**
+     *  A map representing subgroups within the group.
+     */
     private Map<String,List<String>> listSubGroups;
 
 }
