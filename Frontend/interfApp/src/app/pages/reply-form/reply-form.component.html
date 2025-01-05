@@ -15,8 +15,9 @@
         
       </formly-form>
   
-      <div class="text-center mt-3">
+      <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
         <button type="submit" class="btn btn-primary" [disabled]="!formReply.valid">Submit</button>
-      </div>
+        <button type="button" class="btn bouton" (click)="navigate()"> Retour </button>
+    </div>
     </form>
   </div>
