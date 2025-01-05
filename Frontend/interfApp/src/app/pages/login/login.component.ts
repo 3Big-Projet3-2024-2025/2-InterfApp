@@ -51,7 +51,6 @@ export class LoginComponent {
         userData.password = hdata
         this.loginService.login(userData).subscribe(
           (response) => {
-            console.log(response);
             this.loginService.saveJwt(response.token, userData.rememberMe);
             this.router.navigate(['forms']);
             // You can redirect the user or display a success message
