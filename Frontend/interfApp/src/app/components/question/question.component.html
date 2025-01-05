@@ -64,7 +64,7 @@
           *ngFor="let choice of inputChoicesArray.controls; let i = index"
           class="d-flex align-items-center mb-2"
         >
-          <label [for]="'choice' + i" class="form-label me-2 text-nowrap">Choix {{ i + 1 }} :</label>
+          <label [for]="'choice' + i" class="form-label me-2 text-nowrap">choice {{ i + 1 }} :</label>
           <input
             [id]="'inputChoice' + i"
             type="text"
