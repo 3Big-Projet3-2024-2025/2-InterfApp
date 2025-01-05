@@ -1,0 +1,19 @@
+<div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Invite members</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formEmail" (ngSubmit)="addEmail()" >
+          <input type="email" placeholder="email" formControlName="inputEmail" >
+          <div class="modal-footer">
+            <button type="button" class="btn close" id="close" data-bs-dismiss="modal" >Close</button>
+            <button type="submit" class="btn" data-bs-dismiss="modal" [disabled]="!formEmail.valid">Invite</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

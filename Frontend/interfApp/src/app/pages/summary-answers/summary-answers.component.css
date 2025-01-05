@@ -1,0 +1,30 @@
+.form-select {
+    white-space: nowrap;
+    overflow-x: auto;   
+    display: block;     
+    max-width: 100%;    
+}
+
+.question-header {
+    background-color: #16697A;
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 0.25rem 0.25rem 0 0; 
+}
+
+.bouton {
+    background-color:#FFA62B ;
+        background-color: #FFA62B;
+        color: white; 
+        border: none; 
+        padding: 8px 15px; 
+        border-radius: 5px;
+        font-size: 14px; 
+        transition: background-color 0.3s ease; 
+    
+}
+
+.bouton:hover {
+    background-color: #cb891e;
+  }

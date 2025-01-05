@@ -1,0 +1,11 @@
+
+.modal-footer button {
+    background-color: #FFA62B;
+    color: white;
+  }
+  
+  button#close.close {
+    color: white;
+    background-color: #d3d3d3;
+  }
+  

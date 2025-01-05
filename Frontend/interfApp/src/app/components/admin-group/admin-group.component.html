@@ -1,0 +1,43 @@
+<div class="container mt-4 ">
+    <!-- Create search bar -->
+    <div class="mb-4 d-flex flex-column align-items-center">
+      <div class="input-group w-50">
+        <input type="text" class="form-control" placeholder="Search for a group by name..." [(ngModel)]="searchQuery"/>
+        <button class="btn btn-primary" (click)="filterGroups()">Search</button>
+      </div>
+    </div>
+     <!-- show error message if no groups is found -->
+     <div *ngIf="noResultsFound" class="alert alert-warning text-center">
+      No groups found matching your search criteria.
+    </div>
+  
+    <!-- create group button-->
+      <div class="mb-4 d-flex flex-column align-items-center">
+          <button type="button" class="btn btn-secondary btn-lg" [routerLink]="['/create-group']" > Create a group </button>
+      </div>
+      <!-- show list of groups-->
+      <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let group of getPaginatedGroups()">
+          <div class="card shadow-sm h-100" [routerLink]="['/group/', group.id]" style="cursor: pointer;">
+            <div class="card-body text-center">
+              <h2 class="card-title text-primary">
+                <a class="text-decoration-none text-primary">
+                  {{ group.name }}
+                </a>
+              </h2>
+              <strong> created by :</strong> {{ userNamesMap[group.listSubGroups["Managers"][0]] || 'Unknown' }}
+              <p><strong>Number of members :</strong> {{ group.listSubGroups["Members"].length }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+        <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+      <button (click)="goToPage(currentPage - 1)" class="btn btn-secondary" [disabled]="currentPage === 1">Previous</button>
+      <span class="mx-2">Page {{ currentPage }} of {{ totalPages() }}</span>
+      <button (click)="goToPage(currentPage + 1)" class="btn btn-secondary" [disabled]="currentPage === totalPages()">Next</button>
+    </div>
+  
+  </div>
+  

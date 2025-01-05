@@ -1,0 +1,43 @@
+<div class="container-fluid vh-100">
+  <div class="row">
+    <!-- Sidebar Toggle Button -->
+    <button
+      id="sidebar-toggle"
+      class="d-lg-none"
+      (click)="toggleSidebar()">☰</button>
+  </div>
+
+  <div class="row h-100">
+    <!-- Sidebar -->
+    <div id="sidebar" class="col-lg-3 bg-primary border-end">
+      <h2 class="text-center mt-4 text-light">Admin Panel</h2>
+      <div class="list-group mt-5">
+        <button 
+          class="list-group-item list-group-item-action" 
+          [class.active]="activeView === 'users'"
+          (click)="setActiveView('users')">
+          <i class="bi bi-person"></i> Manage Users
+        </button>
+        <button 
+          class="list-group-item list-group-item-action" 
+          [class.active]="activeView === 'groups'"
+          (click)="setActiveView('groups')">
+          <i class="bi bi-person-check"></i> Manage Groups
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+      <div class="content-container p-4">
+        <ng-container *ngIf="activeView === 'users'">
+          <app-admin-user></app-admin-user>
+        </ng-container>
+
+        <ng-container *ngIf="activeView === 'groups'">
+          <app-admin-group></app-admin-group>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

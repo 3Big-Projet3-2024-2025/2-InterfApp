@@ -1,0 +1,29 @@
+<div class="create-group">
+  <h2>Create a new group</h2>
+  <div class="group-form">
+    <div class="group-container">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <label for="name" class=""> Group name : </label>
+        <br>
+        <input type="text" id="name" formControlName="inputName" class="form-label mb-3 g-3">
+        <label for="name" class=""> Members : </label>
+        <div class="form-control d-flex flex-wrap align-items-center" id="email-container">
+          <span *ngFor="let email of emailList; let i = index" class="badge badge-primary me-2">
+            {{ email }}
+            <button type="button" class="btn-close btn-sm ms-1" aria-label="Close" (click)="removeEmail(i)">
+            </button>
+          </span>
+        </div>
+        <br>
+        <button type="button" class="btn mb-3" data-bs-toggle="modal" data-bs-target="#inviteModal">Invite members</button>
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Import a csv file :</label>
+          <input class="form-control form-control-sm" type="file" id="formFile">
+        </div>
+        <button type="submit" class="btn mb-3">Create group</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-modal-invite-members (emailEmitter)="addEmail($event)" ></app-modal-invite-members>

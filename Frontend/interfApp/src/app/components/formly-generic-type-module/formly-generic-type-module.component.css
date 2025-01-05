@@ -1,0 +1,14 @@
+.position-relative {
+    position: relative;
+  }
+  
+  .invalid-icon {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Pour éviter les clics sur l'icône */
+  }
+  
+  .input-group .form-control.is-invalid {
+    padding-right: 2.5rem; /* Laissez de l'espace pour l'icône */
+  }

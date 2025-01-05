@@ -1,0 +1,22 @@
+.profile-container {
+  width: 30vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5pt;
+  /*background-color: #c50000;*/
+}
+
+.myContainer {
+  width: 80%;
+  /*background-color: blue;*/
+}
+
+.yourName {
+  /*background-color: #c50000;*/
+}
+
+button {
+  width: 220pt;
+}

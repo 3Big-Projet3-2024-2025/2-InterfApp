@@ -1,0 +1,90 @@
+
+  /* Header */
+  .header-section {
+    background-color: #8e5301; color: white;
+  }
+
+  .app-container {
+    background-color: #EDE7E3;
+  }
+  body {
+    background-color: #EDE7E3; 
+    margin: 0; 
+  }
+  
+  .header-title {
+    font-size: 3rem;
+  }
+  
+  .header-subtitle {
+    font-size: 1.25rem;
+  }
+  
+  /* Features Section */
+  .features-section {
+    padding: 2rem 0;
+  }
+  
+  .features-title {
+    color: #16697A;
+  }
+  
+  .feature-card {
+    transition: transform 0.3s ease;
+    
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .feature-card-title {
+    font-size: 1.5rem;
+    color: #16697A;
+  }
+  
+  .feature-card-text {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* Call-to-Action Section */
+  .cta-section {
+    padding: 2rem 0;
+    background-color: #FFA62B; 
+    color: white; 
+    padding: 40px 0;
+    border-radius: 15px;  
+  }
+  
+  .cta-title {
+    color: var(--primary-color);
+    font-size: 2rem;
+    
+  }
+  
+  .cta-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .cta-btn {
+    border: none;
+    transition: background-color 0.3s ease;
+    background-color: #16697A; 
+    color: white;
+  }
+  
+  .cta-btn:hover {
+    background-color: #e59424;
+  }
+  
+  /* Footer */
+  .footer-section {
+    background-color: #16697A; 
+    color: white;
+    
+  }
+  .footer-text {
+    font-size: 0.9rem;
+  }
+  

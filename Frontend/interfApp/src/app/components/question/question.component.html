@@ -1,0 +1,120 @@
+<div >
+  <form [formGroup]="formQuestion" class="p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="flex-grow-1 me-3">
+        <label for="inputTitleQuestion" class="form-label">Question {{ questionId }}</label>
+      </div>
+      <div class="btn-group ms-3">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          (click)="toggleContent()"
+        >
+          {{ isContentHidden ? '▲' : '▼' }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger btn-sm"
+          (click)="removeQuestion()"
+        >
+          &times;
+        </button>
+      </div>
+    </div>
+
+    <div [ngClass]="{ 'd-none': isContentHidden }">
+      <div class="mb-3">
+        <label for="inputTypeQuestion" class="form-label"> Question type :</label>
+        <select
+          id="inputTypeQuestion"
+          formControlName="inputTypeQuestion"
+          class="form-select"
+          required
+          (change)="onTypeChange(formQuestion.value.inputTypeQuestion)"
+        >
+          <option *ngFor="let type of questionTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="inputQuestion" class="form-label">Question :</label>
+        <input
+          id="inputQuestion"
+          type="text"
+          formControlName="inputQuestion"
+          class="form-control"
+          placeholder="Question"
+          required
+        />
+      </div>
+
+      <div *ngIf="formQuestion.value.inputTypeQuestion === 'Multiple choice'" class="mb-3 form-check">
+        <input
+          id="inputAnswerMultiple"
+          type="checkbox"
+          formControlName="inputAnswerMultiple"
+          class="form-check-input"
+        />
+        <label for="inputAnswerMultiple" class="form-check-label">Multiple answer possible</label>
+      </div>
+
+      <div *ngIf="formQuestion.value.inputTypeQuestion === 'Multiple choice'" class="mb-3">
+        <div
+          formArrayName="inputChoices"
+          *ngFor="let choice of inputChoicesArray.controls; let i = index"
+          class="d-flex align-items-center mb-2"
+        >
+          <label [for]="'choice' + i" class="form-label me-2 text-nowrap">choice {{ i + 1 }} :</label>
+          <input
+            [id]="'inputChoice' + i"
+            type="text"
+            [formControlName]="i"
+            class="form-control me-2"
+            placeholder="Choix"
+          />
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            (click)="removeChoice(i)"
+          >
+            &times;
+          </button>
+        </div>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm"
+          (click)="addChoice()"
+        >
+          +
+        </button>
+      </div>
+
+      <div class="mb-3 form-check">
+        <input
+          id="inputRequired"
+          type="checkbox"
+          formControlName="inputRequired"
+          class="form-check-input"
+        />
+        <label for="inputRequired" class="form-check-label">This question is required</label>
+      </div>
+    </div>
+  </form>
+
+  <div class="move-buttons">
+    <button
+      type="button"
+      class="move-up-btn"
+      (click)="moveUp()"
+    >
+      &#8593;
+    </button>
+    <button
+      type="button"
+      class="move-down-btn"
+      (click)="moveDown()"
+    >
+      &#8595;
+    </button>
+  </div>
+</div>

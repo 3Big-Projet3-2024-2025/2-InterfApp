@@ -1,0 +1,42 @@
+/* Bouton "+" */
+.btn-add-question {
+    background-color: #FFA62B;
+    border-color: #FFA62B;
+    color: white;
+
+  }
+  
+  .btn-add-question:hover {
+    background-color: #e69527;
+    border-color: #e69527;
+    transform: scale(1.1);
+  }
+  
+  /* Bouton "Enregistrer" */
+  .btn-save-questions {
+    background-color: #16697A;
+    border-color: #16697A;
+    color: white;
+  }
+  
+  .btn-save-questions:hover {
+    background-color: #145e6d;
+    border-color: #145e6d;
+    transform: scale(1.05);
+  }
+  
+  /* Général */
+  .btn {
+    border-radius: 0.5rem;
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .btn:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
