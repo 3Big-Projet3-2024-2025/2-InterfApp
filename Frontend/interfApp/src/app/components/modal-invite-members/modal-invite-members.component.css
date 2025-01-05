@@ -1,10 +1,37 @@
-
-.modal-footer button {
-  background-color: #FFA62B;
-  color: white;
+/* Bouton Close */
+#close {
+  background-color: #6c757d; 
+  color: white; 
+  border: none; 
+  padding: 5px 15px; 
+  font-size: 0.875rem; 
+  border-radius: 3px;
+  transition: background-color 0.3s ease, transform 0.3s ease; 
 }
 
-button#close.close {
-  color: white;
-  background-color: #d3d3d3;
+#close:hover {
+  background-color: #5a6268; 
+  transform: scale(1.1); 
 }
+
+/* Bouton Invite */
+button[type="submit"] {
+  background-color: #FFA62B; 
+  color: white; 
+  border: none; 
+  padding: 5px 15px; 
+  font-size: 0.875rem; 
+  border-radius: 3px; 
+  transition: background-color 0.3s ease, transform 0.3s ease; 
+}
+
+button[type="submit"]:hover {
+  background-color: #FFA62B; 
+  transform: scale(1.1); 
+}
+
+button[disabled] {
+  background-color: #f8b04c;
+  cursor: not-allowed;
+}
+

@@ -20,7 +20,7 @@
               </span>
             </div>
             <br>
-            <button type="button" class="btn mb-3" data-bs-toggle="modal" data-bs-target="#inviteModal">Invite members</button>
+            <button type="button" class="btn invite-button mb-3" data-bs-toggle="modal" data-bs-target="#inviteModal">Invite members</button>
             
             <div class="mb-3">
               <label for="formFile" class="form-label">Import a CSV file:</label>
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="saveGroup()">Save Changes</button>
+            <button type="button" class="btn save-changes-button" data-bs-dismiss="modal" (click)="saveGroup()">Save Changes</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteGroup()">Delete Group</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>

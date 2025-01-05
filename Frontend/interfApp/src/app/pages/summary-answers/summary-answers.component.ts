@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormService } from '../../services/form.service';
 import { AnswerService } from '../../services/answer.service';
 import {  CommonModule, KeyValue } from '@angular/common';
@@ -19,7 +19,7 @@ export class SummaryAnswersComponent implements OnInit {
   everyAnswersOfForm: any[] = [];
   mapAnswerSummarize: Map<any,any[]> = new Map([]) ; //creation of the map for the question, and then the tables of the answers of all users
 
-  constructor(private route: ActivatedRoute, private formService: FormService, private answerService : AnswerService) 
+  constructor(private route: ActivatedRoute, private formService: FormService, private answerService : AnswerService, private router : Router) 
   {
   }
 
@@ -36,7 +36,6 @@ export class SummaryAnswersComponent implements OnInit {
             (data) => {
               this.everyAnswersOfForm = data;
               this.Summarization();
-              console.log(this.mapAnswerSummarize);
             },
             (error) => {
               console.error('impossible de récupérer le formulaire', error);
@@ -105,5 +104,9 @@ export class SummaryAnswersComponent implements OnInit {
 
   AverageValue(tabNumberRange:number[]){
     return tabNumberRange.reduce((sum: number, num: number) => Number(sum) + Number(num), 0) / tabNumberRange.length;
+  }
+
+  navigate(){
+    this.router.navigate(['/group/'+this.form.idGroup]);
   }
 }

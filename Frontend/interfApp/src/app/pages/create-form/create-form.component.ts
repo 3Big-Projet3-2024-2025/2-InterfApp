@@ -3,7 +3,7 @@ import { QuestionComponent } from '../../components/question/question.component'
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormService } from '../../services/form.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-create-form',
   standalone:true,
@@ -18,7 +18,7 @@ export class CreateFormComponent {
 
   @ViewChildren(QuestionComponent) questionComponents!: QueryList<QuestionComponent>;
 
-  constructor(private formBuilder: FormBuilder, private formService: FormService,private route: ActivatedRoute){
+  constructor(private formBuilder: FormBuilder, private formService: FormService,private route: ActivatedRoute, private router: Router){
     this.formForm = this.formBuilder.group({
       inputTitreForm:['', Validators.required],
       arrayFormQuestion: this.formBuilder.array([]),
@@ -49,7 +49,6 @@ export class CreateFormComponent {
 
   saveForm(form: FormGroup): void {
     this.arrayFormQuestion.push(form); // Adds the FormGroup to the list
-
   }
 
   move(isupwards : boolean , id : number){
@@ -79,6 +78,7 @@ export class CreateFormComponent {
         next: (response) => {
           console.log('Form saved successfully:', response);
           alert('Formulaire sauvegardé avec succès !');
+          this.router.navigate(['/group/'+ formData.idGroup]);
         },
         error: (err) => {
           console.error('Error saving form:', err);
