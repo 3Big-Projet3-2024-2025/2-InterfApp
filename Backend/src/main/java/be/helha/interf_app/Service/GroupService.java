@@ -47,15 +47,12 @@ public class GroupService {
             String managerId = (String) jwtUtil.parsedJWT.get("id");
             if (userRepository.findById(managerId).isPresent()) {
                 List<String>listMembers = group.getListSubGroups().get("Members");
-                group.getListSubGroups().put("Managers",new ArrayList<>(Arrays.asList(managerId)));
+                group.getListSubGroups().put("Managers",new ArrayList<>());
                 group.getListSubGroups().put("Members",new ArrayList<>());
                 String idGroup = groupRepository.save(group).getId();
 
                 listMembers.forEach((emailMember) -> addMember(emailMember,group.getId()));
-
-                User manager = userRepository.findById(managerId).get();
-                manager.setRoles(manager.getRoles() + ",Manager_" + idGroup);
-                userRepository.save(manager);
+                addManager(managerId,group.getId());
 
                 return getGroupById(idGroup).get();
             }
@@ -129,9 +126,13 @@ public class GroupService {
         if (userRepository.findById(managerId).isPresent() && getGroupById(groupId).isPresent()) {
             User manager = userRepository.findById(managerId).get();
             manager.setRoles(manager.getRoles() + ",Manager_" + groupId);
-            userRepository.save(manager);
             Group group = getGroupById(groupId).get();
             group.getListSubGroups().get("Managers").add(managerId);
+            if(!group.getListSubGroups().get("Members").contains(manager.getId())){
+                group.getListSubGroups().get("Members").add(manager.getId());
+                manager.getListGroup().add(groupId);
+            }
+            userRepository.save(manager);
             return groupRepository.save(group);
         }
         return null;
@@ -157,10 +158,12 @@ public class GroupService {
         }
         if (userRepository.findByEmail(memberEmail).isPresent() && getGroupById(groupId).isPresent()) {
             User member = userRepository.findByEmail(memberEmail).get();
-            member.getListGroup().add(groupId);
-            userRepository.save(member);
             Group group = getGroupById(groupId).get();
-            group.getListSubGroups().get("Members").add(member.getId());
+            if(!group.getListSubGroups().get("Members").contains(member.getId())){
+                group.getListSubGroups().get("Members").add(member.getId());
+                member.getListGroup().add(groupId);
+            }
+            userRepository.save(member);
             return groupRepository.save(group);
         }
         return null;

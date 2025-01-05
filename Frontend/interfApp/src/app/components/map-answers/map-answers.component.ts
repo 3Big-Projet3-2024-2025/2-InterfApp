@@ -16,7 +16,7 @@ export class MapAnswersComponent implements OnInit {
     async ngOnInit(): Promise<void> {
 
       if (typeof window !== 'undefined') {
-        const L = await import('leaflet'); // Import dynamique
+        const L = await import('leaflet'); // Dynamic import
   
         this.map = L.map('map').setView([50.41136, 4.44448], 10); // centered on Charleroi 
   

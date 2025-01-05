@@ -77,7 +77,7 @@ export class SummaryAnswersComponent implements OnInit {
                 }
               }
             });
-        // Crée une structure pour stocker le nombre d'occurrences
+        //Creates a structure to store the number of occurrences
         this.mapAnswerSummarize.set(question, Array.from(mapAnswerMultiple.values())); 
       } else {
         let tabAnswersOfQuestion: any[] = [];
@@ -87,7 +87,7 @@ export class SummaryAnswersComponent implements OnInit {
           tabAnswersOfQuestion.push(answerOfQuestion);
         }
       });
-      // Crée une structure pour stocker le nombre d'occurrences
+     // Creates a structure to store the number of occurrences
       this.mapAnswerSummarize.set(question,tabAnswersOfQuestion);
       }
       
