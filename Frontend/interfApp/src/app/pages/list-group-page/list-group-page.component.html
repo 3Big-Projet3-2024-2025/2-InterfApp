@@ -25,7 +25,7 @@
                 {{ group.name }}
               </a>
             </h2>
-            <strong> created by :</strong> {{ group.listSubGroups["Managers"][0] }}
+            <strong> created by :</strong> {{ userNamesMap[group.listSubGroups["Managers"][0]] || 'Unknown' }}
             <p><strong>Number of members :</strong> {{ group.listSubGroups["Members"].length }}</p>
           </div>
         </div>
