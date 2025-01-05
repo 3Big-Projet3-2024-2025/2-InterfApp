@@ -73,7 +73,6 @@ public class SpringSecurityConfig {
                     // Admin-only endpoints
                     authorizeRequests.requestMatchers("/api/admin").hasRole("Admin");
                     // User management permissions for Admin
-                    authorizeRequests.requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("Admin");
                     authorizeRequests.requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("User");
                     authorizeRequests.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("Admin");
                     authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("Admin");

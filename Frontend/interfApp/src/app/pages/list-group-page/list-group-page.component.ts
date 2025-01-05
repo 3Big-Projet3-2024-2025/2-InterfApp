@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { filter } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-list-group-page',
@@ -21,19 +22,33 @@ export class ListGroupPageComponent {
   searchQuery: string = ''; // research querry 
   noResultsFound: boolean = false; // Indicateur d'absence de résultats
 
-  constructor(private groupService: GroupService, private userService: UserService) {}
+  constructor(private groupService: GroupService, private userService: UserService , private cookieService : CookieService) {}
 
   ngOnInit(): void {
-    this.groupService.getAllGroups().subscribe(
-      (data) => {
-        this.groups = data;
-        this.filteredGroups = [...this.groups];
-        this.preloadUserNames();
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des groupes', error);
-      }
-    );
+    if (this.cookieService.get('jwt') !== "") {
+      const tokenJWT = jwtDecode(this.cookieService.get('jwt')) as any;
+      this.userService.getUserById(tokenJWT.id).subscribe(
+        (user) => {
+          const groupRequests = user.listGroup.map((groupId: any) =>
+            this.groupService.getGroupById(groupId).toPromise()
+          );
+  
+          Promise.all(groupRequests).then(
+            (groups) => {
+              this.groups = groups;
+              this.filteredGroups = [...this.groups];
+              this.preloadUserNames();
+            },
+            (error) => {
+              console.error("Erreur lors de la récupération des groupes", error);
+            }
+          );
+        },
+        (error) => {
+          console.error("Erreur lors de la récupération de l'utilisateur", error);
+        }
+      );
+    }
   }
 
   preloadUserNames(): void {
