@@ -222,6 +222,9 @@ export class GroupPageComponent implements OnInit {
 
   isManager(){
     const token = jwtDecode(this.cookieService.get("jwt")) as any;
+    if(token.roles.includes("Admin")){
+      return true;
+    }
     return this.listSubGroups.get("Managers")?.includes(token.id);
   }
 }
