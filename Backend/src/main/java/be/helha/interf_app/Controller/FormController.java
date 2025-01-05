@@ -82,6 +82,12 @@ public class FormController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/group/{id}")
+    public ResponseEntity<List<Form>> getFormsByIdGroup(@PathVariable String id) {
+        List<Form> forms = formService.getFormByIdGroup(id);
+        return ResponseEntity.ok(forms);
+    }
+
     /**
      * Endpoint to delete a specific form by its unique ID.
      *
