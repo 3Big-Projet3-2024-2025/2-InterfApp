@@ -12,9 +12,6 @@ export class GroupService {
   private apiUrl = 'http://localhost:8080/api/groups';
   constructor(private http : HttpClient) {}
 
-  getMyGroups(id: any): void {
-
-  }
 
   getAllGroups(): Observable<any>{
     return this.http.get<any[]>(this.apiUrl);
@@ -44,7 +41,6 @@ export class GroupService {
       });
       group.listSubGroups = listSubGroupsObject;
     }
-    console.log(`${this.apiUrl}/${group.id}`);
     return this.http.put<any>(`${this.apiUrl}/${group.id}`, group);
   }
 

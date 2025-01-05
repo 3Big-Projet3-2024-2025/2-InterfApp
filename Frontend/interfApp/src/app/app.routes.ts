@@ -17,6 +17,7 @@ import { AdminUserComponent } from './components/admin-user/admin-user.component
 import { AdminGroupComponent } from './components/admin-group/admin-group.component';
 import { AdminEditUserComponent } from './components/admin-edit-user/admin-edit-user.component';
 import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
   // if the path is empty, redirection to home

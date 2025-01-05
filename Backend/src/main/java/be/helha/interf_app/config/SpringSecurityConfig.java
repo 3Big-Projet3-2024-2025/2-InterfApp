@@ -70,15 +70,15 @@ public class SpringSecurityConfig {
 
                     // Form-related permissions
                     authorizeRequests.requestMatchers("/api/forms/**").hasRole("User");
-                    // Admin-only endpoints
-                    authorizeRequests.requestMatchers("/api/admin").hasRole("Admin");
                     // User management permissions for Admin
+                    authorizeRequests.requestMatchers(HttpMethod.PUT,"/api/groups/**").hasRole("Admin");
+                    authorizeRequests.requestMatchers(HttpMethod.DELETE,"/api/groups/**").hasRole("Admin");
                     authorizeRequests.requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("User");
                     authorizeRequests.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("Admin");
                     authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("Admin");
                     authorizeRequests.requestMatchers("/api/forms/**").hasRole("User");
                     // Answer-related permissions
-                    authorizeRequests.requestMatchers("/api/answers").permitAll();
+                    authorizeRequests.requestMatchers("/api/answers").hasRole("User");
 
                     authorizeRequests.requestMatchers("/swagger-ui/**","/v3/api-docs","/api/users/**").permitAll();
 
