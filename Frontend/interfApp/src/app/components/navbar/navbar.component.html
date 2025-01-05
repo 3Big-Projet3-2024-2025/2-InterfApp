@@ -9,11 +9,8 @@
         <li class="nav-item">
           <a class="nav-link" (click)="navigate('home')">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" (click)="navigate('forms')">Forms</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" [routerLink]="['/group']">Group</a>
+        <li class="nav-item" *ngIf="isAuthenticated" >
+          <a class="nav-link" (click)="navigate('group')">Group</a>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

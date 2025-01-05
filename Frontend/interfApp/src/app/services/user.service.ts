@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,20 @@ export class UserService {
     }
     const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
     return this.tokenJWT.exp < currentTime;
+  }
+
+  validateAndRefreskToken():any{
+    this.http.get<any>(`${this.apiUrl}/token/${this.cookieService.get('jwt')}`).subscribe(
+      (value) => {
+        if (value.token){
+          this.saveJwt(value.token,false);
+          return true;
+        }else{
+          this.logout();
+          return false;
+        }
+      },
+    );
   }
 
   logout():void{

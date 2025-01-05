@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators,  ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 @Component({
@@ -8,7 +8,8 @@ import { CommonModule } from '@angular/common';
     templateUrl: './question.component.html',
     styleUrl: './question.component.css'
 })
-export class QuestionComponent {
+export class QuestionComponent implements OnInit{
+  @Input() answerToformQuestion : any | undefined;
   @Input() questionId!: number; // Reçoit un identifiant de question depuis le parent
   @Output() remove = new EventEmitter<void>(); // Émet un événement pour supprimer la question
   @Output() formEmitter = new EventEmitter<FormGroup>();
@@ -26,6 +27,23 @@ export class QuestionComponent {
       inputQuestion:['', Validators.required],
       inputTypeQuestion: ['', Validators.required],
     })
+  }
+
+  ngOnInit(): void {
+    if (this.answerToformQuestion){
+      this.formQuestion = this.formBuilder.group({
+        inputRequired:[this.answerToformQuestion.inputRequired],
+        inputQuestion:[this.answerToformQuestion.inputQuestion, Validators.required],
+        inputTypeQuestion: [this.answerToformQuestion.inputTypeQuestion, Validators.required],
+      })
+      if(this.answerToformQuestion.inputAnswerMultiple){
+        this.choices = this.answerToformQuestion.inputChoices;
+        this.InputChoicesArray = this.formBuilder.array(this.choices.map(choice => this.formBuilder.control(choice)));
+        this.AnswerMultiple = new FormControl(this.answerToformQuestion.inputAnswerMultiple);
+        this.formQuestion.addControl('inputChoices', this.InputChoicesArray);
+        this.formQuestion.addControl('inputAnswerMultiple', this.AnswerMultiple);
+      }
+    }
   }
 
   get inputChoicesArray(){

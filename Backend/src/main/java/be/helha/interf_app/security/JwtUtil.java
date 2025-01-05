@@ -45,7 +45,7 @@ public class JwtUtil {
     // Controller for accessing user data
     @Autowired
     private UserService userService;
-
+    
     @Getter
     public Claims parsedJWT;
 
@@ -109,5 +109,32 @@ public class JwtUtil {
         }
         // Return null if email is not found in the claims
         return null;
+    }
+
+    /**
+     * Validates the given JWT token. If valid, generates and returns a refreshed token.
+     *
+     * @param JWT The JWT token to validate and refresh.
+     * @return A refreshed JWT token if the original token is valid.
+     * @throws Exception if the token is invalid or expired.
+     */
+    public String validateAndRefreshToken(String JWT) {
+        try {
+            // Parse the JWT and extract claims
+            JwtParser jwtParser = Jwts.parser().verifyWith(secretKey).build();
+            Claims claims = jwtParser.parseClaimsJws(JWT).getBody();
+
+            // Token is valid; generate a new token with refreshed expiration
+            String id = claims.get("id", String.class);
+
+            // Generate and return a new token with refreshed expiration
+            User user = userService.getUserById(id)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+
+            return generateToken(user, false); // Pass `true` if you want to extend the validity for "remember me".
+        } catch (Exception e) {
+            // Handle invalid token cases (expired, tampered, etc.)
+            throw new IllegalArgumentException("Invalid or expired token", e);
+        }
     }
 }

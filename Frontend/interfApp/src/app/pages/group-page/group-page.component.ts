@@ -64,14 +64,16 @@ export class GroupPageComponent implements OnInit {
   }
 
   loadForms(){
-    this.formService.getAllForms().subscribe(
-      (data) => {
-        this.forms = data;
-        this.expandedForms = this.forms.map(() => false)
-      },
-      (error) => {
-      }
-    );
+    if (this.groupId) {
+      this.formService.getFormByIdGroup(this.groupId).subscribe(
+        (data) => {
+          this.forms = data;
+          this.expandedForms = this.forms.map(() => false)
+        },
+        (error) => {
+        }
+      );
+    }
   }
 
   loadMembers(){
@@ -221,10 +223,20 @@ export class GroupPageComponent implements OnInit {
   }
 
   isManager(){
-    const token = jwtDecode(this.cookieService.get("jwt")) as any;
-    if(token.roles.includes("Admin")){
-      return true;
+    const jwt = this.cookieService.get("jwt");
+    if (!jwt || !jwt.includes('.')) {
+        return false;
     }
-    return this.listSubGroups.get("Managers")?.includes(token.id);
+
+    try {
+        const token = jwtDecode(jwt) as any;
+        if(token.roles.includes("Admin")){
+          return true;
+        }
+        return this.listSubGroups.get("Managers")?.includes(token.id);
+    } catch (error) {
+        console.error("Error decoding JWT:", error);
+        return false;
+    }
   }
 }

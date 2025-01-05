@@ -1,5 +1,6 @@
 package be.helha.interf_app.Controller;
 
+import be.helha.interf_app.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import be.helha.interf_app.Model.User;
 import be.helha.interf_app.Service.UserService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -33,6 +35,9 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * Endpoint to create a new user.
@@ -90,6 +95,15 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/token/{JWT}")
+    public ResponseEntity<Map<String,String>> getRefreshToken(@PathVariable String JWT) {
+        try {
+            String refreshToken = jwtUtil.validateAndRefreshToken(JWT);
+            return ResponseEntity.ok(Map.of("token", refreshToken));
+        } catch (Exception e) {
+            return ResponseEntity.ok(Map.of("token", ""));
+        }
+    }
     /**
      * Endpoint to retrieve a user by their ID.
      *

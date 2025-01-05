@@ -2,6 +2,7 @@ package be.helha.interf_app.Service;
 
 import be.helha.interf_app.Model.Form;
 import be.helha.interf_app.Repository.FormRepository;
+import be.helha.interf_app.Repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,13 @@ public class FormService {
     @Autowired
     private FormRepository formRepository;
 
+    @Autowired
+    private AnswerService answerService;
     /**
      * Service for managing group-related operations, used to validate form associations.
      */
     @Autowired
-    private GroupService groupService;
+    private GroupRepository groupRepository;
 
     /**
      * Saves a new form in the repository.
@@ -36,7 +39,7 @@ public class FormService {
      */
     public Form saveForm(Form form) {
 
-        if(getFormById(form.getId()).isEmpty()&& groupService.getGroupById(form.getIdGroup()).isPresent()) {
+        if(getFormById(form.getId()).isEmpty()&& groupRepository.findById(form.getIdGroup()).isPresent()) {
 
             return formRepository.save(form);
         }
@@ -81,7 +84,12 @@ public class FormService {
      * @param id The ID of the form to delete.
      */
     public void deleteForm(String id) {
-        formRepository.deleteById(id);
+        if (getFormById(id).isPresent()){
+            answerService.getAnswerById_Form(id).forEach(answer -> {
+                answerService.deleteAnswer(answer.getId());
+            });
+            formRepository.deleteById(id);
+        }
     }
 
     /**
@@ -94,6 +102,9 @@ public class FormService {
     public Form updateForm(Form form) {
         if (getFormById(form.getId()).isPresent() &&
                 getFormById(form.getId()).get().getIdGroup().equals(form.getIdGroup())) {
+            answerService.getAnswerById_Form(form.getId()).forEach(answer -> {
+                answerService.deleteAnswer(answer.getId());
+            });
             return formRepository.save(form);
         }
         return null;

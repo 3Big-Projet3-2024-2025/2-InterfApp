@@ -1,9 +1,9 @@
 <div class="container mt-5">
-  <h2>User Management</h2>
+  <h2 class="text-center">User Management</h2>
 
   <!-- User Table -->
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered">
+  <div class="table-responsive-sm">
+    <table class="table table-striped table-bordered table-hover">
       <thead class="table-dark">
         <tr>
           <th>ID</th>
@@ -17,9 +17,9 @@
         <!-- Display paginated users -->
         <tr *ngFor="let user of pagedUsers">
           <td>{{ user.id }}</td>
-          <td>{{ user.username }}</td> <!-- Use username instead of name -->
+          <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.roles?.join(', ') || 'No role' }}</td> <!-- Display roles or 'No role' if empty -->
+          <td>{{ user.roles?.join(', ') || 'No role' }}</td>
           <td>
             <button class="btn btn-warning btn-sm me-2" (click)="editUser(user.id)">
               <i class="bi bi-pencil-square"></i> Edit

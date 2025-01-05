@@ -1,3 +1,18 @@
+.bouton {
+    background-color:#FFA62B ;
+        background-color: #FFA62B;
+        color: white; 
+        border: none; 
+        padding: 8px 15px; 
+        border-radius: 5px;
+        font-size: 14px; 
+        transition: background-color 0.3s ease; 
+    
+}
+
+.bouton:hover {
+    background-color: #cb891e;
+  }
 .question-container {
     border: 2px solid #16697A;
     padding: 10px;
