@@ -1,7 +1,8 @@
 <div class="text-center mt-4 ">
   <h3>Hello {{ user.username }} !</h3>
   <div class="border profile-container container p-5 mt-2">
-    <form [formGroup]="formUpdateProfile" (ngSubmit)="onSubmit()">
+    <form [formGroup]="formUpdateProfile" >
+<!--      (ngSubmit)="onSubmit()"-->
     <div class="text-start myContainer pt-2 align-self-center">
       <div class="yourName">
         Your username
@@ -30,7 +31,8 @@
       </div>
     </div>
     @if(isEditable) {
-      <input type="submit" class="btn btn-primary mt-3" (click)="toggleEdit()" value="Save changes">
+<!--      <input type="submit" class="btn btn-primary mt-3" (click)="toggleEdit()" value="Save changes">-->
+      <button (click)="toggleEdit()" class="btn btn-primary mt-3">Save Changes</button>
     }
     @else {
       <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Modify my profile</button>

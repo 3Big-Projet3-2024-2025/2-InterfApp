@@ -46,38 +46,79 @@ export class ProfilePageComponent {
     this.userService.getUserById(this.getUserId()).subscribe(
       (data) => {
         this.user = data;
-        // console.log('User:', this.user);
-        this.email = this.user.email;
+        console.log("User data on init:", this.user);
+        this.formUpdateProfile.value.inputEmail = this.user.email;
+        this.formUpdateProfile.value.inputUsername = this.user.username;
+        console.log("Form data on init:", this.formUpdateProfile.value);
       }
     );
   }
 
   getUserId(): string {
     this.jwtToken = this.cookieService.get('jwt');
-    // console.log('JWT Token:', this.jwtToken);
     if (this.jwtToken) {
       const decodedToken: any = jwtDecode(this.jwtToken);
       this.user.id = decodedToken.id;
-      // console.log('User ID:', this.user.id);
     }
     return this.user.id;
   }
 
   toggleEdit() {
-    this.isEditable = !this.isEditable;
+    // this.isEditable = !this.isEditable;
+    if (this.formUpdateProfile.valid) {
+      if(this.formUpdateProfile.value.inputEmail != null){
+        this.user.email = this.formUpdateProfile.value.inputEmail;
+      }
+      if(this.formUpdateProfile.value.inputUsername != null){
+        this.user.username = this.formUpdateProfile.value.inputUsername;
+      }
+      if(this.formUpdateProfile.value.inputPassword1 != null && this.formUpdateProfile.value.inputPassword2 != null){
+        if (this.formUpdateProfile.value.inputPassword1 === this.formUpdateProfile.value.inputPassword2) {
+          // this.user.password = this.formUpdateProfile.value.inputPassword1;
+          this.sha512Hash(this.formUpdateProfile.value.inputPassword1).then((hdata) => {
+            this.user.password = hdata;
+            console.log('hdata:', hdata);
+            this.userService.updateUser(this.user).subscribe(() => {
+              window.location.reload()});
+          });
+        }
+
+      }
+      else {
+        this.userService.updateUser(this.user).subscribe(() => {
+          window.location.reload()});
+        console.log('Form data:', this.formUpdateProfile.value);
+        console.log('User data final to send:', this.user);
+      }
+
+
+      // window.location.reload();
+        }
   }
 
-  handlePasswordCheckResult(isPasswordCorrect: boolean) {
-    console.log('Password check result:', isPasswordCorrect);
-    if (isPasswordCorrect) {
+  handlePasswordCheckResult(event :{isPasswordCorrect: boolean, hashedPassword: string}) {
+    if (event.isPasswordCorrect) {
+      this.user.password = event.hashedPassword;
       this.isEditable = !this.isEditable;
-      // Handle the case when the password is correct
+      console.log('User data:', this.user);
     } else {
       // Handle the case when the password is incorrect
     }
   }
 
-  onSubmit() {
-    console.log('Form data:', this.formUpdateProfile.value);
+  async sha512Hash(data: string): Promise<string> {
+    // Convert the input string to an ArrayBuffer
+    const encoder = new TextEncoder();
+    const dataBuffer = encoder.encode(data);
+
+    // Perform the SHA-512 hashing operation
+    const hashBuffer = await crypto.subtle.digest('SHA-512', dataBuffer);
+
+    // Convert the hash ArrayBuffer to a Base64 string
+    const hashArray = new Uint8Array(hashBuffer);
+    const hashBase64 = btoa(String.fromCharCode(...hashArray));
+
+    return hashBase64;
   }
+
 }

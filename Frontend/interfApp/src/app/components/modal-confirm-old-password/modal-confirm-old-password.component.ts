@@ -27,7 +27,7 @@ export class ModalConfirmOldPasswordComponent {
   };
 
   isPasswordCorrect: boolean = false;
-  @Output() passwordCheckResult = new EventEmitter<boolean>();
+  @Output() passwordCheckResult = new EventEmitter<{ isPasswordCorrect: boolean, hashedPassword: string }>();
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.formPassword = this.formBuilder.group({
@@ -57,12 +57,10 @@ export class ModalConfirmOldPasswordComponent {
         this.user.password = hdata;
         this.userService.checkPassword(this.user).subscribe(
           (isPasswordCorrect) => {
-            console.log("is my password correct? " + isPasswordCorrect);
             if (isPasswordCorrect) {
               // Handle successful password check
-              console.log('Password is correct');
               this.isPasswordCorrect = true;
-              this.passwordCheckResult.emit(this.isPasswordCorrect);
+              this.passwordCheckResult.emit({isPasswordCorrect: this.isPasswordCorrect, hashedPassword: this.user.password});
             } else {
               // Handle incorrect password
               console.log('Password is incorrect');
