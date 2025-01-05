@@ -44,7 +44,7 @@ export class CreateGroupPageComponent {
         (response) => {
           console.log(response);
           this.router.navigate(['group']);
-          // Vous pouvez rediriger l'utilisateur ou afficher un message de succès
+          // You can redirect the user or display a success message
           console.log('group crée avec succés', response);
         },
         (error) => {

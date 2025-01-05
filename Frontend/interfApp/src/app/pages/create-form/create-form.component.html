@@ -1,7 +1,7 @@
 <div class="container mt-4 p-4 border rounded bg-light shadow-sm">
   <form [formGroup]="formForm">
     <div class="mb-3">
-      <label for="inputTitreForm" class="form-label">Titre du formulaire :</label>
+      <label for="inputTitreForm" class="form-label"> Form title :</label>
       <input 
         id="inputTitreForm" 
         type="text" 
@@ -32,7 +32,7 @@
       class="btn btn-primary" 
       (click)="saveQuestions()" 
       [disabled]="!formForm.valid">
-      Enregistrer
+      Save
     </button>
   </div>
   
