@@ -7,14 +7,14 @@
       <div class="yourName">
         Your username
         <br>
-          <input type="text" class="form-control" value="{{ user.username }}" [readonly]="!isEditable" formControlName="inputUsername">
+          <input type="text" class="form-control" value="{{ user.username }}" [readonly]="!isEditable" formControlName="inputUsername" placeholder="Your username">
       </div>
       <div class="yourEmail">
         Your email
         <br>
-        <input type="text" class="form-control" value="{{ user.email }}" [readonly]="!isEditable" formControlName="inputEmail">
+        <input type="text" class="form-control" value="{{ user.email }}" [readonly]="!isEditable" formControlName="inputEmail" placeholder="Your email">
       </div>
-      <div class="yourPassword">
+      <div class="yourPassword" placeholder="Your password">
       @if(!isEditable) {
         Your password
         <br>
@@ -23,10 +23,10 @@
         @if(isEditable) {
           Your new password
           <br>
-          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword1">
+          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword1" placeholder="Your new password">
           Confirm your new password
           <br>
-          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword2">
+          <input type="password" class="form-control" [readonly]="!isEditable" formControlName="inputPassword2" placeholder="Confirm your new password">
         }
       </div>
     </div>
