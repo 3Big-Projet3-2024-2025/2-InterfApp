@@ -4,10 +4,10 @@
 
 <div id="map"style="height: 500px;"></div>
 
-<!-- Formulaire pour afficher et soumettre les coordonnées -->
+<!-- form to view and submit contact details -->
 <div style="margin-top: 10px;">
   <div *ngIf="selectedCoords">
-    <p><strong>Coordonnées sélectionnées :</strong> {{ selectedCoords.lat }}, {{ selectedCoords.lng }}</p>
+    <p><strong> Selected coordinates : </strong> {{ selectedCoords.lat }}, {{ selectedCoords.lng }}</p>
   </div>
   <input
   [type]="to.type"

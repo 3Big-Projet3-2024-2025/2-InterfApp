@@ -18,7 +18,7 @@ export class AdminGroupComponent {
     currentPage: number = 1; // actual page
     groupPerPage: number = 9; // number of group per page
     searchQuery: string = ''; // research querry 
-    noResultsFound: boolean = false; // Indicateur d'absence de résultats
+    noResultsFound: boolean = false; // No results indicator
   
     constructor(private groupService: GroupService, private userService: UserService) {}
   
@@ -68,26 +68,26 @@ export class AdminGroupComponent {
       return Math.ceil(this.groups.length / this.groupPerPage);
     }
   
-     // Filtrer les groupes sur clic du bouton
+     // Filter group
     filterGroups(): void {
       if (this.searchQuery.trim() === '') {
-        // Si la recherche est vide, afficher tous les groupes
+        // if the answer is empty, show all groups
         this.filteredGroups = [...this.groups];
       }
       else {
-        // Filtrer les groupes
+        // filter groups
         this.filteredGroups = this.groups.filter((group) =>
           group.name.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
       }
-      this.currentPage = 1; // Réinitialiser à la première page
-       // Vérifier si des groupes ont été trouvés
+      this.currentPage = 1; // reset to first page
+       // verify if group was found
        if (this.filteredGroups.length === 0) {
-        this.noResultsFound = true; // Mettre à jour la variable pour indiquer qu'il n'y a pas de résultats
+        this.noResultsFound = true; // update variable if result not found
       } else {
-        this.noResultsFound = false; // Réinitialiser si des résultats sont trouvés
+        this.noResultsFound = false; // reset if result was found
       }
   
-      this.currentPage = 1; // Réinitialiser à la première page après filtrage
+      this.currentPage = 1; // reset to first page after the filter
     }
 }

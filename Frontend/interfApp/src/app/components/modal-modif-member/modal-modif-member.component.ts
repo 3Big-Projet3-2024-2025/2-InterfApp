@@ -11,9 +11,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class ModalModifMemberComponent {
   @Input() member : any;
   @Input() subGroups: Map<string,string[]> = new Map(); 
-  @Output() deleteFromGroup = new EventEmitter<any>(); // Émet l'ID à supprimer
-  @Output() givePermission = new EventEmitter<any>(); // Émet l'ID à autoriser comme manager
-  @Output() save = new EventEmitter<any>(); // Émet l'ID sélectionné lors du clic sur Save
+  @Output() deleteFromGroup = new EventEmitter<any>(); // emits the ID to delete
+  @Output() givePermission = new EventEmitter<any>(); // emits the ID to authorize as manager
+  @Output() save = new EventEmitter<any>(); // Emits the selected ID when clicking Save
 
   formSubGroup: FormGroup;
 
@@ -46,26 +46,27 @@ export class ModalModifMemberComponent {
   }
 
   onSave() {
-    // Créer une copie indépendante de la Map
+    // Create an independent copy of the Map
     let newSubGroups = new Map<string, string[]>(
       Array.from(this.subGroups.entries()).map(([key, value]) => [key, [...value]])
     );
-    // Parcourir les sous-groupes personnalisés
+    // Browse custom subgroups
     this.SubGroupCustom.forEach((value, key) => {
       const isSelected = this.formSubGroup.value.inputSubGroups.filter((subGroupSelect : any) => subGroupSelect === key).length == 1; // Vérifie si sélectionné
       const isMemberInSubGroup =this.subGroups.get(key)?.filter((member : any) => member === this.member).length == 1; // Vérifie si déjà présent
       if (isSelected && !isMemberInSubGroup) {
-        // Ajouter le membre si sélectionné mais pas encore présent
+        // Add member if selected but not yet present
         const updatedValue = newSubGroups.get(key) || [];
         updatedValue.push(this.member);
         newSubGroups.set(key, updatedValue);
       } else if (!isSelected && isMemberInSubGroup) {
-        // Retirer le membre si non sélectionné mais présent
+        // Remove member if not selected but present
+
         const updatedValue = newSubGroups.get(key)?.filter(member => member !== this.member) || [];
         newSubGroups.set(key, updatedValue);
       }
     });
-    this.save.emit(newSubGroups); // Émettre les changements
+    this.save.emit(newSubGroups); // emits change
   }
 
   getKeysWithValue(map: Map<string, string[]>, searchString: string): string[] {
