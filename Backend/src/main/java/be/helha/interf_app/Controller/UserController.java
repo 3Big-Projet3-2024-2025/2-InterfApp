@@ -145,18 +145,36 @@ public class UserController {
     }
 
     /**
+     * Endpoint to retrieve a user by their username.
+     *
+     * This method retrieves a user by their username. If the user is found, it returns
+     * the user wrapped in a ResponseEntity with HTTP 200 status. If the user is not found,
+     * it returns HTTP 404 (Not Found).
+     *
+     * @param username The username of the user to retrieve.
+     * @return a ResponseEntity containing the requested user with HTTP 200 status, or HTTP 404 if not found
+     */
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        Optional<User> user = userService.getUserByUsername(username);
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
      * Endpoint to update an existing user.
      *
      * This method updates an existing user based on the provided user object in the request body.
      * If the update is successful, it returns the updated user wrapped in a ResponseEntity with HTTP 200 status.
      * If the update fails or the user is not found, it returns HTTP 404 (Not Found).
      *
+     * @param id   the ID of the user to be updated, provided as a path variable
      * @param user the updated user object, provided in the request body
      * @return a ResponseEntity containing the updated user with HTTP 200 status, or HTTP 404 if the update fails
      */
-    @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        User updatedUser = userService.updateUser(user);
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
+        User updatedUser = userService.updateUser(id, user);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {

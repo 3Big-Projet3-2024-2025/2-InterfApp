@@ -135,18 +135,45 @@ public class UserService {
     }
 
     /**
+     * Retrieves a user by their username from the repository.
+     *
+     * @param username The username of the user to be retrieved.
+     * @return An Optional containing the user if found, or an empty Optional if not.
+     */
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    /**
      * Updates an existing user in the repository.
      * The method ensures that the user's role cannot be modified by unauthorized users.
      *
-     * @param user The user to be updated with new information.
+     * @param id   The ID of the user to be updated.
+     * @param user The user object containing the new information.
      * @return The updated user if the update is successful, or null if the user's role is being changed.
      */
-    public User updateUser(User user) {
-        // Prohibit any attempt to modify the user's role
-        if (getUserById(user.getId()).isPresent() &&
-                getUserById(user.getId()).get().getRoles().equals(user.getRoles())) {
-            return userRepository.save(user);
+    public User updateUser(String id, User user) {
+        Optional<User> existingUserOpt = getUserById(id);
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+
+            // If roles are sent from the frontend, update them
+            if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+                existingUser.setRoles(user.getRoles());
+            }
+
+            // Do not change the password if the user has not modified it
+            if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                user.setPassword(existingUser.getPassword());
+            }
+            // Update other user fields
+            existingUser.setUsername(user.getUsername());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPassword(user.getPassword()); // Only update if password is provided
+            // Save the updated user to the database
+            return userRepository.save(existingUser);
         }
+        // Return null if the user does not exist
         return null;
     }
 }

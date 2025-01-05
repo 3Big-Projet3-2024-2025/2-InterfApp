@@ -24,8 +24,8 @@ export class UserService {
     return this.tokenJWT != "" ? true : false;
   }
 
-  hasRole( role: string): boolean {
-    if (!this.isAuthenticated){
+  hasRole(role: string): boolean {
+    if (!this.isAuthenticated()) {
       return false;
     }
     return this.tokenJWT.roles.includes(role);
@@ -48,9 +48,9 @@ export class UserService {
 
   isTokenExpired(token: string): boolean {
     if (!this.tokenJWT || !this.tokenJWT.exp) {
-      return true; // Si le token ne contient pas d'expiration, on considère qu'il est expiré
+      return true; // If the token does not contain an expiration, it is considered expired.
     }
-    const currentTime = Math.floor(Date.now() / 1000); // Temps actuel en secondes
+    const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
     return this.tokenJWT.exp < currentTime;
   }
 
@@ -63,6 +63,17 @@ export class UserService {
     return this.http.get<any[]>(`${this.apiUrl}/${id}`);
   }
 
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  updateUser(id: string, userData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, userData);
+  }
+  
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 
 }
 

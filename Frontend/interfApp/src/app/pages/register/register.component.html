@@ -1,29 +1,53 @@
 <div class="container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-      <div class="card-body">
-        <div >
-          <h5 class="card-title text-center mb-4">Register</h5>
-          <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-              <label for="inputUsername" class="form-label">Username</label>
-              <input type="text" class="form-control" id="inputUsername" formControlName="inputUsername" placeholder="username" required>
-            </div>
-            <div class="mb-3">
-              <label for="inputemail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="inputemail" formControlName="inputemail" placeholder="Email" required>
-            </div>
-            <div class="mb-3">
-              <label for="inputPassword" class="form-label">Password</label>
-              <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword" placeholder="Password" required>
-            </div>
-            <div class="mb-3">
-              <label for="inputConfirmPassword" class="form-label">Confirm password</label>
-              <input type="password" class="form-control" id="inputConfirmPassword" formControlName="inputConfirmPassword" placeholder="Confirm password" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100" [disabled]="!formRegister.valid">Suivant</button>
-            <div *ngIf="errorMessage" class="mt-2 text-danger">{{ errorMessage }}</div>
-          </form>
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
+    <div class="card-body">
+      <h5 class="card-title text-center mb-4">Register</h5>
+      <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+        
+        <!-- Username Field -->
+        <div class="mb-3">
+          <label for="inputUsername" class="form-label">Username</label>
+          <input type="text" class="form-control" id="inputUsername" formControlName="inputUsername" placeholder="username" required>
+          <div *ngIf="formRegister.get('inputUsername')?.touched && formRegister.get('inputUsername')?.invalid" class="text-danger">
+            <small *ngIf="formRegister.get('inputUsername')?.hasError('required')">Username is required.</small>
+          </div>
         </div>
-      </div>
+
+        <!-- Email Field -->
+        <div class="mb-3">
+          <label for="inputemail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="inputemail" formControlName="inputemail" placeholder="Email" required>
+          <div *ngIf="formRegister.get('inputemail')?.touched && formRegister.get('inputemail')?.invalid" class="text-danger">
+            <small *ngIf="formRegister.get('inputemail')?.hasError('required')">Email is required.</small>
+            <small *ngIf="formRegister.get('inputemail')?.hasError('email')">Please enter a valid email.</small>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-3">
+          <label for="inputPassword" class="form-label">Password</label>
+          <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword" placeholder="Password" required>
+          <div *ngIf="formRegister.get('inputPassword')?.touched && formRegister.get('inputPassword')?.invalid" class="text-danger">
+            <small *ngIf="formRegister.get('inputPassword')?.hasError('required')">Password is required.</small>
+            <small *ngIf="formRegister.get('inputPassword')?.hasError('minlength')">Password must be at least 6 characters long.</small>
+          </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-3">
+          <label for="inputConfirmPassword" class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" id="inputConfirmPassword" formControlName="inputConfirmPassword" placeholder="Confirm Password" required>
+          <div *ngIf="formRegister.get('inputConfirmPassword')?.touched && formRegister.get('inputConfirmPassword')?.invalid" class="text-danger">
+            <small *ngIf="formRegister.get('inputConfirmPassword')?.hasError('required')">Confirming password is required.</small>
+            <small *ngIf="formRegister.value.inputPassword !== formRegister.value.inputConfirmPassword">Passwords do not match.</small>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!formRegister.valid">Next</button>
+        
+        <!-- Global error message -->
+        <div *ngIf="errorMessage" class="mt-2 text-danger">{{ errorMessage }}</div>
+      </form>
     </div>
   </div>
+</div>

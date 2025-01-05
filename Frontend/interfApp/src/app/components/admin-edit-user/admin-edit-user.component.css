@@ -1,0 +1,96 @@
+/* Container settings */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 20px; 
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+/* Heading Style */
+.text-primary {
+  color: #16697A !important;
+  font-weight: 600;
+}
+
+/* Form Container Style */
+.form-container {
+  background: #EDE7E3;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+/* Form Label Style */
+.form-label {
+  font-weight: bold;
+  color: #16697A; 
+  font-size: 1.1rem;
+}
+
+/* Input & Select Style */
+.form-control, .form-select {
+  border: 1px solid #ddd; 
+  background-color: #F2F7F7;
+  padding: 14px;
+  margin-top: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  outline: none;
+  background-color: #82C0CC; 
+  border-color: #FFA62B;
+}
+
+/* Button Style */
+.btn-primary {
+  background-color: #FFA62B; 
+  color: #fff;
+  border: 1px solid #FFA62B; 
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #FF8C1A; 
+  transform: scale(1.05);
+}
+
+/* Margin Bottom for form fields */
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  .form-control, .form-select, .btn-primary {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+}
