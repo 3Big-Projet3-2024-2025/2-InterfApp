@@ -31,24 +31,25 @@ export class CreateFormComponent {
 
   addQuestion(): void {
     const newId  = this.questions[this.questions.length - 1] + 1;
-    this.questions.push(newId); // Ajoute une nouvelle question
+    this.questions.push(newId); // add a new question
   }
 
   removeQuestion(index: number): void {
     if (this.questions.length > 1) {
-      this.questions.splice(index, 1); // Supprime la question à l'index donné
+      this.questions.splice(index, 1); // delete the question at the giving index
     }
   }
 
   requestForms(): void {
-    this.arrayFormQuestion.clear(); // Vide le tableau pour pouvoir update les données
+    this.arrayFormQuestion.clear(); // Empty the table to be able to update the data
     this.questionComponents.toArray().forEach((questionComp) => {
-      questionComp.emitFormGroup(); // Demande à chaque enfant de fournir son FormGroup
+      questionComp.emitFormGroup(); // Ask each child to provide their FormGroup
     });
   }
 
   saveForm(form: FormGroup): void {
-    this.arrayFormQuestion.push(form); // Ajoute le FormGroup de l'enfant à la liste
+    this.arrayFormQuestion.push(form); // Adds the FormGroup to the list
+
   }
 
   move(isupwards : boolean , id : number){
@@ -64,7 +65,6 @@ export class CreateFormComponent {
 
   saveQuestions(): void {
     this.requestForms();
-    console.log(this.formForm.value);
 
     if (this.formForm.valid) {
       this.errorMessage = "";
@@ -74,7 +74,7 @@ export class CreateFormComponent {
         idGroup: this.route.snapshot.paramMap.get('id')
       };
 
-      // Logique pour sauvegarder le formulaire
+      // save the form
       this.formService.saveForm(formData).subscribe({
         next: (response) => {
           console.log('Form saved successfully:', response);

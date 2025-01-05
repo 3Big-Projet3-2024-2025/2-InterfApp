@@ -76,9 +76,10 @@ export class ReplyFormComponent implements OnInit {
           selectAllOption: 'Select All',
           options: (question.inputChoices || []).map((choice: string) => ({ value: choice, label: choice })),
         },
+        
         validation: {
           messages: {
-            required: 'This field is required', // Message d'erreur pour les champs obligatoires
+            required: 'This field is required', // Error message for required fields
           },
         },
       };
@@ -88,6 +89,7 @@ export class ReplyFormComponent implements OnInit {
 
     return formlyFields;
   }
+  
   submit(){
     console.log(this.formReply.value);
 
@@ -98,7 +100,7 @@ export class ReplyFormComponent implements OnInit {
         answer: this.formReply.value
       };
 
-      // Logique pour sauvegarder le formulaire
+      // save a form
       this.answerService.saveAnswer(Data).subscribe({
         next: (response) => {
           console.log('Form saved successfully:', response);
