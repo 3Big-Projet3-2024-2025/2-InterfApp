@@ -126,10 +126,13 @@ public class GroupService {
         if (userRepository.findById(managerId).isPresent() && getGroupById(groupId).isPresent()) {
             User manager = userRepository.findById(managerId).get();
             manager.setRoles(manager.getRoles() + ",Manager_" + groupId);
-            userRepository.save(manager);
             Group group = getGroupById(groupId).get();
             group.getListSubGroups().get("Managers").add(managerId);
-            addMember(manager.getEmail(),groupId);
+            if(!group.getListSubGroups().get("Members").contains(manager.getId())){
+                group.getListSubGroups().get("Members").add(manager.getId());
+                manager.getListGroup().add(groupId);
+            }
+            userRepository.save(manager);
             return groupRepository.save(group);
         }
         return null;
@@ -155,12 +158,12 @@ public class GroupService {
         }
         if (userRepository.findByEmail(memberEmail).isPresent() && getGroupById(groupId).isPresent()) {
             User member = userRepository.findByEmail(memberEmail).get();
-            member.getListGroup().add(groupId);
-            userRepository.save(member);
             Group group = getGroupById(groupId).get();
             if(!group.getListSubGroups().get("Members").contains(member.getId())){
                 group.getListSubGroups().get("Members").add(member.getId());
+                member.getListGroup().add(groupId);
             }
+            userRepository.save(member);
             return groupRepository.save(group);
         }
         return null;
