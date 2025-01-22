@@ -74,7 +74,7 @@ public class SpringSecurityConfig {
                     authorizeRequests.requestMatchers(HttpMethod.PUT,"/api/groups/**").hasRole("Admin");
                     authorizeRequests.requestMatchers(HttpMethod.DELETE,"/api/groups/**").hasRole("Admin");
                     authorizeRequests.requestMatchers(HttpMethod.GET, "/api/users/**").hasRole("User");
-                    authorizeRequests.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("Admin");
+                    authorizeRequests.requestMatchers(HttpMethod.PUT, "/api/users/**").hasRole("User");
                     authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("Admin");
                     authorizeRequests.requestMatchers("/api/forms/**").hasRole("User");
                     // Answer-related permissions
